@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ insight.seo_title }}{% endblock %}
+{% block meta_description %}{{ insight.meta_description }}{% endblock %}
+{% block meta_keywords %}{{ insight.target_keywords }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=2.0">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ site_url }}/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Insights & Guides",
+                    "item": "{{ site_url }}/insights/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "E-Commerce Development Guide",
+                    "item": "{{ canonical_url }}"
+                }
+            ]
+        },
+        {
+            "@type": "Article",
+            "@id": "{{ canonical_url }}#article",
+            "headline": "{{ insight.h1 }}",
+            "description": "{{ insight.meta_description }}",
+            "datePublished": "{{ insight.date_published }}",
+            "dateModified": "{{ insight.date_modified }}",
+            "author": {
+                "@type": "Organization",
+                "name": "Trinials Engineering Team"
+            },
+            "publisher": {
+                "@id": "{{ site_url }}/#organization"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "{{ canonical_url }}"
+            }
+        },
+        {
+            "@type": "FAQPage",
+            "@id": "{{ canonical_url }}#faq",
+            "mainEntity": [
+                {% for faq in insight.faqs %}
+                {
+                    "@type": "Question",
+                    "name": "{{ faq.question|escapejs }}",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "{{ faq.answer|escapejs }}"
+                    }
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero-section" aria-labelledby="article-h1">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <a href="{% url 'website:insights_index' %}">Insights</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>Commerce Guide</span>
+        </nav>
+        
+        <div class="page-meta-badge">
+            <span>{{ insight.badge }} &bull; {{ insight.read_time }}</span>
+        </div>
+
+        <h1 id="article-h1" class="page-title">{{ insight.h1 }}</h1>
+        
+        <p class="page-subtitle">
+            {{ insight.summary }}
+        </p>
+
+        <div style="margin-top: 1.25rem; font-size: 0.85rem; color: #BBCF8D;">
+            Published: {{ insight.date_published }} &bull; Last Updated: {{ insight.date_modified }} &bull; By Trinials Studio
+        </div>
+    </div>
+</section>
+
+<section class="page-content-section">
+    <div class="page-article-container">
+        <article class="page-card">
+            
+            <h2>Building a High-Converting Online Store in India</h2>
+            <p>
+                India’s digital retail ecosystem is unique. Unlike Western markets where credit cards dominate, more than <strong>75% of Indian online retail transactions happen through UPI</strong> (Google Pay, PhonePe, Paytm, and BHIM). If an online store forces Indian shoppers through a tedious multi-page checkout or fails to support native UPI apps, cart abandonment rates easily surpass 70%.
+            </p>
+            <p>
+                Whether you are selling fashion apparel, Kerala spices and handicrafts, consumer electronics, or specialty foods, this guide provides a step-by-step roadmap to building an e-commerce platform that drives sales and handles fulfillment smoothly.
+            </p>
+
+            <div class="page-callout">
+                <p>
+                    <strong>Essential Success Formula:</strong> Fast Mobile Load Time (&lt; 1.5s) + 1-Click UPI Payment + Automated Shipping &amp; Tracking = Maximum Sales Conversions.
+                </p>
+            </div>
+
+            <h2>5 Pillars of a Successful Indian E-Commerce Website</h2>
+
+            <h3>1. Frictionless UPI &amp; Local Payment Gateways</h3>
+            <p>
+                Integrate reputable payment gateways like <strong>Razorpay, Cashfree, or PhonePe Payment Gateway</strong>. These provide:
+            </p>
+            <ul>
+                <li><strong>UPI Intent Flow:</strong> On mobile phones, clicking "Pay via UPI" opens Google Pay or PhonePe directly without typing a VPA address.</li>
+                <li><strong>Dynamic QR Code:</strong> On desktop screens, customers simply scan a QR code with their mobile phone camera or banking app.</li>
+                <li><strong>NetBanking &amp; Cards:</strong> Full support for all major Indian nationalized and private banks.</li>
+                <li><strong>Instant Refund Handling:</strong> Direct API hooks for fast processing of order cancellations.</li>
+            </ul>
+
+            <h3>2. Mobile-First Catalog Navigation</h3>
+            <p>
+                Over 80% of retail purchases in India happen on smartphones. Ensure your product catalog has:
+            </p>
+            <ul>
+                <li>Instant search with auto-complete</li>
+                <li>Sticky "Add to Cart" and "Buy Now" buttons</li>
+                <li>High-resolution images compressed into modern WebP format</li>
+                <li>Clear variant selectors for sizes, colors, and pack quantities</li>
+            </ul>
+
+            <h3>3. Automated Courier &amp; Shipping Integration</h3>
+            <p>
+                Manual shipping coordination quickly becomes a bottleneck. Connect your platform to logistics aggregators such as <strong>Shiprocket, Delhivery, or India Post Speed Post</strong>. Once an order is paid, the system automatically:
+            </p>
+            <ul>
+                <li>Generates printable shipping labels and Air Waybill (AWB) barcodes</li>
+                <li>Dispatches pickup requests to the courier</li>
+                <li>Sends real-time SMS and WhatsApp tracking links to the customer</li>
+            </ul>
+
+            <h3>4. GST-Compliant Automated Invoicing</h3>
+            <p>
+                Indian tax regulations require clear invoicing showing CGST, SGST (or IGST for interstate deliveries), HSN codes, and your GSTIN number. An automated invoicing module generates downloadable PDF invoices for both customer orders and accounting reconciliation.
+            </p>
+
+            <h3>5. Product Schema &amp; Rich Google Search Snippets</h3>
+            <p>
+                Implement Schema.org <code>Product</code> and <code>Offer</code> JSON-LD structured data on all product pages. This allows Google Search to display rich price badges, star ratings, and "In Stock" indicators directly in search results.
+            </p>
+
+            <h2>Explore Our E-Commerce Development</h2>
+            <p>
+                At Trinials, we build custom storefronts like <a href="{% url 'website:home' %}#work">FancyStore</a> and enterprise retail portals engineered for maximum performance. Learn more about our <a href="{% url 'website:service_ecommerce_development' %}">E-Commerce Development Services</a>.
+            </p>
+
+            <!-- FAQ Section -->
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-accordion">
+                {% for faq in insight.faqs %}
+                <details class="faq-item" {% if forloop.first %}open{% endif %}>
+                    <summary class="faq-question">{{ faq.question }}</summary>
+                    <div class="faq-answer">
+                        <p>{{ faq.answer }}</p>
+                    </div>
+                </details>
+                {% endfor %}
+            </div>
+
+            <!-- Inquiry CTA Card -->
+            <div class="page-contact-card" style="margin-top: 2.5rem;">
+                <h3>Ready to Launch Your E-Commerce Store?</h3>
+                <p>
+                    Let's build a profitable online store with seamless payment integration, robust catalog tools, and lightning-fast loading speeds.
+                </p>
+                <div style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="{% url 'website:home' %}#contact" class="btn btn-primary">
+                        Plan Your E-Commerce Store <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                    </a>
+                    <a href="{% url 'website:service_ecommerce_development' %}" class="btn btn-outline" style="border-color: #BBCF8D; color: #FFFFFF;">
+                        Explore E-Commerce Services
+                    </a>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #ECEEE7; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <a href="{% url 'website:insights_index' %}" style="color: #58641D; font-weight: 600; text-decoration: none;">
+                    &larr; Back to All Guides
+                </a>
+                <a href="{% url 'website:insight_choose_company' %}" style="color: #58641D; font-weight: 600; text-decoration: none;">
+                    Read: How to Choose a Web Agency &rarr;
+                </a>
+            </div>
+
+        </article>
+    </div>
+</section>
+{% endblock %}

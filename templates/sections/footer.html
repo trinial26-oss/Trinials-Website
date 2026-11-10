@@ -14,7 +14,7 @@
                     Complex Made Simple. Growth Made Possible.
                 </p>
                 <p class="footer-brand-desc">
-                    A multi-disciplinary creative studio bridging thoughtful strategy, enduring brand craft, and modern digital engineering.
+                    An independent web development company and digital studio in Kerala, India. Engineering high-performance business websites, e-commerce stores, and custom software platforms.
                 </p>
             </div>
 
@@ -31,7 +31,20 @@
                 </ul>
             </nav>
 
-            <!-- Column 3: Contact & Direct Inquiries -->
+            <!-- Column 3: Studio Services & Guides -->
+            <nav class="footer-navigation" aria-label="Services Navigation">
+                <h3 class="footer-col-title">Services &amp; Guides</h3>
+                <ul class="footer-links-list footer-nav-links" role="list">
+                    <li><a href="{% url 'website:service_web_development' %}" class="footer-link-item">Web Development</a></li>
+                    <li><a href="{% url 'website:service_ui_ux_design' %}" class="footer-link-item">UI/UX Design</a></li>
+                    <li><a href="{% url 'website:service_ecommerce_development' %}" class="footer-link-item">E-Commerce</a></li>
+                    <li><a href="{% url 'website:service_custom_software_development' %}" class="footer-link-item">Custom Software</a></li>
+                    <li><a href="{% url 'website:insight_website_cost' %}" class="footer-link-item">Website Cost in Kerala</a></li>
+                    <li><a href="{% url 'website:insights_index' %}" class="footer-link-item" style="color: #BBCF8D; font-weight: 600;">All Client Guides &rarr;</a></li>
+                </ul>
+            </nav>
+
+            <!-- Column 4: Contact & Legal -->
             <div class="footer-col">
                 <h3 class="footer-col-title">Get In Touch</h3>
                 <div class="footer-contact-group">
@@ -43,28 +56,23 @@
                     </div>
                     <div class="footer-contact-entry">
                         <span class="footer-contact-entry-label">Direct Lines</span>
-                        <a href="tel:+918590821155" class="footer-contact-entry-val">
-                            +91 85908 21155
-                        </a>
-                        <a href="tel:+919400325570" class="footer-contact-entry-val">
-                            +91 94003 25570
-                        </a>
+                        <a href="tel:+918590821155" class="footer-contact-entry-val">+91 85908 21155</a>
+                        <a href="tel:+919400325570" class="footer-contact-entry-val">+91 94003 25570</a>
                     </div>
                     <div class="footer-contact-entry">
-                        <span class="footer-contact-entry-label">Studio Support</span>
-                        <span class="footer-contact-entry-val" style="color: #BBCF8D; font-size: 12.5px;">Mon &ndash; Sat &bull; 9 AM &ndash; 7 PM</span>
+                        <span class="footer-contact-entry-label">Service Area</span>
+                        <span class="footer-contact-entry-val" style="color: #BBCF8D; font-size: 12.5px;">Kerala &bull; India &bull; Worldwide</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Column 4: Legal & Policies -->
-            <div class="footer-col">
-                <h3 class="footer-col-title">Company &amp; Legal</h3>
-                <ul class="footer-links-list" role="list">
-                    <li><a href="{% url 'website:about_page' %}" class="footer-link-item">About Us</a></li>
-                    <li><a href="{% url 'website:privacy_policy' %}" class="footer-link-item">Privacy Policy</a></li>
-                    <li><a href="{% url 'website:terms_conditions' %}" class="footer-link-item">Terms and Conditions</a></li>
-                </ul>
+                <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(187, 207, 141, 0.15);">
+                    <ul class="footer-links-list" role="list" style="display: flex; gap: 12px; flex-wrap: wrap; font-size: 12.5px;">
+                        <li><a href="{% url 'website:about_page' %}" class="footer-link-item">About Us</a></li>
+                        <li><a href="{% url 'website:privacy_policy' %}" class="footer-link-item">Privacy Policy</a></li>
+                        <li><a href="{% url 'website:terms_conditions' %}" class="footer-link-item">Terms and Conditions</a></li>
+                        <li><a href="/sitemap.xml" class="footer-link-item" target="_blank">Sitemap</a></li>
+                    </ul>
+                </div>
             </div>
 
         </div>

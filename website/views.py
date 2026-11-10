@@ -1,14 +1,16 @@
+import datetime
 import logging
 import sys
 import threading
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
-from django.http import JsonResponse
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from .forms import ContactForm
+from .seo_data import SERVICES, INSIGHTS
 
 logger = logging.getLogger(__name__)
 
@@ -52,6 +54,186 @@ def design_preview(request):
     Demonstrates colors, typography, buttons, cards, containers, and responsive scaling.
     """
     return render(request, 'design_preview.html')
+
+
+# -----------------------------------------------------------------------------
+# SEO Service Landing Pages
+# -----------------------------------------------------------------------------
+
+def services_index(request):
+    """
+    Hub page listing all digital studio services with deep-links,
+    benefits, and structured Service schemas for Google crawlers.
+    """
+    return render(request, 'pages/services_index.html', {
+        'services': SERVICES,
+        'contact_form': ContactForm(),
+    })
+
+
+def service_detail(request, slug):
+    """
+    Render an individual, highly-optimized service landing page.
+    Includes target keywords, detailed explanations, capabilities,
+    featured case studies, and accordion FAQs with Schema.org markup.
+    """
+    service = SERVICES.get(slug)
+    if not service:
+        raise Http404(f"Service '{slug}' was not found.")
+
+    return render(request, 'pages/service_detail.html', {
+        'service': service,
+        'all_services': SERVICES,
+        'contact_form': ContactForm(),
+    })
+
+
+def service_web_development(request):
+    return service_detail(request, 'web-development')
+
+
+def service_ui_ux_design(request):
+    return service_detail(request, 'ui-ux-design')
+
+
+def service_ecommerce_development(request):
+    return service_detail(request, 'ecommerce-development')
+
+
+def service_custom_software_development(request):
+    return service_detail(request, 'custom-software-development')
+
+
+def service_brand_identity_design(request):
+    return service_detail(request, 'brand-identity-design')
+
+
+# -----------------------------------------------------------------------------
+# SEO Content Guides / Insights
+# -----------------------------------------------------------------------------
+
+def insights_index(request):
+    """
+    Knowledge Hub page showcasing all comprehensive client guides and
+    technical articles to capture high-intent search traffic.
+    """
+    return render(request, 'pages/insights_index.html', {
+        'insights': INSIGHTS,
+        'contact_form': ContactForm(),
+    })
+
+
+def insight_detail(request, slug):
+    """
+    Render an in-depth, data-rich article targeting prospective client queries
+    (such as Website Cost in Kerala or Custom vs WordPress).
+    """
+    insight = INSIGHTS.get(slug)
+    if not insight:
+        raise Http404(f"Insight '{slug}' was not found.")
+
+    return render(request, f'pages/insights/{slug.replace("-", "_")}.html', {
+        'insight': insight,
+        'all_insights': INSIGHTS,
+        'contact_form': ContactForm(),
+    })
+
+
+def insight_website_cost(request):
+    return insight_detail(request, 'website-development-cost-in-kerala')
+
+
+def insight_why_need_website(request):
+    return insight_detail(request, 'why-businesses-need-professional-website')
+
+
+def insight_custom_vs_wordpress(request):
+    return insight_detail(request, 'custom-website-vs-wordpress')
+
+
+def insight_ecommerce_guide(request):
+    return insight_detail(request, 'ecommerce-website-development-guide')
+
+
+def insight_choose_company(request):
+    return insight_detail(request, 'how-to-choose-web-development-company-kerala')
+
+
+# -----------------------------------------------------------------------------
+# Technical SEO: sitemap.xml & robots.txt
+# -----------------------------------------------------------------------------
+
+def sitemap_xml(request):
+    """
+    Dynamically generates a 100% compliant XML sitemap covering all canonical
+    pages, service landing pages, insight guides, and legal sections.
+    """
+    site_url = getattr(settings, 'SITE_URL', 'https://trinial.in').rstrip('/')
+    today = datetime.date.today().isoformat()
+
+    urls = [
+        # Primary Pages
+        {'loc': f"{site_url}/", 'lastmod': today, 'changefreq': 'daily', 'priority': '1.0'},
+        {'loc': f"{site_url}/about/", 'lastmod': today, 'changefreq': 'monthly', 'priority': '0.8'},
+        {'loc': f"{site_url}/services/", 'lastmod': today, 'changefreq': 'weekly', 'priority': '0.9'},
+        {'loc': f"{site_url}/insights/", 'lastmod': today, 'changefreq': 'weekly', 'priority': '0.8'},
+    ]
+
+    # Service Landing Pages (Priority 0.9)
+    for slug in SERVICES.keys():
+        urls.append({
+            'loc': f"{site_url}/services/{slug}/",
+            'lastmod': today,
+            'changefreq': 'weekly',
+            'priority': '0.9',
+        })
+
+    # Insight / Resource Guides (Priority 0.8)
+    for slug, meta in INSIGHTS.items():
+        urls.append({
+            'loc': f"{site_url}/insights/{slug}/",
+            'lastmod': meta.get('date_modified', today),
+            'changefreq': 'weekly',
+            'priority': '0.8',
+        })
+
+    # Legal & Utility Pages (Priority 0.3)
+    urls.extend([
+        {'loc': f"{site_url}/privacy-policy/", 'lastmod': today, 'changefreq': 'monthly', 'priority': '0.3'},
+        {'loc': f"{site_url}/terms-and-conditions/", 'lastmod': today, 'changefreq': 'monthly', 'priority': '0.3'},
+    ])
+
+    xml_lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+    for u in urls:
+        xml_lines.append('  <url>')
+        xml_lines.append(f"    <loc>{u['loc']}</loc>")
+        xml_lines.append(f"    <lastmod>{u['lastmod']}</lastmod>")
+        xml_lines.append(f"    <changefreq>{u['changefreq']}</changefreq>")
+        xml_lines.append(f"    <priority>{u['priority']}</priority>")
+        xml_lines.append('  </url>')
+    xml_lines.append('</urlset>')
+
+    return HttpResponse('\n'.join(xml_lines), content_type="application/xml; charset=utf-8")
+
+
+def robots_txt(request):
+    """
+    Serves a search-engine compliant robots.txt with sitemap location and crawl directives.
+    """
+    site_url = getattr(settings, 'SITE_URL', 'https://trinial.in').rstrip('/')
+    content = f"""# Robots.txt for Trinials Digital Studio
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /design-preview/
+
+Sitemap: {site_url}/sitemap.xml
+Host: {site_url}
+"""
+    return HttpResponse(content.strip() + "\n", content_type="text/plain; charset=utf-8")
 
 
 def contact_submit(request):

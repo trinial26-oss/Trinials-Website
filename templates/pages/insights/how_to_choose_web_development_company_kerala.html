@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ insight.seo_title }}{% endblock %}
+{% block meta_description %}{{ insight.meta_description }}{% endblock %}
+{% block meta_keywords %}{{ insight.target_keywords }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=2.0">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ site_url }}/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Insights & Guides",
+                    "item": "{{ site_url }}/insights/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "How to Choose a Web Development Company in Kerala",
+                    "item": "{{ canonical_url }}"
+                }
+            ]
+        },
+        {
+            "@type": "Article",
+            "@id": "{{ canonical_url }}#article",
+            "headline": "{{ insight.h1 }}",
+            "description": "{{ insight.meta_description }}",
+            "datePublished": "{{ insight.date_published }}",
+            "dateModified": "{{ insight.date_modified }}",
+            "author": {
+                "@type": "Organization",
+                "name": "Trinials Engineering Team"
+            },
+            "publisher": {
+                "@id": "{{ site_url }}/#organization"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "{{ canonical_url }}"
+            }
+        },
+        {
+            "@type": "FAQPage",
+            "@id": "{{ canonical_url }}#faq",
+            "mainEntity": [
+                {% for faq in insight.faqs %}
+                {
+                    "@type": "Question",
+                    "name": "{{ faq.question|escapejs }}",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "{{ faq.answer|escapejs }}"
+                    }
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero-section" aria-labelledby="article-h1">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <a href="{% url 'website:insights_index' %}">Insights</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>Agency Vetting</span>
+        </nav>
+        
+        <div class="page-meta-badge">
+            <span>{{ insight.badge }} &bull; {{ insight.read_time }}</span>
+        </div>
+
+        <h1 id="article-h1" class="page-title">{{ insight.h1 }}</h1>
+        
+        <p class="page-subtitle">
+            {{ insight.summary }}
+        </p>
+
+        <div style="margin-top: 1.25rem; font-size: 0.85rem; color: #BBCF8D;">
+            Published: {{ insight.date_published }} &bull; Last Updated: {{ insight.date_modified }} &bull; By Trinials Studio
+        </div>
+    </div>
+</section>
+
+<section class="page-content-section">
+    <div class="page-article-container">
+        <article class="page-card">
+            
+            <h2>Avoiding Costly Mistakes When Hiring a Web Agency</h2>
+            <p>
+                Kerala is home to hundreds of digital marketing agencies, freelance developers, and IT service providers. While choice is great, business owners frequently make costly mistakes by selecting a development partner based solely on the lowest quote, only to end up with broken code, missed deadlines, slow load times, and an unresponsive contractor.
+            </p>
+            <p>
+                A website is the public face of your business. To protect your investment and partner with an agency that acts as a true strategic collaborator, use this <strong>7-point evaluation checklist</strong> before signing any contract.
+            </p>
+
+            <div class="page-callout">
+                <p>
+                    <strong>The Golden Rule:</strong> Never judge an agency by screenshots in their PDF pitch deck. Always ask for live production URLs and test their loading speed on Google PageSpeed Insights.
+                </p>
+            </div>
+
+            <h2>The 7-Point Agency Vetting Checklist</h2>
+
+            <h3>1. Inspect Real, Live Production Websites</h3>
+            <p>
+                Anyone can mock up a pretty graphic in Photoshop or Figma. What matters is how that design performs in the real world. Ask the agency to share 3 live websites they have recently launched. Open them on your mobile phone:
+            </p>
+            <ul>
+                <li>Does the site load in under 2 seconds?</li>
+                <li>Do navigation menus open smoothly without lag?</li>
+                <li>Are images crisp and properly scaled without awkward stretching?</li>
+                <li>Does the contact form or WhatsApp button work immediately?</li>
+            </ul>
+
+            <h3>2. Verify Complete Code and Domain Ownership</h3>
+            <p>
+                Some unethical agencies register your domain name under their personal GoDaddy account or refuse to hand over source code repository access, effectively holding your business hostage. Ensure your contract explicitly states that <strong>you own 100% of the domain, design assets, and source code</strong> upon final payment.
+            </p>
+
+            <h3>3. Question Their Technology Stack &amp; Avoid Plugin Bloat</h3>
+            <p>
+                Ask the development team: <em>"What technologies are you using, and how many third-party plugins will be installed?"</em> If they are simply installing a pirated WordPress theme with 30 plugins, your site will suffer from security flaws and slow speeds. Look for teams skilled in modern, robust frameworks (such as Python/Django, modern JS, and clean HTML5/CSS3).
+            </p>
+
+            <h3>4. Evaluate On-Page &amp; Technical SEO Knowledge</h3>
+            <p>
+                A website is worthless if your customers cannot find it. Ask how they handle SEO:
+            </p>
+            <ul>
+                <li>Do they implement valid Schema.org structured data (JSON-LD)?</li>
+                <li>Do they provide automated XML sitemaps and clean robots.txt directives?</li>
+                <li>Are heading tags (H1, H2, H3) structured semantically rather than just styled randomly?</li>
+                <li>Do they optimize images with lazy-loading and WebP formats?</li>
+            </ul>
+
+            <h3>5. Transparent, Milestone-Based Payment Terms</h3>
+            <p>
+                Never pay 100% upfront. A standard, professional arrangement is milestone-based: typically 40% initial deposit, 30% upon approval of design prototypes and staging development, and 30% upon live launch and testing.
+            </p>
+
+            <h3>6. Check Post-Launch Support &amp; Maintenance SLAs</h3>
+            <p>
+                What happens if your server goes down on a weekend or your email forms stop delivering inquiries? Inquire about ongoing support, response time guarantees (SLA), and automated daily backup routines.
+            </p>
+
+            <h3>7. Clear, Responsive Communication</h3>
+            <p>
+                How responsive was the agency during the sales process? If they take three days to reply to your initial inquiry, communication will only degrade once they have your deposit. Choose a partner that is transparent, communicative, and respectful of your time.
+            </p>
+
+            <h2>Major Red Flags to Avoid</h2>
+            <div class="page-callout" style="border-left-color: #DC2626; background: #FFF5F5;">
+                <p style="color: #991B1B;">
+                    <strong>Red Flags:</strong> Quotes below ₹5,000 for a "complete custom website", refusal to provide a written contract, absence of live client references, asking you to pay cash without an invoice, and promises of "#1 on Google in 48 hours" (which is an impossible scam).
+                </p>
+            </div>
+
+            <h2>Why Partner with Trinials?</h2>
+            <p>
+                At <a href="{% url 'website:home' %}">Trinials</a>, we believe in honest craftsmanship, high-availability engineering, and transparent pricing. Every website we build is tailored from the ground up, loads in sub-seconds, and delivers measurable client growth.
+            </p>
+
+            <!-- FAQ Section -->
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-accordion">
+                {% for faq in insight.faqs %}
+                <details class="faq-item" {% if forloop.first %}open{% endif %}>
+                    <summary class="faq-question">{{ faq.question }}</summary>
+                    <div class="faq-answer">
+                        <p>{{ faq.answer }}</p>
+                    </div>
+                </details>
+                {% endfor %}
+            </div>
+
+            <!-- Inquiry CTA Card -->
+            <div class="page-contact-card" style="margin-top: 2.5rem;">
+                <h3>Let's Build Something Meaningful Together</h3>
+                <p>
+                    Have a project you would like to discuss? Reach out to Trinials for an honest assessment and a transparent development roadmap.
+                </p>
+                <div style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="{% url 'website:home' %}#contact" class="btn btn-primary">
+                        Start a Conversation <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                    </a>
+                    <a href="{% url 'website:services_index' %}" class="btn btn-outline" style="border-color: #BBCF8D; color: #FFFFFF;">
+                        Explore Studio Services
+                    </a>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #ECEEE7; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <a href="{% url 'website:insights_index' %}" style="color: #58641D; font-weight: 600; text-decoration: none;">
+                    &larr; Back to All Guides
+                </a>
+                <a href="{% url 'website:service_web_development' %}" style="color: #58641D; font-weight: 600; text-decoration: none;">
+                    Explore Web Development Services &rarr;
+                </a>
+            </div>
+
+        </article>
+    </div>
+</section>
+{% endblock %}

@@ -1,10 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}About Us — Trinials Creative Studio{% endblock %}
+{% block title %}About Trinials | Digital Studio & Web Development Company in Kerala{% endblock %}
+{% block meta_description %}Learn about Trinials, an independent digital studio and web development company in Kerala. We partner with ambitious brands to engineer high-performance web products and enduring brand identities.{% endblock %}
+{% block meta_keywords %}About Trinials, Web Development Company in Kerala, Digital Solutions Company in Kerala, Creative Studio Kerala{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=1.0">
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=2.0">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "{{ site_url }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About Us",
+            "item": "{{ site_url }}/about/"
+        }
+    ]
+}
+</script>
 {% endblock %}
 
 {% block content %}

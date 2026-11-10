@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Web & Digital Insights, Guides & Pricing | Trinials Kerala{% endblock %}
+{% block meta_description %}Actionable digital guides and practical insights from Trinials. Learn realistic website development costs in Kerala, custom web apps vs. WordPress, and e-commerce strategies.{% endblock %}
+{% block meta_keywords %}Website Development Cost in Kerala, Why Businesses Need a Professional Website, Custom Website vs WordPress, E-commerce Website Development Guide, How to Choose a Web Development Company{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=2.0">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "{{ site_url }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Insights & Guides",
+            "item": "{{ site_url }}/insights/"
+        }
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Page Hero Banner -->
+<section class="page-hero-section" aria-labelledby="insights-hub-heading">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>Insights &amp; Guides</span>
+        </nav>
+        <h1 id="insights-hub-heading" class="page-title">Digital Insights &amp; Practical Guides</h1>
+        <p class="page-subtitle">
+            Honest engineering advice, pricing transparency, and practical strategies to help founders and business owners make smart digital investments.
+        </p>
+        <div class="page-meta-badge">
+            <span>Knowledge Base &bull; Practical Playbooks &bull; Kerala &amp; Beyond</span>
+        </div>
+    </div>
+</section>
+
+<!-- Insights Grid Section -->
+<section class="page-content-section">
+    <div class="container" style="max-width: 1180px; margin: 0 auto; padding: 0 var(--space-6);">
+        <div class="hub-grid">
+            
+            <!-- Guide 01: Website Development Cost in Kerala -->
+            <a href="{% url 'website:insight_website_cost' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">PRICING GUIDE &bull; 6 MIN READ</span>
+                    <h2 class="hub-card-title">Website Development Cost in Kerala (2026 Price Guide)</h2>
+                    <p class="hub-card-desc">
+                        A realistic price breakdown covering simple business websites (₹15k–₹35k), e-commerce stores (₹40k–₹1.2L), and custom software, including domain and hosting costs.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Read Full Price Breakdown</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- Guide 02: Why Businesses Need a Professional Website -->
+            <a href="{% url 'website:insight_why_need_website' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">BUSINESS STRATEGY &bull; 5 MIN READ</span>
+                    <h2 class="hub-card-title">Why Businesses Need a Professional Website in 2026</h2>
+                    <p class="hub-card-desc">
+                        The risks of relying solely on Instagram and WhatsApp, how an official domain builds customer credibility, and capturing high-intent Google search traffic.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Read Business Strategy</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- Guide 03: Custom Website vs WordPress -->
+            <a href="{% url 'website:insight_custom_vs_wordpress' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">TECH COMPARISON &bull; 7 MIN READ</span>
+                    <h2 class="hub-card-title">Custom Website vs. WordPress: Practical Comparison</h2>
+                    <p class="hub-card-desc">
+                        An architectural deep-dive into Core Web Vitals speed, plugin security risks, ongoing maintenance headaches, and long-term 3-year ownership costs.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Read Architecture Comparison</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- Guide 04: E-Commerce Website Development Guide -->
+            <a href="{% url 'website:insight_ecommerce_guide' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">COMMERCE PLAYBOOK &bull; 8 MIN READ</span>
+                    <h2 class="hub-card-title">E-Commerce Website Development Guide for Indian Brands</h2>
+                    <p class="hub-card-desc">
+                        Essential roadmap for Indian e-commerce: instant UPI checkout integration (GPay, PhonePe), shipping courier APIs, GST invoices, and mobile speed tuning.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Read E-Commerce Guide</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- Guide 05: How to Choose a Web Development Company in Kerala -->
+            <a href="{% url 'website:insight_choose_company' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">VETTING CHECKLIST &bull; 6 MIN READ</span>
+                    <h2 class="hub-card-title">How to Choose a Web Development Company in Kerala</h2>
+                    <p class="hub-card-desc">
+                        An actionable 7-point checklist to evaluate portfolio work, test real website speeds, verify code ownership, and avoid expensive contractor mistakes.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Read Agency Checklist</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- Quick Service Bridge Card -->
+            <a href="{% url 'website:services_index' %}" class="hub-card" style="background: linear-gradient(135deg, #182806 0%, #273B09 100%); color: #FFFFFF; border-color: rgba(187, 207, 141, 0.3);">
+                <div>
+                    <span class="hub-card-badge" style="background: rgba(255, 255, 255, 0.1); color: #BBCF8D; border-color: rgba(187, 207, 141, 0.4);">STUDIO CAPABILITIES</span>
+                    <h2 class="hub-card-title" style="color: #FFFFFF;">Explore Our Engineering Services</h2>
+                    <p class="hub-card-desc" style="color: #DFE3D6;">
+                        See how Trinials builds bespoke business platforms, high-converting e-commerce stores, and enterprise custom software for ambitious businesses.
+                    </p>
+                </div>
+                <div class="hub-card-action" style="color: #BBCF8D;">
+                    <span>View All Services</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Inquiries Banner -->
+        <div class="page-contact-card" style="margin-top: 3.5rem;">
+            <h3>Have Questions About Your Web Project?</h3>
+            <p>
+                We are always happy to discuss digital strategy, estimate realistic budgets, and recommend technical approaches for your business.
+            </p>
+            <div style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="{% url 'website:home' %}#contact" class="btn btn-primary">
+                    Request a Technical Assessment <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                </a>
+                <a href="mailto:{{ contact_email|default:'trinial26@gmail.com' }}" class="btn btn-outline" style="border-color: #BBCF8D; color: #FFFFFF;">
+                    Email {{ contact_email|default:'trinial26@gmail.com' }}
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

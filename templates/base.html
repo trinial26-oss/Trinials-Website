@@ -4,14 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Trinials{% endblock %}</title>
+    <title>{% block title %}Trinials | Web Development & Digital Solutions Company in Kerala{% endblock %}</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}Trinials is a premier web development and digital solutions company in Kerala. We specialize in high-performance business websites, e-commerce platforms, custom software development, and UI/UX design.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}Web Development Company in Kerala, Website Development in Kerala, Web Design Company in Kerala, E-commerce Website Development, Custom Software Development, UI/UX Design Services, Business Website Development, Digital Solutions Company in Kerala{% endblock %}">
+    <meta name="author" content="Trinials">
+    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical_url %}{{ canonical_url }}{% endblock %}">
+
+    <!-- Local SEO Geo Directives (Kerala, India) -->
+    <meta name="geo.region" content="IN-KL">
+    <meta name="geo.placename" content="Kerala, India">
+    <meta name="geo.position" content="10.8505;76.2711">
+    <meta name="ICBM" content="10.8505, 76.2711">
+
+    <!-- Open Graph / Facebook / WhatsApp Meta Tags -->
+    <meta property="og:site_name" content="Trinials">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Trinials | Web Development &amp; Digital Solutions Company in Kerala{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Trinials is a premier web development and digital solutions company in Kerala. We specialize in high-performance business websites, e-commerce platforms, custom software development, and UI/UX design.{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}{{ canonical_url }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ site_url }}{% static 'images/logo-dark.png' %}{% endblock %}">
+    <meta property="og:image:alt" content="Trinials - Digital Studio Kerala">
+    <meta property="og:locale" content="en_IN">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Trinials | Web Development &amp; Digital Solutions Company in Kerala{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Trinials is a premier web development and digital solutions company in Kerala. We specialize in high-performance business websites, e-commerce platforms, custom software development, and UI/UX design.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ site_url }}{% static 'images/logo-dark.png' %}{% endblock %}">
+
+    <!-- Google Search Console Site Verification -->
+    {% if google_site_verification %}
+    <meta name="google-site-verification" content="{{ google_site_verification }}">
+    {% endif %}
 
     <!-- Favicon and Touch Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon.png' %}?v=3.1">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.png' %}?v=3.1">
     <link rel="apple-touch-icon" href="{% static 'images/logo-icon.png' %}?v=3.1">
+    <meta name="theme-color" content="#002400">
 
-    <!-- Google Fonts: Manrope (Headings & UI) and DM Sans (Body text) -->
+    <!-- Google Fonts: Manrope (Headings & UI) and DM Sans (Body text) with font-display:swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -40,6 +77,71 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}?v=3.2">
 
     {% block extra_css %}{% endblock %}
+
+    <!-- Structured Data: Organization & ProfessionalService JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": ["Organization", "ProfessionalService"],
+                "@id": "{{ site_url }}/#organization",
+                "name": "Trinials",
+                "alternateName": "Trinials Digital Studio",
+                "url": "{{ site_url }}/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "@id": "{{ site_url }}/#logo",
+                    "url": "{{ site_url }}{% static 'images/logo-dark.png' %}",
+                    "caption": "Trinials Digital Studio"
+                },
+                "image": "{{ site_url }}{% static 'images/logo-icon.png' %}",
+                "description": "Trinials is an independent digital studio and web development company in Kerala, India. We engineer high-performance business websites, e-commerce stores, custom software, and strategic UI/UX design systems.",
+                "email": "{{ contact_email|default:'trinial26@gmail.com' }}",
+                "telephone": "{{ contact_phone_number|default:'+91 85908 21155' }}",
+                "priceRange": "₹₹",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressRegion": "Kerala",
+                    "addressCountry": "IN"
+                },
+                "areaServed": [
+                    { "@type": "AdministrativeArea", "name": "Kerala" },
+                    { "@type": "City", "name": "Kochi" },
+                    { "@type": "City", "name": "Calicut" },
+                    { "@type": "City", "name": "Kannur" },
+                    { "@type": "City", "name": "Trivandrum" },
+                    { "@type": "Country", "name": "India" }
+                ],
+                "sameAs": [
+                    "https://wa.me/918590821155"
+                ],
+                "knowsAbout": [
+                    "Web Development",
+                    "E-commerce Website Development",
+                    "Custom Software Development",
+                    "UI/UX Design",
+                    "Brand Identity and Design",
+                    "Digital Solutions"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "{{ site_url }}/#website",
+                "url": "{{ site_url }}/",
+                "name": "Trinials",
+                "alternateName": "Trinials Web Development Kerala",
+                "description": "Premier Web Development and Digital Solutions Company in Kerala, India.",
+                "publisher": {
+                    "@id": "{{ site_url }}/#organization"
+                },
+                "inLanguage": "en-IN"
+            }
+        ]
+    }
+    </script>
+
+    {% block structured_data %}{% endblock %}
 </head>
 <body id="top">
     <!-- Site Intro Animated Logo Opening Screen -->
@@ -95,13 +197,13 @@
     {% include "sections/footer.html" %}
 
     <!-- Navigation Functionality Script -->
-    <script src="{% static 'js/navigation.js' %}?v=2.2"></script>
+    <script src="{% static 'js/navigation.js' %}?v=2.2" defer></script>
 
     <!-- Design System Animations & Scroll Reveal Controller -->
-    <script src="{% static 'js/animations.js' %}?v=1.2"></script>
+    <script src="{% static 'js/animations.js' %}?v=1.2" defer></script>
 
     <!-- Hero & About Visual Canvas: tilt, focus areas, orb pulse -->
-    <script src="{% static 'js/hero-canvas.js' %}?v=2.0"></script>
+    <script src="{% static 'js/hero-canvas.js' %}?v=2.0" defer></script>
 
     <!-- Optimized Contact Form Controller: AJAX, instant confirmation, field validation -->
     <script src="{% static 'js/contact.js' %}?v=1.0" defer></script>

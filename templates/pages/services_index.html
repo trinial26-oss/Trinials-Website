@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Digital Studio Services in Kerala | Web Development, UI/UX & E-Commerce — Trinials{% endblock %}
+{% block meta_description %}Explore Trinials digital services in Kerala: custom web development, UI/UX design, e-commerce stores, custom business software, and brand identity systems.{% endblock %}
+{% block meta_keywords %}Web Development Company in Kerala, Website Development in Kerala, Web Design Company in Kerala, E-commerce Website Development, Custom Software Development, UI/UX Design Services, Digital Solutions Company in Kerala{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=2.0">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "{{ site_url }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "{{ site_url }}/services/"
+        }
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Page Hero Banner -->
+<section class="page-hero-section" aria-labelledby="services-hub-heading">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>Services</span>
+        </nav>
+        <h1 id="services-hub-heading" class="page-title">Digital Studio Services in Kerala</h1>
+        <p class="page-subtitle">
+            From strategic discovery to clean production engineering, we craft digital products that make complex business processes feel effortless.
+        </p>
+        <div class="page-meta-badge">
+            <span>Core Capabilities &bull; High Performance &bull; Enduring Craft</span>
+        </div>
+    </div>
+</section>
+
+<!-- Services Grid Section -->
+<section class="page-content-section">
+    <div class="container" style="max-width: 1180px; margin: 0 auto; padding: 0 var(--space-6);">
+        <div class="hub-grid">
+            
+            <!-- 01: Web Development -->
+            <a href="{% url 'website:service_web_development' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">FLAGSHIP ENGINEERING</span>
+                    <h2 class="hub-card-title">Web Development Company in Kerala</h2>
+                    <p class="hub-card-desc">
+                        Custom-engineered, mobile-first business websites and web platforms built with Python/Django and semantic HTML5 for sub-second speeds and search engine supremacy.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Explore Web Development</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 02: UI/UX Design -->
+            <a href="{% url 'website:service_ui_ux_design' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">HUMAN-CENTERED UX</span>
+                    <h2 class="hub-card-title">UI/UX Design Services</h2>
+                    <p class="hub-card-desc">
+                        Intuitive digital user interfaces, interactive wireframing, WCAG accessibility standards, and scalable design systems that streamline complex workflows.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Explore UI/UX Design</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 03: E-Commerce Development -->
+            <a href="{% url 'website:service_ecommerce_development' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">RETAIL & COMMERCE</span>
+                    <h2 class="hub-card-title">E-Commerce Website Development</h2>
+                    <p class="hub-card-desc">
+                        Conversion-focused online storefronts with native UPI payment gateways (Google Pay, PhonePe), inventory management, and automated shipping workflows.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Explore E-Commerce</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 04: Custom Software Development -->
+            <a href="{% url 'website:service_custom_software_development' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">ENTERPRISE PLATFORMS</span>
+                    <h2 class="hub-card-title">Custom Software Development</h2>
+                    <p class="hub-card-desc">
+                        Bespoke business management ERP systems, internal operations portals, billing engines, and relational database platforms tailored to your workflow.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Explore Custom Software</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 05: Brand Identity & Design -->
+            <a href="{% url 'website:service_brand_identity_design' %}" class="hub-card">
+                <div>
+                    <span class="hub-card-badge">IDENTITY CRAFT</span>
+                    <h2 class="hub-card-title">Brand Identity & Design</h2>
+                    <p class="hub-card-desc">
+                        Distinctive brand systems, primary & secondary logos, typography scales, color palettes, and digital style guides that establish market distinction.
+                    </p>
+                </div>
+                <div class="hub-card-action">
+                    <span>Explore Brand Identity</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+            <!-- 06: Knowledge Hub Card -->
+            <a href="{% url 'website:insights_index' %}" class="hub-card" style="background: linear-gradient(135deg, #182806 0%, #273B09 100%); color: #FFFFFF; border-color: rgba(187, 207, 141, 0.3);">
+                <div>
+                    <span class="hub-card-badge" style="background: rgba(255, 255, 255, 0.1); color: #BBCF8D; border-color: rgba(187, 207, 141, 0.4);">RESOURCES &amp; GUIDES</span>
+                    <h2 class="hub-card-title" style="color: #FFFFFF;">Client Guides &amp; Pricing Insights</h2>
+                    <p class="hub-card-desc" style="color: #DFE3D6;">
+                        Read our transparent guide on website development costs in Kerala, custom architecture vs. WordPress, and e-commerce launch playbooks.
+                    </p>
+                </div>
+                <div class="hub-card-action" style="color: #BBCF8D;">
+                    <span>Browse Client Guides</span>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Direct Contact Banner -->
+        <div class="page-contact-card" style="margin-top: 3.5rem;">
+            <h3>Start Your Project With Trinials</h3>
+            <p>
+                Have an upcoming web platform, mobile design, or custom software requirement in Kerala or abroad? Let's discuss how we can turn your ideas into a high-performance reality.
+            </p>
+            <div style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="{% url 'website:home' %}#contact" class="btn btn-primary">
+                    Start a Conversation <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                </a>
+                {% if contact_whatsapp_url %}
+                <a href="{{ contact_whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="border-color: #BBCF8D; color: #FFFFFF;">
+                    Chat on WhatsApp
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

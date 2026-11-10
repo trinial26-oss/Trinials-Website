@@ -1,25 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Page Not Found (404) — Millennials{% endblock %}
+{% block title %}Page Not Found (404) | Trinials{% endblock %}
+{% block robots %}noindex, follow{% endblock %}
 
 {% block content %}
-<section class="section bg-background" style="min-height: 70vh; display: flex; align-items: center;">
-    <div class="container" style="max-width: 680px; margin: 0 auto; padding-block: var(--space-8);">
-        <div class="card card-hover text-center" style="padding: clamp(36px, 5vw, 56px);">
-            <div class="badge badge-soft" style="margin-bottom: 20px;">
+<section class="section" style="min-height: 70vh; display: flex; align-items: center; background: #F5F6F2; padding-top: calc(var(--header-height, 74px) + 40px); padding-bottom: 60px;">
+    <div class="container" style="max-width: 680px; margin: 0 auto; padding: 0 20px;">
+        <div class="card text-center" style="background: #FFFFFF; border: 1px solid #DFE3D6; border-radius: 16px; padding: clamp(36px, 5vw, 56px); box-shadow: 0 8px 30px rgba(0, 36, 0, 0.06);">
+            <div style="display: inline-block; background: #F4F6EE; color: #58641D; border: 1px solid #BBCF8D; border-radius: 999px; padding: 4px 14px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 20px;">
                 ERROR 404
             </div>
-            <h1 style="font-family: var(--font-primary); font-size: clamp(2rem, 4vw, 2.75rem); color: var(--color-navy); margin-bottom: 16px; font-weight: var(--font-weight-bold);">
-                Page Not Found<span style="color: var(--color-primary);">.</span>
+            <h1 style="font-family: var(--font-primary); font-size: clamp(2rem, 4vw, 2.75rem); color: #002400; margin-bottom: 16px; font-weight: 800; line-height: 1.2;">
+                Page Not Found<span style="color: #58641D;">.</span>
             </h1>
-            <p style="font-family: var(--font-secondary); font-size: var(--font-size-lead); color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 32px;">
-                The page you are looking for doesn't exist or has been moved. Let's get you back to where you need to be.
+            <p style="font-family: var(--font-secondary); font-size: 1.1rem; color: #4A5636; line-height: 1.6; margin-bottom: 32px;">
+                The page you are looking for doesn't exist or has moved. Explore our popular sections below or return home.
             </p>
-            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
                 <a href="{% url 'website:home' %}" class="btn btn-primary">
                     Return to Homepage <span class="cta-arrow" aria-hidden="true">&nearr;</span>
                 </a>
-                <a href="{% url 'website:home' %}#contact" class="btn btn-secondary">
+                <a href="{% url 'website:services_index' %}" class="btn btn-secondary" style="border-color: #58641D; color: #002400;">
+                    Our Services
+                </a>
+                <a href="{% url 'website:insights_index' %}" class="btn btn-secondary" style="border-color: #58641D; color: #002400;">
+                    Client Guides
+                </a>
+                <a href="{% url 'website:home' %}#contact" class="btn btn-outline" style="border-color: #BBCF8D; color: #002400;">
                     Get in Touch
                 </a>
             </div>

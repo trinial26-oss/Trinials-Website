@@ -1,10 +1,34 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Privacy Policy — Trinials{% endblock %}
+{% block title %}Privacy Policy | Trinials Digital Studio{% endblock %}
+{% block meta_description %}Privacy Policy for Trinials. Learn how we collect, process, and protect your personal information and project inquiries with strict confidentiality.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=1.0">
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=2.0">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "{{ site_url }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Privacy Policy",
+            "item": "{{ site_url }}/privacy-policy/"
+        }
+    ]
+}
+</script>
 {% endblock %}
 
 {% block content %}

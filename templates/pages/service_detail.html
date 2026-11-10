@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ service.seo_title }}{% endblock %}
+{% block meta_description %}{{ service.meta_description }}{% endblock %}
+{% block meta_keywords %}{{ service.target_keywords }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=2.0">
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ site_url }}/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Services",
+                    "item": "{{ site_url }}/services/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "{{ service.title }}",
+                    "item": "{{ canonical_url }}"
+                }
+            ]
+        },
+        {
+            "@type": "Service",
+            "@id": "{{ canonical_url }}#service",
+            "name": "{{ service.title }}",
+            "serviceType": "{{ service.service_type }}",
+            "description": "{{ service.meta_description }}",
+            "provider": {
+                "@id": "{{ site_url }}/#organization"
+            },
+            "areaServed": {
+                "@type": "AdministrativeArea",
+                "name": "Kerala, India"
+            }
+        },
+        {
+            "@type": "FAQPage",
+            "@id": "{{ canonical_url }}#faq",
+            "mainEntity": [
+                {% for faq in service.faqs %}
+                {
+                    "@type": "Question",
+                    "name": "{{ faq.question|escapejs }}",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "{{ faq.answer|escapejs }}"
+                    }
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Page Hero Banner -->
+<section class="page-hero-section" aria-labelledby="service-h1">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <a href="{% url 'website:services_index' %}">Services</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>{{ service.title }}</span>
+        </nav>
+        
+        <div class="page-meta-badge">
+            <span>{{ service.badge }} &bull; {{ service.eyebrow }}</span>
+        </div>
+
+        <h1 id="service-h1" class="page-title">{{ service.h1 }}</h1>
+        
+        <p class="page-subtitle">
+            {{ service.hero_subtitle }}
+        </p>
+
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{% url 'website:home' %}#contact" class="btn btn-primary">
+                Inquire About This Service <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+            </a>
+            {% if contact_whatsapp_url %}
+            <a href="{{ contact_whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="border-color: #BBCF8D; color: #FFFFFF;">
+                Chat on WhatsApp
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Main Service Content Section -->
+<section class="page-content-section">
+    <div class="service-detail-container">
+        <div class="service-detail-grid">
+            
+            <!-- Left Main Column -->
+            <main class="service-main-content">
+                <div class="page-card">
+                    
+                    <!-- Service Overview -->
+                    <h2>Overview &amp; Approach</h2>
+                    <p>
+                        At <strong>Trinials</strong>, our {{ service.title }} process is grounded in simplicity, engineering precision, and measurable business performance. We reject bloated, off-the-shelf templates and pirated plugins. Instead, we architect bespoke digital solutions designed specifically for businesses in Kerala and global markets.
+                    </p>
+                    <p>
+                        Whether you are launching a new venture in Kochi, modernizing a retail enterprise in Calicut, or engineering custom software from Kannur, our team ensures your platform loads in under 1 second, adheres to Google Core Web Vitals, and delivers an intuitive user experience.
+                    </p>
+
+                    <div class="page-callout">
+                        <p>
+                            &ldquo;Our promise: Fast, clean, accessible digital products that communicate your value proposition clearly and turn search visitors into lifelong customers.&rdquo;
+                        </p>
+                    </div>
+
+                    <!-- Key Benefits -->
+                    <h2>Key Advantages &amp; Client Benefits</h2>
+                    <p>
+                        Why businesses choose Trinials for {{ service.title }}:
+                    </p>
+                    <div class="service-benefits-grid">
+                        {% for benefit in service.key_benefits %}
+                        <div class="benefit-card">
+                            <h3 class="benefit-card-title">{{ benefit.title }}</h3>
+                            <p class="benefit-card-desc">{{ benefit.desc }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Capabilities / Features -->
+                    <h2>Core Capabilities &amp; Technical Scope</h2>
+                    <p>
+                        Comprehensive deliverables included with our {{ service.title }} engagements:
+                    </p>
+                    <div class="capabilities-tags-wrapper">
+                        {% for cap in service.capabilities %}
+                        <span class="capability-pill">{{ cap }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Process Steps -->
+                    <h2>Our 5-Stage Development Process</h2>
+                    <p>
+                        How we take your project from initial concept to high-availability deployment:
+                    </p>
+                    <div class="service-process-timeline">
+                        {% for step in service.process %}
+                        <div class="process-step-item">
+                            <div class="process-step-num">{{ step.step }}</div>
+                            <div class="process-step-content">
+                                <h4>{{ step.title }}</h4>
+                                <p>{{ step.desc }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Featured Case Study Banner -->
+                    {% if service.featured_work %}
+                    <h2>Relevant Project Showcase</h2>
+                    <div class="service-case-banner">
+                        <img src="{% static service.featured_work.image %}" 
+                             alt="{{ service.featured_work.title }}" 
+                             class="case-banner-img" 
+                             loading="lazy" 
+                             decoding="async" 
+                             width="220" 
+                             height="140">
+                        <div class="case-banner-body">
+                            <h4>{{ service.featured_work.category }}</h4>
+                            <h3>{{ service.featured_work.title }}</h3>
+                            <p>{{ service.featured_work.desc }}</p>
+                            {% if service.featured_work.url|slice:":4" == "http" %}
+                            <a href="{{ service.featured_work.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                                View Live Production <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'website:home' %}#work" class="btn btn-secondary btn-sm" style="color: #FFFFFF; border-color: #BBCF8D;">
+                                View in Portfolio &nearr;
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Frequently Asked Questions (Accordion) -->
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Common questions about our {{ service.title }} services in Kerala:</p>
+                    <div class="faq-accordion">
+                        {% for faq in service.faqs %}
+                        <details class="faq-item" {% if forloop.first %}open{% endif %}>
+                            <summary class="faq-question">{{ faq.question }}</summary>
+                            <div class="faq-answer">
+                                <p>{{ faq.answer }}</p>
+                            </div>
+                        </details>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Ready to Start CTA -->
+                    <div class="page-contact-card" style="margin-top: 2.5rem;">
+                        <h3>Ready to Build Your {{ service.title }} Platform?</h3>
+                        <p>
+                            Schedule a consultation with our technical specialists. We will analyze your requirements, suggest the ideal architecture, and provide a transparent project roadmap.
+                        </p>
+                        <div style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <a href="{% url 'website:home' %}#contact" class="btn btn-primary">
+                                Get a Free Project Quote <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                            </a>
+                            <a href="tel:{{ contact_phone_number|cut:' ' }}" class="btn btn-outline" style="border-color: #BBCF8D; color: #FFFFFF;">
+                                Call +91 85908 21155
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- Right Sticky Sidebar -->
+            <aside class="service-sidebar">
+                <div class="service-sidebar-card">
+                    <h3 class="service-sidebar-title">All Studio Services</h3>
+                    <ul class="service-sidebar-menu">
+                        {% for s_slug, s_data in all_services.items %}
+                        <li>
+                            <a href="{% url 'website:service_detail' slug=s_slug %}" 
+                               class="service-sidebar-link {% if s_slug == service.slug %}is-active{% endif %}">
+                                <span>{{ s_data.title }}</span>
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <h3 class="service-sidebar-title" style="margin-top: 2rem;">Helpful Resources</h3>
+                    <ul class="service-sidebar-menu">
+                        <li>
+                            <a href="{% url 'website:insight_website_cost' %}" class="service-sidebar-link">
+                                <span>Website Cost in Kerala</span>
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'website:insight_custom_vs_wordpress' %}" class="service-sidebar-link">
+                                <span>Custom vs. WordPress</span>
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'website:insight_ecommerce_guide' %}" class="service-sidebar-link">
+                                <span>E-Commerce Guide</span>
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'website:insights_index' %}" class="service-sidebar-link">
+                                <span>All Client Guides</span>
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid #ECEEE7;">
+                        <p style="font-size: 0.85rem; color: #4A5636; margin-bottom: 0.5rem;">
+                            <strong>Direct Inquiries:</strong>
+                        </p>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.25rem;">
+                            <a href="mailto:{{ contact_email|default:'trinial26@gmail.com' }}" style="color: #58641D; font-weight: 600;">{{ contact_email|default:'trinial26@gmail.com' }}</a>
+                        </p>
+                        <p style="font-size: 0.85rem; margin-bottom: 0;">
+                            <a href="tel:+918590821155" style="color: #58641D; font-weight: 600;">+91 85908 21155</a>
+                        </p>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

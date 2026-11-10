@@ -19,9 +19,9 @@ class WebsiteTests(TestCase):
         self.assertTemplateUsed(response, 'base.html')
 
     def test_homepage_contains_expected_title(self):
-        """Verify that the rendered homepage contains the Millennials title."""
+        """Verify that the rendered homepage contains the Trinials title."""
         response = self.client.get(reverse('website:home'))
-        self.assertContains(response, '<title>Trinials</title>')
+        self.assertContains(response, '<title>Trinials | Web Development & Digital Solutions Company in Kerala</title>')
 
     def test_navbar_component_included(self):
         """Verify that the navbar component is included in rendered pages."""
@@ -841,3 +841,163 @@ class WebsiteTests(TestCase):
             client_email = mail.outbox[1]
             self.assertEqual(client_email.to, ['client@innovate.org'])
             self.assertNotIn('We need a full-stack digital solution', client_email.body)
+
+    # -------------------------------------------------------------------------
+    # Complete SEO, Metadata & Sitemap Test Suite
+    # -------------------------------------------------------------------------
+
+    def test_sitemap_xml_endpoint(self):
+        """Verify dynamic sitemap.xml returns valid XML and indexes all canonical routes."""
+        response = self.client.get(reverse('website:sitemap_xml'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('application/xml', response['Content-Type'])
+        content = response.content.decode('utf-8')
+
+        # Core namespaces and structure
+        self.assertIn('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', content)
+        self.assertIn('<loc>https://trinial.in/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/about/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/services/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/insights/</loc>', content)
+
+        # All 5 Service Landing Pages
+        self.assertIn('<loc>https://trinial.in/services/web-development/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/services/ui-ux-design/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/services/ecommerce-development/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/services/custom-software-development/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/services/brand-identity-design/</loc>', content)
+
+        # All 5 Insight Guides
+        self.assertIn('<loc>https://trinial.in/insights/website-development-cost-in-kerala/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/insights/why-businesses-need-professional-website/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/insights/custom-website-vs-wordpress/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/insights/ecommerce-website-development-guide/</loc>', content)
+        self.assertIn('<loc>https://trinial.in/insights/how-to-choose-web-development-company-kerala/</loc>', content)
+
+        # Priority and Changefreq tags
+        self.assertIn('<priority>1.0</priority>', content)
+        self.assertIn('<priority>0.9</priority>', content)
+        self.assertIn('<priority>0.8</priority>', content)
+        self.assertIn('<changefreq>daily</changefreq>', content)
+
+    def test_robots_txt_endpoint(self):
+        """Verify robots.txt declares proper crawler directives and references sitemap."""
+        response = self.client.get(reverse('website:robots_txt'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('text/plain', response['Content-Type'])
+        content = response.content.decode('utf-8')
+
+        self.assertIn('User-agent: *', content)
+        self.assertIn('Allow: /', content)
+        self.assertIn('Disallow: /admin/', content)
+        self.assertIn('Disallow: /design-preview/', content)
+        self.assertIn('Sitemap: https://trinial.in/sitemap.xml', content)
+
+    def test_homepage_seo_metadata_and_structured_data(self):
+        """Verify homepage contains comprehensive SEO meta tags, OpenGraph, Geo, and JSON-LD."""
+        response = self.client.get(reverse('website:home'))
+        self.assertEqual(response.status_code, 200)
+
+        # Canonical tag
+        self.assertContains(response, '<link rel="canonical" href="https://trinial.in/">')
+
+        # Local SEO Geo directives
+        self.assertContains(response, '<meta name="geo.region" content="IN-KL">')
+        self.assertContains(response, '<meta name="geo.placename" content="Kerala, India">')
+
+        # OpenGraph and Twitter Cards
+        self.assertContains(response, '<meta property="og:site_name" content="Trinials">')
+        self.assertContains(response, '<meta property="og:type" content="website">')
+        self.assertContains(response, '<meta name="twitter:card" content="summary_large_image">')
+
+        # JSON-LD Schema.org
+        self.assertContains(response, '"@type": ["Organization", "ProfessionalService"]')
+        self.assertContains(response, '"@type": "WebSite"')
+        self.assertContains(response, '"name": "Trinials"')
+        self.assertContains(response, '"addressRegion": "Kerala"')
+        self.assertContains(response, '"areaServed"')
+
+        # Keyword & Service Links on Homepage
+        self.assertContains(response, 'Web Development Company in Kerala')
+        self.assertContains(response, reverse('website:service_web_development'))
+        self.assertContains(response, reverse('website:service_ui_ux_design'))
+        self.assertContains(response, reverse('website:service_ecommerce_development'))
+        self.assertContains(response, reverse('website:service_custom_software_development'))
+        self.assertContains(response, reverse('website:service_brand_identity_design'))
+
+    def test_all_five_service_pages_render_with_seo_and_schema(self):
+        """Verify each of the 5 individual service landing pages renders with proper H1 and Schema."""
+        service_slugs = [
+            'web-development',
+            'ui-ux-design',
+            'ecommerce-development',
+            'custom-software-development',
+            'brand-identity-design',
+        ]
+
+        for slug in service_slugs:
+            url = reverse('website:service_detail', kwargs={'slug': slug})
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200, f"Service page {slug} failed with status {response.status_code}")
+            
+            # Breadcrumbs & Service schema
+            self.assertContains(response, '"@type": "Service"')
+            self.assertContains(response, '"@type": "BreadcrumbList"')
+            self.assertContains(response, '"@type": "FAQPage"')
+            self.assertContains(response, '<h1 id="service-h1"')
+            self.assertContains(response, 'Frequently Asked Questions')
+            self.assertContains(response, 'trinial26@gmail.com')
+
+    def test_services_index_hub_renders(self):
+        """Verify the services hub page lists all 5 services with internal links."""
+        response = self.client.get(reverse('website:services_index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Digital Studio Services in Kerala')
+        self.assertContains(response, reverse('website:service_web_development'))
+        self.assertContains(response, reverse('website:service_ui_ux_design'))
+        self.assertContains(response, reverse('website:service_ecommerce_development'))
+        self.assertContains(response, reverse('website:service_custom_software_development'))
+        self.assertContains(response, reverse('website:service_brand_identity_design'))
+
+    def test_all_five_insight_guides_render_with_article_schema(self):
+        """Verify each of the 5 customer guides renders with Article schema and rich content."""
+        insight_slugs = [
+            'website-development-cost-in-kerala',
+            'why-businesses-need-professional-website',
+            'custom-website-vs-wordpress',
+            'ecommerce-website-development-guide',
+            'how-to-choose-web-development-company-kerala',
+        ]
+
+        for slug in insight_slugs:
+            url = reverse('website:insight_detail', kwargs={'slug': slug})
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200, f"Insight page {slug} failed with status {response.status_code}")
+
+            # Article & FAQ Schema
+            self.assertContains(response, '"@type": "Article"')
+            self.assertContains(response, '"@type": "FAQPage"')
+            self.assertContains(response, '"@type": "BreadcrumbList"')
+            self.assertContains(response, '<h1 id="article-h1"')
+            self.assertContains(response, 'Frequently Asked Questions')
+
+    def test_insights_index_hub_renders(self):
+        """Verify the insights hub page lists all 5 guides with internal links."""
+        response = self.client.get(reverse('website:insights_index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Digital Insights &amp; Practical Guides')
+        self.assertContains(response, reverse('website:insight_website_cost'))
+        self.assertContains(response, reverse('website:insight_why_need_website'))
+        self.assertContains(response, reverse('website:insight_custom_vs_wordpress'))
+        self.assertContains(response, reverse('website:insight_ecommerce_guide'))
+        self.assertContains(response, reverse('website:insight_choose_company'))
+
+    def test_custom_404_contains_noindex_and_navigation(self):
+        """Verify nonexistent URLs trigger custom 404 with noindex directive."""
+        response = self.client.get('/this-url-definitely-does-not-exist-at-all-404/')
+        self.assertEqual(response.status_code, 404)
+        self.assertContains(response, 'noindex, follow', status_code=404)
+        self.assertContains(response, 'Page Not Found', status_code=404)
+        self.assertContains(response, reverse('website:home'), status_code=404)
+        self.assertContains(response, reverse('website:services_index'), status_code=404)
+
