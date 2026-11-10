@@ -48,6 +48,15 @@ if PYTHONANYWHERE_DOMAIN:
     pa_origin = f'https://{PYTHONANYWHERE_DOMAIN}'
     if pa_origin not in CSRF_TRUSTED_ORIGINS:
         CSRF_TRUSTED_ORIGINS.append(pa_origin)
+
+# Automatic configuration for ngrok tunnels
+for ngrok_host in ['.ngrok-free.app', '.ngrok-free.dev', '.ngrok.app', '.ngrok.io', 'localhost', '127.0.0.1']:
+    if ngrok_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(ngrok_host)
+
+for ngrok_origin in ['https://*.ngrok-free.app', 'https://*.ngrok-free.dev', 'https://*.ngrok.app', 'https://*.ngrok.io']:
+    if ngrok_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(ngrok_origin)
 if 'PYTHONANYWHERE_DOMAIN' in os.environ or 'PYTHONANYWHERE_SITE' in os.environ:
     if '.pythonanywhere.com' not in ALLOWED_HOSTS:
         ALLOWED_HOSTS.append('.pythonanywhere.com')
