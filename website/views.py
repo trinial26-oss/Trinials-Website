@@ -336,9 +336,9 @@ def _send_contact_notification(contact_message):
         return
 
     if isinstance(recipient_setting, (list, tuple)):
-        recipients = [str(r).strip() for r in recipient_setting if str(r).strip()]
+        recipients = [str(r).strip(' "\' \t\r\n') for r in recipient_setting if str(r).strip(' "\' \t\r\n')]
     else:
-        recipients = [r.strip() for r in str(recipient_setting).split(',') if r.strip()]
+        recipients = [r.strip(' "\' \t\r\n') for r in str(recipient_setting).split(',') if r.strip(' "\' \t\r\n')]
 
     if not recipients:
         return
