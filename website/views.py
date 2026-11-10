@@ -306,10 +306,27 @@ def _dispatch_inquiry_emails(contact_message):
     so test assertions on mail.outbox succeed immediately.
     In live production / web requests, executes in a background daemon thread
     for ultra-fast, zero-blocking HTTP responses (< 50ms).
+    Reuses a single persistent SMTP connection to eliminate duplicate SSL/handshake latency.
     """
     def _worker():
-        _send_contact_notification(contact_message)
-        _send_client_auto_response(contact_message)
+        connection = None
+        try:
+            from django.core.mail import get_connection
+            connection = get_connection()
+            connection.open()
+        except Exception as conn_err:
+            logger.warning("Could not pre-open mail connection: %s", conn_err)
+            connection = None
+
+        try:
+            _send_contact_notification(contact_message, connection=connection)
+            _send_client_auto_response(contact_message, connection=connection)
+        finally:
+            if connection:
+                try:
+                    connection.close()
+                except Exception:
+                    pass
 
     is_testing = (
         getattr(settings, 'TESTING', False) or
@@ -324,7 +341,7 @@ def _dispatch_inquiry_emails(contact_message):
         thread.start()
 
 
-def _send_contact_notification(contact_message):
+def _send_contact_notification(contact_message, connection=None):
     """
     Dispatch an attractive HTML email notification to the company email(s) if configured.
     Supports single recipient or comma-separated list of recipients.
@@ -382,6 +399,7 @@ def _send_contact_notification(contact_message):
             from_email=from_email,
             to=recipients,
             reply_to=[contact_message.email],
+            connection=connection,
         )
         email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
@@ -399,7 +417,7 @@ def _send_contact_notification(contact_message):
         )
 
 
-def _send_client_auto_response(contact_message):
+def _send_client_auto_response(contact_message, connection=None):
     """
     Send an attractive branded confirmation email back to the client.
     Notice: Does NOT include a copy of the message, as requested by the client.
@@ -439,6 +457,7 @@ def _send_client_auto_response(contact_message):
             body=plain_text,
             from_email=from_email,
             to=[contact_message.email],
+            connection=connection,
         )
         email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
