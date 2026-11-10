@@ -1,0 +1,799 @@
+/**
+ * Millennials Portfolio Website - Hero Section
+ * File: static/css/hero.css
+ * Purpose: Styling for the Hero section with comprehensive Glassmorphic design
+ */
+
+/* -----------------------------------------------------------------------------
+   1. Hero Section Wrapper & Translucent Glass Canvas
+   ----------------------------------------------------------------------------- */
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 650px;
+    background-color: var(--section-bg-hero, #E8E9E4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+    display: flex;
+    align-items: center;
+    padding-block: clamp(48px, 7vw, 96px);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.hero-container {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   2. Two-Column Hero Grid Layout (Desktop: ~55% / ~45%)
+   ----------------------------------------------------------------------------- */
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+    align-items: center;
+    gap: clamp(36px, 5vw, 68px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* -----------------------------------------------------------------------------
+   3. Left Column: Content & Typography
+   ----------------------------------------------------------------------------- */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    animation: heroFadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- Introductory Label Badge --- */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--glass-bg-pill);
+    backdrop-filter: var(--glass-blur-backdrop-sm);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-sm);
+    border: var(--glass-border);
+    border-radius: var(--radius-full);
+    box-shadow: var(--glass-shadow-sm);
+    margin-bottom: var(--space-4);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.hero-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(88, 100, 29, 0.25);
+    flex-shrink: 0;
+}
+
+.hero-label {
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.08em;
+    color: var(--color-navy);
+    line-height: 1;
+}
+
+/* --- Main Headline --- */
+.hero-headline {
+    font-family: var(--font-primary);
+    font-size: clamp(2.15rem, 4.4vw + 0.5rem, 4.125rem);
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1.14;
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-navy);
+    margin-bottom: var(--space-5);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.hero-accent-dot {
+    color: var(--color-primary);
+}
+
+/* --- Supporting Description --- */
+.hero-description {
+    font-family: var(--font-secondary);
+    font-size: clamp(1rem, 1.25vw, 1.1875rem);
+    line-height: 1.68;
+    color: var(--color-text-secondary);
+    max-width: 530px;
+    margin-bottom: var(--space-7);
+    overflow-wrap: break-word;
+}
+
+/* --- Action Buttons --- */
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+}
+
+.hero-btn-primary {
+    padding: 16px 30px;
+    font-size: 1rem;
+    box-shadow: var(--glass-shadow-btn-primary);
+}
+
+.hero-btn-secondary {
+    padding: 16px 28px;
+    font-size: 1rem;
+}
+
+/* --- Subtle Meta Value Points --- */
+.hero-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+.hero-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.40);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: var(--radius-full);
+}
+
+.hero-meta-bullet {
+    color: var(--color-primary);
+    font-size: 1.15em;
+    line-height: 1;
+}
+
+/* -----------------------------------------------------------------------------
+   4. Right Column: Artistic Visual Glass Composition
+   ----------------------------------------------------------------------------- */
+.hero-visual {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: heroFadeUp 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Ambient Soft Glow Behind Canvas */
+.visual-ambient-blob {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    max-width: 100%;
+    background: radial-gradient(circle, rgba(212, 222, 192, 0.85) 0%, rgba(232, 233, 228, 0.40) 70%);
+    filter: blur(45px);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Main Layered Canvas Glass Card */
+.visual-canvas {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1 / 1.05;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.48) 100%);
+    backdrop-filter: var(--glass-blur-backdrop-xl);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-xl);
+    border: var(--glass-border-light);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--glass-shadow-lg);
+    padding: 26px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+/* Central Geometric Arch Composition */
+.visual-arch {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(150deg, rgba(232, 233, 228, 0.90) 0%, rgba(212, 222, 192, 0.60) 100%);
+    border-radius: 140px 140px 22px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Central Sculptural Sun */
+.visual-inner-sun {
+    position: relative;
+    z-index: 3;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(212, 222, 192, 0.80) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 28px rgba(39, 59, 9, 0.22), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.90);
+}
+
+/* Concentric Delicate Geometric Rings */
+.visual-ring-1 {
+    position: absolute;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    border: 1px dashed rgba(88, 100, 29, 0.45);
+    z-index: 2;
+}
+
+.visual-ring-2 {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(88, 100, 29, 0.25);
+    z-index: 1;
+}
+
+/* Architectural Horizon Line */
+.visual-line-horizon {
+    position: absolute;
+    bottom: 24%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(24, 40, 6, 0.10);
+}
+
+/* --- Floating Accents Over Canvas --- */
+.floating-pill {
+    position: absolute;
+    top: 14px;
+    left: -14px;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: var(--glass-blur-backdrop-md);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-md);
+    border: var(--glass-border-light);
+    box-shadow: var(--glass-shadow-md);
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 4;
+}
+
+.floating-pill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.floating-pill-text {
+    font-family: var(--font-primary);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-navy);
+    white-space: nowrap;
+}
+
+.floating-card {
+    position: absolute;
+    bottom: 18px;
+    right: -14px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
+    backdrop-filter: var(--glass-blur-backdrop-md);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-md);
+    border: var(--glass-border-light);
+    box-shadow: var(--glass-shadow-md);
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 4;
+}
+
+.floating-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(212, 222, 192, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.80);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.floating-card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.floating-card-title {
+    font-family: var(--font-primary);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-navy);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.floating-card-subtitle {
+    font-family: var(--font-secondary);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* -----------------------------------------------------------------------------
+   5. Keyframe Animation & Accessibility Motion Reduction
+   ----------------------------------------------------------------------------- */
+@keyframes heroFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-content,
+    .hero-visual {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   6. Responsive Layouts (Tablet & Mobile)
+   ----------------------------------------------------------------------------- */
+/* Tablet Breakpoint (<= 1024px) */
+@media (max-width: 1024px) {
+    .hero-section {
+        min-height: auto;
+        padding-block: var(--space-8);
+    }
+
+    .hero-grid {
+        gap: var(--space-6);
+    }
+
+    .hero-headline {
+        font-size: clamp(2rem, 3.8vw, 3.25rem);
+    }
+
+    .visual-canvas {
+        max-width: 380px;
+    }
+}
+
+/* Mobile Breakpoint (<= 768px) */
+@media (max-width: 768px) {
+    .hero-section {
+        padding-block: var(--space-7);
+    }
+
+    .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-7);
+    }
+
+    .hero-break-desktop {
+        display: none;
+    }
+
+    .hero-headline {
+        font-size: clamp(1.875rem, 5.5vw + 0.4rem, 2.75rem);
+        line-height: 1.2;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+        margin-bottom: var(--space-6);
+    }
+
+    .hero-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    .hero-meta {
+        justify-content: flex-start;
+        gap: var(--space-2);
+    }
+
+    .visual-canvas {
+        max-width: min(320px, 100%);
+        padding: 20px;
+        margin-inline: auto;
+    }
+
+    .floating-pill {
+        top: 10px;
+        left: 8px;
+    }
+
+    .floating-card {
+        bottom: 12px;
+        right: 8px;
+    }
+}
+
+/* Small Mobile Breakpoint (<= 480px) */
+@media (max-width: 480px) {
+    .hero-section {
+        padding-block: var(--space-6);
+    }
+
+    .hero-headline {
+        font-size: clamp(1.75rem, 6vw, 2.125rem);
+    }
+
+    .visual-canvas {
+        max-width: min(280px, 100%);
+        aspect-ratio: 1 / 1;
+        padding: 16px;
+    }
+
+    .floating-pill {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        right: auto;
+        padding: 6px 12px;
+    }
+
+    .floating-pill-text {
+        font-size: 0.75rem;
+    }
+
+    .floating-card {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        left: auto;
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .floating-card-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .floating-card-title {
+        font-size: 0.75rem;
+    }
+
+    .floating-card-subtitle {
+        font-size: 0.6875rem;
+    }
+
+    .visual-inner-sun {
+        width: 72px;
+        height: 72px;
+    }
+
+    .visual-ring-1 {
+        width: 130px;
+        height: 130px;
+    }
+
+    .visual-ring-2 {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   7. Interactive Hero Canvas
+   Driven by static/js/hero-canvas.js through four custom properties on
+   .hero-visual:  --px / --py  (pointer position, -1 to 1)
+                  --mx / --my  (pointer position inside the canvas, in %)
+   and a data-scene attribute ("design" | "engineering" | "craft").
+   ----------------------------------------------------------------------------- */
+
+/* Registered so the orb colour can animate between scenes */
+@property --orb-tint {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(212, 222, 192, 0.80);
+}
+
+/* --- Scene tokens: each focus area re-tunes the same composition --- */
+.hero-visual {
+    --px: 0;
+    --py: 0;
+    --mx: 50%;
+    --my: 30%;
+    --lift: 1;
+    --orb-tint: rgba(212, 222, 192, 0.80);
+    --horizon: 24%;
+    --ring-scale: 1;
+    --satellite: var(--color-primary);
+    transition: --orb-tint 0.6s ease;
+}
+
+.hero-visual[data-scene="engineering"] {
+    --orb-tint: rgba(155, 178, 104, 0.90);
+    --horizon: 31%;
+    --ring-scale: 1.07;
+    --satellite: var(--color-olive-800);
+}
+
+.hero-visual[data-scene="craft"] {
+    --orb-tint: rgba(187, 207, 141, 0.95);
+    --horizon: 17%;
+    --ring-scale: 0.95;
+    --satellite: var(--color-olive-500);
+}
+
+/* --- Canvas: pointer-driven 3D tilt (replaces the old inline-transform tilt) --- */
+.visual-canvas {
+    transform: perspective(900px)
+               rotateX(calc(var(--py) * -6deg))
+               rotateY(calc(var(--px) * 6deg))
+               scale(var(--lift));
+    transition: box-shadow 0.3s ease;
+    touch-action: pan-y;
+}
+
+.hero-visual.is-active .visual-canvas {
+    --lift: 1.02;
+    box-shadow: var(--glass-shadow-hover);
+}
+
+/* --- Depth layers: each moves a different distance, so the scene reads as stacked glass --- */
+.visual-inner-sun {
+    padding: 0;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, var(--orb-tint) 100%);
+    translate: calc(var(--px) * 12px) calc(var(--py) * 12px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.visual-inner-sun:hover {
+    transform: scale(1.06);
+    box-shadow: 0 14px 34px rgba(39, 59, 9, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+}
+
+.visual-inner-sun:active {
+    transform: scale(0.96);
+}
+
+.visual-inner-sun:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 5px;
+}
+
+.visual-ring-1 {
+    translate: calc(var(--px) * -6px) calc(var(--py) * -6px);
+    scale: var(--ring-scale);
+    animation: heroRingTurn 40s linear infinite;
+    transition: scale 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visual-ring-2 {
+    translate: calc(var(--px) * -12px) calc(var(--py) * -12px);
+    scale: var(--ring-scale);
+    transition: scale 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* A single node travelling along the dashed ring */
+.visual-satellite {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border-radius: 50%;
+    background: var(--satellite);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75);
+    transition: background-color 0.6s ease;
+}
+
+.visual-line-horizon {
+    bottom: var(--horizon);
+    transition: bottom 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-pill {
+    translate: calc(var(--px) * 18px) calc(var(--py) * 14px);
+}
+
+.floating-card {
+    translate: calc(var(--px) * 22px) calc(var(--py) * 18px);
+}
+
+/* --- Liquid-glass highlight that tracks the pointer --- */
+.visual-sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(280px circle at var(--mx) var(--my),
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0) 62%);
+    transition: opacity 0.35s ease;
+}
+
+.hero-visual.is-active .visual-sheen {
+    opacity: 1;
+}
+
+/* --- Pulse released from the orb on click --- */
+.visual-pulse {
+    position: absolute;
+    z-index: 2;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(88, 100, 29, 0.55);
+    pointer-events: none;
+    translate: calc(var(--px) * 12px) calc(var(--py) * 12px);
+    animation: heroPulse 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heroPulse {
+    from { transform: scale(1);   opacity: 0.9; }
+    to   { transform: scale(3.4); opacity: 0; }
+}
+
+@keyframes heroRingTurn {
+    to { rotate: 360deg; }
+}
+
+/* --- Badge copy and icon per scene --- */
+.floating-pill-text,
+.floating-card-title,
+.floating-card-subtitle {
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.hero-visual.is-swapping .floating-pill-text,
+.hero-visual.is-swapping .floating-card-title,
+.hero-visual.is-swapping .floating-card-subtitle {
+    opacity: 0;
+    transform: translateY(4px);
+}
+
+.fc-icon {
+    display: none;
+}
+
+.hero-visual[data-scene="design"] .fc-icon-design,
+.hero-visual[data-scene="engineering"] .fc-icon-engineering,
+.hero-visual[data-scene="craft"] .fc-icon-craft {
+    display: block;
+}
+
+/* --- Focus-area switches (the three chips under the buttons) --- */
+.hero-meta-item {
+    padding: 6px 12px;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+                color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-meta-item:hover {
+    background: rgba(255, 255, 255, 0.75);
+    color: var(--color-navy);
+}
+
+.hero-meta-item[aria-pressed="true"] {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(88, 100, 29, 0.55);
+    color: var(--color-navy);
+    box-shadow: var(--glass-shadow-sm);
+}
+
+.hero-meta-item:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+/* Screen-reader-only live region */
+.hero-live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --- Small screens: keep the depth, drop the pointer-only parts --- */
+@media (max-width: 480px) {
+    .visual-pulse {
+        width: 72px;
+        height: 72px;
+    }
+}
+
+@media (hover: none) {
+    .visual-sheen {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .visual-canvas,
+    .visual-inner-sun,
+    .visual-ring-1,
+    .visual-ring-2,
+    .visual-line-horizon,
+    .floating-pill,
+    .floating-card {
+        transform: none;
+        translate: none;
+        transition: none;
+    }
+
+    .visual-ring-1 {
+        animation: none;
+    }
+
+    .visual-pulse {
+        display: none;
+    }
+
+    .floating-pill-text,
+    .floating-card-title,
+    .floating-card-subtitle {
+        transition: none;
+    }
+}

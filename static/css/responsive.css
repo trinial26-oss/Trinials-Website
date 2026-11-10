@@ -1,0 +1,132 @@
+/**
+ * Millennials Portfolio Website - Design System
+ * File: static/css/responsive.css
+ * Purpose: Responsive media queries, tablet/mobile adjustments, and accessibility motion overrides
+ */
+
+/* -----------------------------------------------------------------------------
+   1. Tablet Breakpoint (<= 1024px)
+   ----------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    :root {
+        --section-spacing: var(--section-spacing-tablet);
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   2. Mobile Landscape / Small Tablet (<= 768px)
+   ----------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    :root {
+        --section-spacing: var(--section-spacing-mobile);
+        --container-padding: clamp(16px, 4vw, 24px);
+    }
+
+    .grid-4,
+    .grid-3,
+    .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .flex-mobile-col {
+        flex-direction: column;
+    }
+
+    .items-mobile-start {
+        align-items: flex-start;
+    }
+
+    .text-mobile-center {
+        text-align: center;
+    }
+
+    /* Scoped full-width actions on mobile while preserving inline buttons */
+    .hero-actions .btn,
+    .contact-btn-submit,
+    .mobile-nav-cta .btn,
+    .contact-btn-cta {
+        width: 100%;
+    }
+
+    .btn-text,
+    .btn-sm,
+    .glass-search-box .btn {
+        width: auto;
+    }
+
+    .card {
+        padding: clamp(18px, 4vw, 24px);
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   3. Small Mobile Phones (<= 480px)
+   ----------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    :root {
+        --container-padding: 14px;
+    }
+
+    .card {
+        padding: 18px 14px;
+    }
+
+    .btn {
+        padding: 12px 18px;
+        font-size: var(--font-size-small);
+    }
+
+    .btn-sm {
+        padding: 8px 14px;
+        font-size: 0.75rem;
+    }
+
+    .hero-btn-primary,
+    .hero-btn-secondary {
+        padding: 14px 20px;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   4. Extra Small Phones (<= 360px)
+   ----------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+    :root {
+        --container-padding: 12px;
+    }
+
+    .card {
+        padding: 16px 12px;
+    }
+
+    .brand-text {
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        padding: 11px 16px;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   5. Accessibility: Reduced Motion
+   ----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

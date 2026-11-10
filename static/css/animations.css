@@ -1,0 +1,557 @@
+/**
+ * Trinails Portfolio Website - Animations & Transitions
+ * File: static/css/animations.css
+ * Purpose: Opening logo intro preloader, scroll-triggered reveals,
+ *          smooth glass transitions, and ambient floating animations.
+ */
+
+/* =============================================================================
+   1. Site Intro Opening Screen (Logo Intro Animation)
+   ============================================================================= */
+
+/* Lock document scrolling while intro screen is presenting */
+body.is-intro-active {
+    overflow: hidden !important;
+}
+
+.site-intro-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse 90% 80% at 50% 40%, #273B09 0%, #152506 50%, #002400 100%);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.65s cubic-bezier(0.77, 0, 0.175, 1),
+                visibility 0.65s cubic-bezier(0.77, 0, 0.175, 1),
+                transform 0.65s cubic-bezier(0.77, 0, 0.175, 1);
+    will-change: opacity, transform;
+    pointer-events: all;
+    user-select: none;
+}
+
+/* Background atmospheric ambient orbs for intro */
+.intro-loader-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.intro-ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.intro-ambient-orb-1 {
+    width: 380px;
+    height: 380px;
+    top: 20%;
+    left: 20%;
+    background: radial-gradient(circle, #BBCF8D 0%, rgba(123, 144, 75, 0) 70%);
+    animation: introOrbFloat1 3s ease-in-out infinite alternate;
+}
+
+.intro-ambient-orb-2 {
+    width: 440px;
+    height: 440px;
+    bottom: 15%;
+    right: 18%;
+    background: radial-gradient(circle, #58641D 0%, rgba(39, 59, 9, 0) 70%);
+    animation: introOrbFloat2 3.5s ease-in-out infinite alternate;
+}
+
+/* Intro Core Content Container */
+.intro-loader-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-6, 24px);
+    max-width: 420px;
+}
+
+/* Glowing Aura Behind Animated Logo */
+.intro-logo-glow {
+    position: absolute;
+    width: 260px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(187, 207, 141, 0.45) 0%, rgba(88, 100, 29, 0.25) 45%, transparent 70%);
+    filter: blur(28px);
+    z-index: 1;
+    pointer-events: none;
+    animation: introGlowPulse 1.8s ease-in-out infinite alternate;
+}
+
+/* Logo Image Wrapper & Frame */
+.intro-logo-wrapper {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    padding: 12px 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(187, 207, 141, 0.30);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 16px 48px rgba(0, 36, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    animation: introLogoReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.intro-logo-img {
+    height: 52px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    display: block;
+    position: relative;
+    z-index: 2;
+}
+
+/* Shimmer Light Reflection Sweep Across the Logo */
+.intro-logo-shimmer {
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.55) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    z-index: 3;
+    pointer-events: none;
+    animation: introShimmerSweep 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.35s infinite;
+}
+
+/* Progress Track and Bar */
+.intro-loader-bar {
+    width: 150px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 16px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.intro-loader-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #7B904B 0%, #BBCF8D 50%, #FFFFFF 100%);
+    border-radius: 999px;
+    box-shadow: 0 0 12px #BBCF8D;
+    animation: introProgressFill 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Subtle Tagline */
+.intro-tagline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-primary, 'Manrope', sans-serif);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(223, 227, 214, 0.85);
+    opacity: 0;
+    transform: translateY(6px);
+    animation: introTaglineFade 0.7s ease-out 0.45s forwards;
+}
+
+.intro-tagline-dot {
+    color: #BBCF8D;
+    font-size: 0.9rem;
+}
+
+/* Intro Leaving & Exit State (Page reveal) */
+.site-intro-loader.is-leaving {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+}
+
+.site-intro-loader.is-hidden {
+    display: none !important;
+}
+
+/* Intro Keyframe Animations */
+@keyframes introLogoReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.82) translateY(16px);
+        filter: blur(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0px);
+    }
+}
+
+@keyframes introShimmerSweep {
+    0% {
+        left: -100%;
+    }
+    60%, 100% {
+        left: 200%;
+    }
+}
+
+@keyframes introGlowPulse {
+    0% {
+        opacity: 0.4;
+        transform: scale(0.92);
+    }
+    100% {
+        opacity: 0.85;
+        transform: scale(1.15);
+    }
+}
+
+@keyframes introProgressFill {
+    0% {
+        width: 0%;
+    }
+    30% {
+        width: 45%;
+    }
+    70% {
+        width: 82%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes introTaglineFade {
+    0% {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes introOrbFloat1 {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(25px, -20px); }
+}
+
+@keyframes introOrbFloat2 {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-30px, 20px); }
+}
+
+
+/* =============================================================================
+   2. Scroll-Triggered Reveal Animations (IntersectionObserver System)
+   ============================================================================= */
+
+/* Base initial hidden state for scroll-animated elements */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* Once scrolled into view: activate transition to natural state */
+.reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+}
+
+/* Directional and Style Variants */
+.reveal-fade-up {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-fade-up.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-fade-left {
+    opacity: 0;
+    transform: translateX(-36px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-fade-left.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-fade-right {
+    opacity: 0;
+    transform: translateX(36px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-fade-right.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.is-revealed {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Stagger Delay Classes */
+.delay-100 { transition-delay: 100ms !important; }
+.delay-150 { transition-delay: 150ms !important; }
+.delay-200 { transition-delay: 200ms !important; }
+.delay-250 { transition-delay: 250ms !important; }
+.delay-300 { transition-delay: 300ms !important; }
+.delay-400 { transition-delay: 400ms !important; }
+.delay-500 { transition-delay: 500ms !important; }
+.delay-600 { transition-delay: 600ms !important; }
+
+/* Stagger Groups: Children cascade automatically when parent reveals */
+.reveal-stagger-group > * {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(1) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 60ms;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(2) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 160ms;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(3) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 260ms;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(4) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 360ms;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(5) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 460ms;
+}
+
+.reveal-stagger-group.is-revealed > *:nth-child(6) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 560ms;
+}
+
+
+/* =============================================================================
+   3. Hero Entrance Animations (Triggered as intro opens)
+   ============================================================================= */
+
+body.site-ready .hero-badge {
+    animation: heroItemFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s backwards;
+}
+
+body.site-ready .hero-headline {
+    animation: heroItemFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards;
+}
+
+body.site-ready .hero-description {
+    animation: heroItemFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.25s backwards;
+}
+
+body.site-ready .hero-actions {
+    animation: heroItemFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
+}
+
+body.site-ready .hero-meta {
+    animation: heroItemFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.45s backwards;
+}
+
+body.site-ready .hero-visual {
+    animation: heroVisualPop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+}
+
+@keyframes heroItemFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroVisualPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.93) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* =============================================================================
+   4. Ambient Floating & Interactive Motion
+   ============================================================================= */
+
+/* Floating Pills & Geometric Orbs */
+.floating-pill-top {
+    animation: floatVertical 4s ease-in-out infinite alternate !important;
+}
+
+.floating-card-bottom {
+    animation: floatDiagonal 5s ease-in-out 0.5s infinite alternate !important;
+}
+
+.visual-ambient-blob {
+    animation: blobMorph 8s ease-in-out infinite alternate;
+}
+
+@keyframes floatVertical {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes floatDiagonal {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-5px, -9px);
+    }
+}
+
+@keyframes blobMorph {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.08) rotate(4deg);
+        opacity: 0.85;
+    }
+    100% {
+        transform: scale(0.98) rotate(-3deg);
+        opacity: 0.65;
+    }
+}
+
+/* Card Hover Micro-Interactions */
+.service-item,
+.work-item,
+.process-step {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.service-item:hover,
+.work-item:hover {
+    transform: translateY(-6px) !important;
+}
+
+.process-step:hover {
+    transform: translateY(-4px) !important;
+}
+
+
+/* =============================================================================
+   5. Sticky Header Scroll Enhancement
+   ============================================================================= */
+.site-header.is-scrolled {
+    background-color: rgba(24, 40, 6, 0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 10px 30px rgba(0, 36, 0, 0.35), inset 0 -1px 0 rgba(187, 207, 141, 0.3) !important;
+}
+
+
+/* =============================================================================
+   6. Accessibility & Reduced Motion Preferences
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001s !important;
+    }
+
+    .site-intro-loader {
+        display: none !important;
+    }
+
+    body.is-intro-active {
+        overflow: auto !important;
+    }
+
+    .reveal-on-scroll,
+    .reveal-fade-up,
+    .reveal-fade-left,
+    .reveal-fade-right,
+    .reveal-scale,
+    .reveal-stagger-group > * {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+}
+

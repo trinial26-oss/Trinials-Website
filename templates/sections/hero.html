@@ -1,0 +1,113 @@
+{% load static %}
+<section class="hero-section" id="hero" aria-labelledby="hero-heading">
+    <div class="container hero-container">
+        <div class="hero-grid">
+
+            <!-- Left Column: Content (~55% width) -->
+            <div class="hero-content">
+                <!-- Introductory Label -->
+                <div class="hero-badge">
+                    <span class="hero-badge-dot" aria-hidden="true"></span>
+                    <span class="hero-label">CREATIVE MINDS. FRESH PERSPECTIVES.</span>
+                </div>
+
+                <!-- Main Headline -->
+                <h1 id="hero-heading" class="hero-headline">
+                    Good ideas deserve<br class="hero-break-desktop">
+                    a beautiful<br class="hero-break-desktop">
+                    beginning<span class="hero-accent-dot">.</span>
+                </h1>
+
+                <!-- Supporting Description -->
+                <p class="hero-description">
+                    At Trinials, we bring creativity, fresh perspectives and thoughtful ideas together to make
+                    meaningful things happen.
+                </p>
+
+                <!-- CTA Action Buttons -->
+                <div class="hero-actions">
+                    <a href="#work" class="btn btn-primary btn-lg hero-btn-primary">
+                        Explore Our Work <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                    </a>
+                    <a href="#about" class="btn btn-outline btn-lg hero-btn-secondary">
+                        Get to Know Us
+                    </a>
+                </div>
+
+                <!-- Focus-area switches: each one drives the visual canvas on the right -->
+                <div class="hero-meta" role="group" aria-label="Choose a focus area">
+                    <button type="button" class="hero-meta-item is-active" data-scene="design" aria-pressed="true"
+                        aria-controls="hero-visual">
+                        <span class="hero-meta-bullet" aria-hidden="true">&bull;</span> Strategic Design
+                    </button>
+                    <button type="button" class="hero-meta-item" data-scene="engineering" aria-pressed="false"
+                        aria-controls="hero-visual">
+                        <span class="hero-meta-bullet" aria-hidden="true">&bull;</span> Modern Engineering
+                    </button>
+                    <button type="button" class="hero-meta-item" data-scene="craft" aria-pressed="false"
+                        aria-controls="hero-visual">
+                        <span class="hero-meta-bullet" aria-hidden="true">&bull;</span> Enduring Craft
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Visual Canvas (~45% width) -->
+            <div class="hero-visual" id="hero-visual" role="group" aria-label="Trinials focus areas" data-scene="design">
+                <!-- Ambient Backdrop Blur Blob -->
+                <div class="visual-ambient-blob" aria-hidden="true"></div>
+
+                <!-- Main Layered Composition Card -->
+                <div class="visual-canvas" id="hero-canvas">
+                    <!-- Geometric Art Arch, Rings & Orb -->
+                    <div class="visual-arch">
+                        <div class="visual-ring-2" aria-hidden="true"></div>
+                        <div class="visual-ring-1" aria-hidden="true"><span class="visual-satellite"></span></div>
+                        <div class="visual-line-horizon" aria-hidden="true"></div>
+                        <button type="button" class="visual-inner-sun" id="hero-orb"
+                            aria-label="Show the next focus area"></button>
+                    </div>
+
+                    <!-- Liquid-glass highlight that follows the pointer -->
+                    <div class="visual-sheen" aria-hidden="true"></div>
+
+                    <!-- Floating Pill: Top Left Accent -->
+                    <div class="floating-pill floating-pill-top">
+                        <span class="floating-pill-dot" aria-hidden="true"></span>
+                        <span class="floating-pill-text" id="hero-pill-text">Thoughtful Strategy</span>
+                    </div>
+
+                    <!-- Floating Card: Bottom Right Accent -->
+                    <div class="floating-card floating-card-bottom">
+                        <div class="floating-card-icon" aria-hidden="true">
+                            <!-- Strategic Design: star -->
+                            <svg class="fc-icon fc-icon-design" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                                    fill="#58641D" />
+                            </svg>
+                            <!-- Modern Engineering: bolt -->
+                            <svg class="fc-icon fc-icon-engineering" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.5 2L4.5 13.5H11L10 22L19.5 10H13L13.5 2Z" fill="#58641D" />
+                            </svg>
+                            <!-- Enduring Craft: diamond -->
+                            <svg class="fc-icon fc-icon-craft" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2.5L21 10L12 21.5L3 10L12 2.5Z" fill="#58641D" />
+                            </svg>
+                        </div>
+                        <div class="floating-card-info">
+                            <span class="floating-card-title" id="hero-card-title">Original Ideas</span>
+                            <span class="floating-card-subtitle" id="hero-card-sub">Crafted with purpose</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Announces changes made by the visitor to screen readers -->
+                <p class="hero-live" id="hero-live" aria-live="polite"></p>
+            </div>
+
+        </div>
+    </div>
+</section>

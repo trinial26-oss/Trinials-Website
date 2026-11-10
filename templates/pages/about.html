@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us — Trinials Creative Studio{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=1.0">
+{% endblock %}
+
+{% block content %}
+<!-- Page Hero Banner -->
+<section class="page-hero-section" aria-labelledby="page-heading">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>Studio</span>
+        </nav>
+        <h1 id="page-heading" class="page-title">About Trinials</h1>
+        <p class="page-subtitle">
+            Creative minds, fresh perspectives, and thoughtful ideas brought together to make meaningful digital experiences happen.
+        </p>
+        <div class="page-meta-badge">
+            <span>Complex Made Simple &bull; Growth Made Possible</span>
+        </div>
+    </div>
+</section>
+
+<!-- Page Content -->
+<section class="page-content-section">
+    <div class="page-article-container">
+        <article class="page-card">
+            <h2>Who We Are</h2>
+            <p>
+                <strong>Trinials</strong> is an independent digital craft and strategic design studio. We partner with ambitious businesses, founders, and forward-thinking brands to shape digital products that feel simple, useful, and memorable.
+            </p>
+            <p>
+                We believe that the best work doesn't need to be overly complicated. It needs to be considered, collaborative, and built with genuine care for the people who will actually use it.
+            </p>
+
+            <div class="page-callout">
+                <p>
+                    &ldquo;Good ideas deserve a beautiful beginning. Our mission is to take complex business and engineering challenges and distill them into intuitive, visually enduring solutions.&rdquo;
+                </p>
+            </div>
+
+            <h2>Our Core Principles</h2>
+            <p>Every project we undertake is guided by three non-negotiable principles:</p>
+            <ul>
+                <li>
+                    <strong>01. Curiosity:</strong> We look beyond obvious answers. We immerse ourselves in our clients' industries, user habits, and strategic aspirations before writing a line of code or designing a single wireframe.
+                </li>
+                <li>
+                    <strong>02. Clarity:</strong> We distill complexity into intuitive simplicity. Whether designing an enterprise dashboard or a customer-facing brand experience, clarity of message and navigation always wins.
+                </li>
+                <li>
+                    <strong>03. Care:</strong> We care deeply about the details. From micro-interactions and typographic rhythm to rock-solid backend architecture and bulletproof data security, our craft is built to endure.
+                </li>
+            </ul>
+
+            <h2>What We Do</h2>
+            <p>Our studio brings together multi-disciplinary capabilities under one collaborative roof:</p>
+            <ul>
+                <li><strong>Strategic Brand &amp; Identity Design:</strong> Distinctive visual design systems, logos, typography hierarchies, and cohesive design tokens.</li>
+                <li><strong>Modern Full-Stack Web Engineering:</strong> Production-grade web applications, responsive responsive web interfaces, robust APIs, and performant architectures.</li>
+                <li><strong>User Experience &amp; Interaction Craft:</strong> Accessible, fluid design with intuitive ergonomics and purposeful animations.</li>
+                <li><strong>Technical Consulting:</strong> Architecture audits, performance tuning, and scalable infrastructure design.</li>
+            </ul>
+
+            <h2>Leadership &amp; Collaboration</h2>
+            <p>
+                At Trinials, you collaborate directly with the senior practitioners shaping your work. We maintain open, transparent lines of communication throughout every phase of research, prototyping, and deployment.
+            </p>
+
+            <div class="page-contact-card">
+                <h3>Start a Conversation With Us</h3>
+                <p>Have a project in mind or want to learn more about how Trinials can elevate your digital presence? We'd love to connect.</p>
+                <p><strong>Email:</strong> <a href="mailto:{{ contact_email|default:'trinial26@gmail.com' }}">{{ contact_email|default:'trinial26@gmail.com' }}</a></p>
+                <p><strong>Phone Lines:</strong> <a href="tel:+918590821155">+91 85908 21155</a> &bull; <a href="tel:+919400325570">+91 94003 25570</a></p>
+                <p style="margin-top: 1rem; margin-bottom: 0;">
+                    <a href="{% url 'website:home' %}#contact" style="display: inline-block; background-color: #BBCF8D; color: #002400; padding: 10px 20px; border-radius: 9999px; text-decoration: none; font-weight: 700;">
+                        Submit an Inquiry &rarr;
+                    </a>
+                </p>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}
+

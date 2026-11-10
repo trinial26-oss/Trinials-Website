@@ -1,0 +1,84 @@
+{% load static %}
+<footer class="site-footer" id="site-footer" aria-labelledby="footer-brand-title">
+    <div class="container footer-container">
+        
+        <!-- Top Area: Brand Statement & Multi-Column Navigation -->
+        <div class="footer-main">
+            
+            <!-- Column 1: Brand Column -->
+            <div class="footer-brand-col">
+                <a href="{% url 'website:home' %}" class="footer-brand" id="footer-brand-title" aria-label="Trinials Homepage">
+                    <img src="{% static 'images/logo-white.png' %}?v=3.1" alt="Trinials" class="footer-brand-logo" width="140" height="42">
+                </a>
+                <p class="footer-tagline">
+                    Complex Made Simple. Growth Made Possible.
+                </p>
+                <p class="footer-brand-desc">
+                    A multi-disciplinary creative studio bridging thoughtful strategy, enduring brand craft, and modern digital engineering.
+                </p>
+            </div>
+
+            <!-- Column 2: Quick Links Navigation -->
+            <nav class="footer-navigation" aria-label="Footer Navigation">
+                <h3 class="footer-col-title">Navigation</h3>
+                <ul class="footer-links-list footer-nav-links" role="list">
+                    <li><a href="#hero" class="footer-link-item footer-nav-link">Home</a></li>
+                    <li><a href="#about" class="footer-link-item footer-nav-link">About</a></li>
+                    <li><a href="#services" class="footer-link-item footer-nav-link">Services</a></li>
+                    <li><a href="#work" class="footer-link-item footer-nav-link">Work</a></li>
+                    <li><a href="#process" class="footer-link-item footer-nav-link">Process</a></li>
+                    <li><a href="#contact" class="footer-link-item footer-nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Column 3: Contact & Direct Inquiries -->
+            <div class="footer-col">
+                <h3 class="footer-col-title">Get In Touch</h3>
+                <div class="footer-contact-group">
+                    <div class="footer-contact-entry">
+                        <span class="footer-contact-entry-label">Direct Email</span>
+                        <a href="mailto:{{ contact_email|default:'trinial26@gmail.com' }}" class="footer-contact-entry-val">
+                            {{ contact_email|default:'trinial26@gmail.com' }}
+                        </a>
+                    </div>
+                    <div class="footer-contact-entry">
+                        <span class="footer-contact-entry-label">Direct Lines</span>
+                        <a href="tel:+918590821155" class="footer-contact-entry-val">
+                            +91 85908 21155
+                        </a>
+                        <a href="tel:+919400325570" class="footer-contact-entry-val">
+                            +91 94003 25570
+                        </a>
+                    </div>
+                    <div class="footer-contact-entry">
+                        <span class="footer-contact-entry-label">Studio Support</span>
+                        <span class="footer-contact-entry-val" style="color: #BBCF8D; font-size: 12.5px;">Mon &ndash; Sat &bull; 9 AM &ndash; 7 PM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 4: Legal & Policies -->
+            <div class="footer-col">
+                <h3 class="footer-col-title">Company &amp; Legal</h3>
+                <ul class="footer-links-list" role="list">
+                    <li><a href="{% url 'website:about_page' %}" class="footer-link-item">About Us</a></li>
+                    <li><a href="{% url 'website:privacy_policy' %}" class="footer-link-item">Privacy Policy</a></li>
+                    <li><a href="{% url 'website:terms_conditions' %}" class="footer-link-item">Terms and Conditions</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Bottom Bar: Thin Divider, Dynamic Copyright & Back to Top -->
+        <div class="footer-bottom">
+            <p class="footer-copyright">
+                &copy; {% now "Y" %} Trinials. All rights reserved. &bull; Designed with craft &amp; purpose.
+            </p>
+            
+            <a href="#top" class="footer-back-to-top" aria-label="Return to top of page">
+                Back to top <span class="footer-back-to-top-arrow" aria-hidden="true">&uarr;</span>
+            </a>
+        </div>
+
+    </div>
+</footer>

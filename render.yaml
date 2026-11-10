@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: trinials-website
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GMAIL_EMAIL
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: CONTACT_NOTIFICATION_EMAIL
+        value: "johnpaulalex85@gmail.com, trinial26@gmail.com, Jojogeorge.trinials@gmail.com, joejoseph1235@gmail.com"
+

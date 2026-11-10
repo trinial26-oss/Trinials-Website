@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Trinials{% endblock %}</title>
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon.png' %}?v=3.1">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.png' %}?v=3.1">
+    <link rel="apple-touch-icon" href="{% static 'images/logo-icon.png' %}?v=3.1">
+
+    <!-- Google Fonts: Manrope (Headings & UI) and DM Sans (Body text) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Global Design System CSS -->
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}?v=3.2">
+
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/hero.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/services.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/work.css' %}?v=3.3">
+    <link rel="stylesheet" href="{% static 'css/process.css' %}?v=3.2">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}?v=3.3">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}?v=3.2">
+
+    <!-- Design System Animations & Transitions -->
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}?v=3.2">
+
+    <!-- Global Responsive Overrides (Loaded last for proper cascade authority) -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}?v=3.2">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body id="top">
+    <!-- Site Intro Animated Logo Opening Screen -->
+    <div id="site-intro-loader" class="site-intro-loader" role="status" aria-label="Loading Trinials" aria-hidden="false">
+        <div class="intro-loader-bg" aria-hidden="true">
+            <div class="intro-ambient-orb intro-ambient-orb-1"></div>
+            <div class="intro-ambient-orb intro-ambient-orb-2"></div>
+        </div>
+        <div class="intro-loader-content">
+            <div class="intro-logo-glow" aria-hidden="true"></div>
+            <div class="intro-logo-wrapper">
+                <img src="{% static 'images/logo-white.png' %}?v=3.1" alt="Trinials" class="intro-logo-img" width="180" height="54">
+                <div class="intro-logo-shimmer" aria-hidden="true"></div>
+            </div>
+            <div class="intro-loader-bar" aria-hidden="true">
+                <div class="intro-loader-progress"></div>
+            </div>
+            <div class="intro-tagline" aria-hidden="true">
+                <span>Complex Made Simple</span>
+                <span class="intro-tagline-dot">&bull;</span>
+                <span>Growth Made Possible</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ambient Floating Glass Background Atmosphere (Decorative, Non-Interfering) -->
+    <div class="glass-bg-atmosphere" aria-hidden="true">
+        <div class="glass-ambient-orb glass-orb-1"></div>
+        <div class="glass-ambient-orb glass-orb-2"></div>
+        <div class="glass-ambient-orb glass-orb-3"></div>
+        <div class="glass-ambient-orb glass-orb-4"></div>
+        <div class="glass-ambient-orb glass-orb-5"></div>
+        <div class="glass-ambient-panel glass-panel-float-1"></div>
+        <div class="glass-ambient-panel glass-panel-float-2"></div>
+        <div class="glass-ambient-panel glass-panel-float-3"></div>
+    </div>
+
+    <!-- Navigation Bar Component -->
+    {% include "components/navbar.html" %}
+
+    <main id="main-content">
+        {% block content %}
+        {% include "sections/hero.html" %}
+        {% include "sections/about.html" %}
+        {% include "sections/services.html" %}
+        {% include "sections/work.html" %}
+        {% include "sections/process.html" %}
+        {% include "sections/contact.html" %}
+        {% endblock %}
+    </main>
+
+    <!-- Site Footer Section -->
+    {% include "sections/footer.html" %}
+
+    <!-- Navigation Functionality Script -->
+    <script src="{% static 'js/navigation.js' %}?v=2.2"></script>
+
+    <!-- Design System Animations & Scroll Reveal Controller -->
+    <script src="{% static 'js/animations.js' %}?v=1.2"></script>
+
+    <!-- Hero & About Visual Canvas: tilt, focus areas, orb pulse -->
+    <script src="{% static 'js/hero-canvas.js' %}?v=2.0"></script>
+
+    <!-- Optimized Contact Form Controller: AJAX, instant confirmation, field validation -->
+    <script src="{% static 'js/contact.js' %}?v=1.0" defer></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,214 @@
+/**
+ * Trinials - Dedicated Content Pages CSS
+ * File: static/css/pages.css
+ * Purpose: Beautiful typographic layout for dedicated pages (About Us, Privacy Policy, Terms & Conditions)
+ *          styled with Dark Olive Green palette and glassmorphic cards.
+ */
+
+.page-hero-section {
+    padding-top: calc(var(--header-height, 74px) + var(--space-8));
+    padding-bottom: var(--space-8);
+    background: linear-gradient(180deg, #182806 0%, #273B09 50%, #002400 100%);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(187, 207, 141, 0.25);
+}
+
+.page-hero-container {
+    max-width: var(--container-max-width, 1200px);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    position: relative;
+    z-index: 2;
+}
+
+.page-breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-size-small);
+    color: var(--color-primary-light, #BBCF8D);
+    margin-bottom: var(--space-4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+.page-breadcrumb a {
+    color: #DFE3D6;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.page-breadcrumb a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+.page-title {
+    font-family: var(--font-primary);
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: var(--space-3);
+}
+
+.page-subtitle {
+    font-family: var(--font-secondary);
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    line-height: 1.6;
+    color: #DFE3D6;
+    max-width: 720px;
+}
+
+.page-meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(187, 207, 141, 0.3);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    color: var(--color-primary-light, #BBCF8D);
+    margin-top: var(--space-4);
+}
+
+/* Page Main Content Area */
+.page-content-section {
+    padding: var(--space-10) 0;
+    background-color: var(--color-surface, #F5F6F2);
+    min-height: 50vh;
+}
+
+.page-article-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+.page-card {
+    background-color: #FFFFFF;
+    border: 1px solid #DFE3D6;
+    border-radius: var(--radius-lg, 16px);
+    box-shadow: 0 8px 30px rgba(0, 36, 0, 0.06);
+    padding: clamp(2rem, 4vw, 3.5rem);
+}
+
+.page-card h2 {
+    font-family: var(--font-primary);
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: #002400;
+    margin-top: 2.25rem;
+    margin-bottom: 0.875rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ECEEE7;
+    letter-spacing: -0.01em;
+}
+
+.page-card h2:first-child {
+    margin-top: 0;
+}
+
+.page-card h3 {
+    font-family: var(--font-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #273B09;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-card p {
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #2C3518;
+    margin-bottom: 1.25rem;
+}
+
+.page-card ul, .page-card ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+    color: #2C3518;
+    line-height: 1.75;
+}
+
+.page-card li {
+    margin-bottom: 0.5rem;
+}
+
+.page-card strong {
+    color: #002400;
+}
+
+.page-card a {
+    color: #58641D;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.page-card a:hover {
+    color: #002400;
+}
+
+/* Callout Box */
+.page-callout {
+    background: #F4F6EE;
+    border-left: 4px solid #58641D;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.page-callout p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #273B09;
+}
+
+/* Contact Info Highlight Box */
+.page-contact-card {
+    background: linear-gradient(135deg, #182806 0%, #273B09 100%);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    color: #FFFFFF;
+    margin: 2rem 0;
+}
+
+.page-contact-card h3 {
+    color: #BBCF8D;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.page-contact-card p {
+    color: #DFE3D6;
+    margin-bottom: 0.75rem;
+}
+
+.page-contact-card a {
+    color: #FFFFFF;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .page-hero-section {
+        padding-top: calc(var(--header-height, 74px) + var(--space-6));
+        padding-bottom: var(--space-6);
+    }
+
+    .page-card {
+        padding: 1.75rem 1.25rem;
+    }
+
+    .page-contact-card {
+        padding: 1.25rem;
+    }
+}
+

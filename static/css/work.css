@@ -1,0 +1,568 @@
+/**
+ * Millennials Portfolio Website - Selected Work Section
+ * File: static/css/work.css
+ * Purpose: Scoped styling for the Selected Work section with unified, symmetrical card dimensions
+ */
+
+/* -----------------------------------------------------------------------------
+   1. Section Container & Translucent Glass Canvas
+   ----------------------------------------------------------------------------- */
+.work-section {
+    position: relative;
+    width: 100%;
+    background-color: var(--section-bg-work, #BEE3FB);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+    padding-block: var(--section-spacing);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.work-container {
+    width: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: var(--container-padding, 24px);
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   2. Section Introduction / Header
+   ----------------------------------------------------------------------------- */
+.work-header {
+    max-width: 680px;
+    margin-bottom: clamp(36px, 5vw, 56px);
+}
+
+/* --- Eyebrow Pill Badge --- */
+.work-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--glass-bg-pill);
+    backdrop-filter: var(--glass-blur-backdrop-sm);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-sm);
+    border: var(--glass-border);
+    border-radius: var(--radius-full);
+    box-shadow: var(--glass-shadow-sm);
+    margin-bottom: var(--space-4);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.work-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(88, 100, 29, 0.22);
+    flex-shrink: 0;
+}
+
+.work-label {
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.08em;
+    color: var(--color-navy);
+    line-height: 1;
+}
+
+/* --- Section Heading --- */
+.work-heading {
+    font-family: var(--font-primary);
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-navy);
+    margin-bottom: var(--space-4);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.work-accent-dot {
+    color: var(--color-primary);
+}
+
+/* --- Section Intro Description --- */
+.work-intro-text {
+    font-family: var(--font-secondary);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: 620px;
+    overflow-wrap: break-word;
+}
+
+/* -----------------------------------------------------------------------------
+   3. Unified Project Grid: 3 Equal Columns on Desktop
+   ----------------------------------------------------------------------------- */
+.work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(20px, 2.5vw, 32px);
+    width: 100%;
+    box-sizing: border-box;
+    align-items: stretch;
+}
+
+/* --- Work Article Card Item --- */
+.work-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+}
+
+/* --- Glass Project Card Inner --- */
+.work-card-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    border-radius: var(--radius-xl, 20px);
+    background: var(--glass-bg-card, rgba(255, 255, 255, 0.88));
+    backdrop-filter: var(--glass-blur-backdrop-md);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-md);
+    border: 1px solid rgba(187, 207, 141, 0.45);
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0, 36, 0, 0.08);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s ease;
+    box-sizing: border-box;
+}
+
+.work-card-inner:hover {
+    transform: translateY(-6px);
+    border-color: rgba(187, 207, 141, 0.85);
+    box-shadow: 0 22px 48px rgba(0, 36, 0, 0.16), 0 0 0 1px rgba(187, 207, 141, 0.4);
+}
+
+/* -----------------------------------------------------------------------------
+   4. Visual Canvas & Browser Window Mockup
+   ----------------------------------------------------------------------------- */
+.work-visual {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(24, 40, 6, 0.06) 0%, rgba(39, 59, 9, 0.12) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(14px, 1.8vw, 20px);
+    overflow: hidden;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(187, 207, 141, 0.30);
+}
+
+/* Ambient Backdrop Glow */
+.work-visual-ambient {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(187, 207, 141, 0.35) 0%, rgba(88, 100, 29, 0.12) 70%, transparent 100%);
+    filter: blur(35px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Browser Mockup Window */
+.work-browser-frame {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 36, 0, 0.18);
+    box-shadow: 0 10px 24px rgba(0, 36, 0, 0.12);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Browser Window Titlebar */
+.browser-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: linear-gradient(180deg, #182806 0%, #273B09 100%);
+    border-bottom: 1px solid rgba(187, 207, 141, 0.25);
+    gap: 6px;
+}
+
+.browser-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.control-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-close { background-color: #E57373; opacity: 0.9; }
+.dot-minimize { background-color: #FFB74D; opacity: 0.9; }
+.dot-maximize { background-color: #81C784; opacity: 0.9; }
+
+/* Address Bar Pill */
+.browser-address-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 10px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(187, 207, 141, 0.3);
+    border-radius: 9999px;
+    font-size: 10.5px;
+    color: #DFE3D6;
+    letter-spacing: 0.02em;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.browser-lock-icon {
+    flex-shrink: 0;
+    opacity: 0.75;
+}
+
+.browser-url {
+    color: #BBCF8D;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.browser-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #81C784;
+    box-shadow: 0 0 6px #81C784;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.browser-actions-placeholder {
+    width: 24px;
+    flex-shrink: 0;
+}
+
+/* Browser Viewport with Uniform Aspect Ratio */
+.browser-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: #0c1604;
+}
+
+.work-mockup-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card-inner:hover .work-mockup-img {
+    transform: scale(1.03);
+}
+
+.work-viewport-sheen {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0, 36, 0, 0.22) 0%, transparent 35%);
+}
+
+/* -----------------------------------------------------------------------------
+   5. Project Details & Equal Height Typography
+   ----------------------------------------------------------------------------- */
+.work-details {
+    padding: clamp(18px, 2.2vw, 26px);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Meta Category & Status Badges */
+.work-meta-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.work-category {
+    font-family: var(--font-primary);
+    font-size: 0.72rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+}
+
+/* Live Pulse Badge */
+.work-badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: rgba(88, 100, 29, 0.15);
+    border: 1px solid rgba(187, 207, 141, 0.50);
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #273B09;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.live-dot-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #58641D;
+    box-shadow: 0 0 0 0 rgba(88, 100, 29, 0.7);
+    animation: livePulse 2s infinite;
+    flex-shrink: 0;
+}
+
+@keyframes livePulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(88, 100, 29, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(88, 100, 29, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(88, 100, 29, 0); }
+}
+
+/* Status Pill */
+.work-badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: rgba(88, 100, 29, 0.10);
+    border: 1px solid rgba(187, 207, 141, 0.40);
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #273B09;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.dot-completed {
+    background-color: #58641D;
+}
+
+/* Title & Arrow */
+.work-title {
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.work-title-link {
+    font-family: var(--font-primary);
+    font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-navy);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    transition: color var(--transition-fast);
+}
+
+.work-title-link:hover {
+    color: var(--color-primary);
+}
+
+.work-arrow {
+    display: inline-block;
+    font-size: 1.1em;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    margin-left: 8px;
+    transition: transform var(--transition-normal), color var(--transition-normal);
+}
+
+.work-card-inner:hover .work-arrow {
+    transform: translate(3px, -3px);
+    color: var(--color-primary);
+}
+
+/* Card Description */
+.work-desc {
+    font-family: var(--font-secondary);
+    font-size: 0.9125rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0 0 14px 0;
+    overflow-wrap: break-word;
+    flex-grow: 1;
+}
+
+/* Tech / Feature Tags */
+.work-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 7px;
+    margin: 0 0 18px 0;
+}
+
+.work-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    background: rgba(88, 100, 29, 0.08);
+    border: 1px solid rgba(187, 207, 141, 0.35);
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #002400;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+/* Action Row (Anchored to Bottom) */
+.work-action-row {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid rgba(187, 207, 141, 0.25);
+    display: flex;
+    align-items: center;
+}
+
+.work-btn-action {
+    width: 100%;
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm, 8px);
+    transition: all 0.25s ease;
+    font-size: 0.8125rem;
+}
+
+/* -----------------------------------------------------------------------------
+   6. Reduced Motion Accessibility
+   ----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .work-card-inner,
+    .work-mockup-img,
+    .work-arrow,
+    .live-dot-pulse {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   7. Responsive Layout Breakpoints
+   ----------------------------------------------------------------------------- */
+/* Tablet Breakpoint (<= 1024px) */
+@media (max-width: 1024px) {
+    .work-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(20px, 3vw, 28px);
+    }
+}
+
+/* Mobile Breakpoint (<= 720px) */
+@media (max-width: 720px) {
+    .work-header {
+        margin-bottom: clamp(28px, 4.5vw, 40px);
+    }
+
+    .work-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .work-heading {
+        font-size: clamp(1.75rem, 5.5vw, 2.25rem);
+    }
+
+    .work-intro-text {
+        font-size: 1.05rem;
+    }
+
+    .work-arrow {
+        color: var(--color-primary);
+    }
+}
+
+/* Small Mobile Breakpoint (<= 480px) */
+@media (max-width: 480px) {
+    .work-header {
+        margin-bottom: 24px;
+    }
+
+    .work-badge {
+        padding: 5px 12px;
+        margin-bottom: 12px;
+    }
+
+    .work-heading {
+        font-size: clamp(1.5rem, 5.5vw, 1.875rem);
+        line-height: 1.25;
+        margin-bottom: 10px;
+    }
+
+    .work-intro-text {
+        font-size: 0.95rem;
+        line-height: 1.55;
+    }
+
+    .work-details {
+        padding: 16px 14px;
+    }
+
+    .work-meta-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .work-title-link {
+        font-size: 1.15rem;
+    }
+
+    .work-desc {
+        font-size: 0.875rem;
+    }
+}

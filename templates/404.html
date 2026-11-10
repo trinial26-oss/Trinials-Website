@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found (404) — Millennials{% endblock %}
+
+{% block content %}
+<section class="section bg-background" style="min-height: 70vh; display: flex; align-items: center;">
+    <div class="container" style="max-width: 680px; margin: 0 auto; padding-block: var(--space-8);">
+        <div class="card card-hover text-center" style="padding: clamp(36px, 5vw, 56px);">
+            <div class="badge badge-soft" style="margin-bottom: 20px;">
+                ERROR 404
+            </div>
+            <h1 style="font-family: var(--font-primary); font-size: clamp(2rem, 4vw, 2.75rem); color: var(--color-navy); margin-bottom: 16px; font-weight: var(--font-weight-bold);">
+                Page Not Found<span style="color: var(--color-primary);">.</span>
+            </h1>
+            <p style="font-family: var(--font-secondary); font-size: var(--font-size-lead); color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 32px;">
+                The page you are looking for doesn't exist or has been moved. Let's get you back to where you need to be.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <a href="{% url 'website:home' %}" class="btn btn-primary">
+                    Return to Homepage <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                </a>
+                <a href="{% url 'website:home' %}#contact" class="btn btn-secondary">
+                    Get in Touch
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

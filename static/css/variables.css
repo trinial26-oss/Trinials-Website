@@ -1,0 +1,239 @@
+/**
+ * Trinails Portfolio Website - Design System
+ * File: static/css/variables.css
+ * Purpose: Global design tokens (Dark Olive Green Palette, Typography, Spacing, Radius, Shadows, Containers, Glassmorphism)
+ */
+
+:root {
+    /* -------------------------------------------------------------------------
+       1. Colour System — Dark Olive Green Spectrum
+       Palette Reference:
+       Swatch 1: #002400 — Deepest Forest Olive / Midnight Black-Green
+       Swatch 2: #273B09 — Deep Forest Olive Green
+       Swatch 3: #58641D — Rich Dark Olive / Moss Green
+       Swatch 4: #7B904B — Medium Sage / Olive Green
+       Swatch 5: #BBCF8D — Light Olive / Celadon Green
+       Background: #E8E9E4 — Warm Alabaster / Sage Off-White
+       ------------------------------------------------------------------------- */
+    /* Core Olive Spectrum Tokens */
+    --color-olive-50:   #F5F6F2;      /* Pure whisper light cream */
+    --color-olive-100:  #E8E9E4;      /* Main canvas background (Card background) */
+    --color-olive-150:  #DFE3D6;      /* Soft pale sage tint */
+    --color-olive-200:  #D4DEC0;      /* Light sage mist */
+    --color-olive-300:  #BBCF8D;      /* Swatch 5: Light Olive / Celadon */
+    --color-olive-400:  #9BB268;      /* Clear leafy sage */
+    --color-olive-500:  #7B904B;      /* Swatch 4: Medium Sage / Olive Green */
+    --color-olive-600:  #58641D;      /* Swatch 3: Rich Dark Olive / Moss Green */
+    --color-olive-700:  #3E4E11;      /* Deep forest moss */
+    --color-olive-800:  #273B09;      /* Swatch 2: Deep Forest Olive Green */
+    --color-olive-900:  #182806;      /* Midnight forest olive */
+    --color-olive-950:  #002400;      /* Swatch 1: Deepest Forest Midnight */
+    --color-white:      #FFFFFF;
+
+    /* Backward-compatibility aliases */
+    --color-babyblue-50:  #F5F6F2;
+    --color-babyblue-100: #E8E9E4;
+    --color-babyblue-200: #D4DEC0;
+    --color-babyblue-300: #BBCF8D;
+    --color-babyblue-400: #7B904B;
+    --color-blue-500:     #9BB268;
+    --color-blue-600:     #58641D;
+    --color-blue-700:     #3E4E11;
+    --color-blue-800:     #273B09;
+    --color-navy-900:     #182806;
+    --color-navy-950:     #002400;
+
+    /* Primary Brand Accents & Interactive */
+    --color-primary: #58641D;
+    --color-primary-hover: #3E4E11;
+    --color-primary-active: #273B09;
+    --color-primary-light: #BBCF8D;
+    --color-primary-soft: #DFE3D6;
+    --color-primary-glow: rgba(123, 144, 75, 0.40);
+
+    /* Deep Forest Olive (Headings, titles, high-emphasis text) */
+    --color-navy: #182806;
+    --color-navy-dark: #002400;
+    --color-navy-soft: #273B09;
+
+    /* Section Background System (Warm Alabaster to Deep Olive Progression) */
+    --section-bg-hero: #E8E9E4;
+    --section-bg-about: #DFE3D6;
+    --section-bg-services: #D4DEC0;
+    --section-bg-work: #DCE3D4;
+    --section-bg-process: #DFE3D6;
+    --section-bg-testimonials: #D4DEC0;
+    --section-bg-contact: #DFE3D6;
+    --section-bg-footer: #182806;
+
+    /* Backgrounds & surfaces */
+    --color-background: #E8E9E4;
+    --color-surface: #FFFFFF;
+
+    /* Text Hierarchy (Dark Olive Spectrum — crisp, sophisticated readability) */
+    --color-text: #002400;              /* Swatch 1: Crisp deepest midnight green */
+    --color-text-secondary: #273B09;    /* Swatch 2: Deep forest olive */
+    --color-text-muted: #58641D;        /* Swatch 3: Rich olive accent */
+    --color-text-inverse: #FFFFFF;
+
+    /* Borders & Outlines */
+    --color-border: rgba(187, 207, 141, 0.65);
+    --color-border-hover: #7B904B;
+    --color-focus-ring: rgba(123, 144, 75, 0.45);
+
+    /* -------------------------------------------------------------------------
+       2. Typography System
+       ------------------------------------------------------------------------- */
+    --font-primary: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-secondary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+    /* Font Weights */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    /* Typography Scale (with responsive clamp down to 320px screens) */
+    --font-size-hero: clamp(1.875rem, 4.5vw + 0.75rem, 4.125rem);       /* ~30px on 320px, up to 66px */
+    --font-size-section: clamp(1.625rem, 3vw + 0.65rem, 2.75rem);       /* ~26px on 320px, up to 44px */
+    --font-size-subsection: clamp(1.25rem, 2vw + 0.6rem, 1.875rem);     /* ~20px on 320px, up to 30px */
+    --font-size-card: clamp(1.125rem, 1.5vw + 0.5rem, 1.375rem);        /* ~18px on 320px, up to 22px */
+    --font-size-lead: clamp(1rem, 1vw + 0.75rem, 1.1875rem);            /* 16px - 19px */
+    --font-size-body: 1rem;                                             /* 16px */
+    --font-size-nav: 0.9375rem;                                         /* 15px */
+    --font-size-btn: 0.9375rem;                                         /* 15px */
+    --font-size-small: 0.875rem;                                        /* 14px */
+    --font-size-tiny: 0.75rem;                                          /* 12px */
+
+    /* Line Heights */
+    --line-height-tight: 1.15;
+    --line-height-heading: 1.25;
+    --line-height-body: 1.65;
+    --line-height-relaxed: 1.75;
+
+    /* Letter Spacing */
+    --letter-spacing-tight: -0.025em;
+    --letter-spacing-heading: -0.015em;
+    --letter-spacing-normal: 0em;
+    --letter-spacing-wide: 0.02em;
+
+    /* -------------------------------------------------------------------------
+       3. Spacing System
+       ------------------------------------------------------------------------- */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 80px;
+    --space-10: 100px;
+    --space-11: 120px;
+
+    /* Fluid section spacing between major blocks */
+    --section-spacing-desktop: 110px;
+    --section-spacing-tablet: 80px;
+    --section-spacing-mobile: 56px;
+    --section-spacing: clamp(48px, 6vw, 110px);
+
+    /* -------------------------------------------------------------------------
+       4. Container System
+       ------------------------------------------------------------------------- */
+    --container-max: 1200px;
+    --container-wide-max: 1400px;
+    --container-narrow-max: 760px;
+    --container-padding: clamp(14px, 3.5vw, 32px);
+
+    /* -------------------------------------------------------------------------
+       5. Border Radius System
+       ------------------------------------------------------------------------- */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    --radius-full: 999px;
+
+    /* -------------------------------------------------------------------------
+       6. Shadow & Border System (Dark Olive Green Spectrum Tinted)
+       ------------------------------------------------------------------------- */
+    --shadow-sm: 0 2px 8px rgba(39, 59, 9, 0.08);
+    --shadow-md: 0 8px 24px rgba(39, 59, 9, 0.10);
+    --shadow-lg: 0 16px 40px rgba(0, 36, 0, 0.14);
+
+    --border-subtle: 1px solid var(--color-border);
+    --border-primary: 1px solid var(--color-primary);
+
+    /* -------------------------------------------------------------------------
+       7. Transitions & Animation Defaults
+       ------------------------------------------------------------------------- */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* -------------------------------------------------------------------------
+       8. Comprehensive Glassmorphism Design System (Liquid Olive-Sage Glass)
+       ------------------------------------------------------------------------- */
+    /* Glass Surfaces & Translucent Gradients */
+    --glass-bg-subtle: rgba(255, 255, 255, 0.65);
+    --glass-bg-surface: rgba(255, 255, 255, 0.82);
+    --glass-bg-surface-elevated: rgba(255, 255, 255, 0.92);
+    --glass-bg-surface-hover: rgba(255, 255, 255, 0.98);
+    
+    --glass-bg-card: linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(245, 246, 242, 0.72) 100%);
+    --glass-bg-card-hover: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(232, 233, 228, 0.85) 100%);
+    --glass-bg-card-tint: linear-gradient(135deg, rgba(232, 233, 228, 0.90) 0%, rgba(212, 222, 192, 0.70) 100%);
+    --glass-bg-card-tint-hover: linear-gradient(135deg, rgba(232, 233, 228, 0.98) 0%, rgba(212, 222, 192, 0.88) 100%);
+    --glass-bg-card-bordered: linear-gradient(135deg, rgba(255, 255, 255, 0.76) 0%, rgba(245, 246, 242, 0.52) 100%);
+    
+    --glass-bg-section: rgba(255, 255, 255, 0.45);
+    --glass-bg-section-alt: rgba(245, 246, 242, 0.60);
+    
+    --glass-bg-nav: var(--section-bg-footer, #182806);
+    --glass-bg-nav-mobile: var(--section-bg-footer, #182806);
+    --glass-bg-pill: rgba(255, 255, 255, 0.85);
+    --glass-bg-pill-hover: rgba(255, 255, 255, 0.98);
+
+    /* Glass Buttons (Dark Olive Green Spectrum) */
+    --glass-btn-primary: linear-gradient(135deg, #58641D 0%, #273B09 100%);
+    --glass-btn-primary-hover: linear-gradient(135deg, #3E4E11 0%, #002400 100%);
+    --glass-btn-secondary: linear-gradient(135deg, rgba(232, 233, 228, 0.95) 0%, rgba(212, 222, 192, 0.82) 100%);
+    --glass-btn-secondary-hover: linear-gradient(135deg, rgba(212, 222, 192, 0.98) 0%, rgba(187, 207, 141, 0.90) 100%);
+    --glass-btn-outline: linear-gradient(135deg, rgba(245, 246, 242, 0.70) 0%, rgba(232, 233, 228, 0.45) 100%);
+    --glass-btn-outline-hover: linear-gradient(135deg, rgba(232, 233, 228, 0.92) 0%, rgba(212, 222, 192, 0.75) 100%);
+
+    /* Glass Forms & Inputs */
+    --glass-input-bg: rgba(255, 255, 255, 0.85);
+    --glass-input-bg-focus: rgba(255, 255, 255, 0.98);
+    --glass-input-border: rgba(187, 207, 141, 0.85);
+    --glass-input-border-focus: #58641D;
+
+    /* Glass Borders & Bevel Reflections */
+    --glass-border: 1px solid rgba(255, 255, 255, 0.85);
+    --glass-border-light: 1px solid rgba(255, 255, 255, 0.95);
+    --glass-border-subtle: 1px solid rgba(187, 207, 141, 0.40);
+    --glass-border-hover: 1px solid rgba(88, 100, 29, 0.50);
+    --glass-border-primary: 1px solid rgba(88, 100, 29, 0.70);
+    --glass-border-divider: 1px solid rgba(187, 207, 141, 0.55);
+
+    /* Glass Blur Strengths */
+    --glass-blur-sm: 8px;
+    --glass-blur-md: 14px;
+    --glass-blur-lg: 20px;
+    --glass-blur-xl: 28px;
+    --glass-blur-backdrop-sm: blur(var(--glass-blur-sm));
+    --glass-blur-backdrop-md: blur(var(--glass-blur-md));
+    --glass-blur-backdrop-lg: blur(var(--glass-blur-lg));
+    --glass-blur-backdrop-xl: blur(var(--glass-blur-xl));
+
+    /* Glass Shadows (Dark Olive Green Tinted) */
+    --glass-shadow-sm: 0 4px 16px rgba(39, 59, 9, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+    --glass-shadow-md: 0 8px 30px rgba(39, 59, 9, 0.10), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.90);
+    --glass-shadow-lg: 0 16px 44px rgba(0, 36, 0, 0.14), inset 0 1px 2px 0 rgba(255, 255, 255, 0.95);
+    --glass-shadow-hover: 0 12px 36px rgba(39, 59, 9, 0.16), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+    --glass-shadow-btn-primary: 0 6px 20px rgba(39, 59, 9, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.40);
+    --glass-shadow-btn-primary-hover: 0 8px 26px rgba(0, 36, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.60);
+    --glass-shadow-focus: 0 0 0 3px rgba(187, 207, 141, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+}

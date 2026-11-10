@@ -1,0 +1,437 @@
+{% extends 'base.html' %}
+
+{% block title %}Glassmorphism Design System Preview — Trianials{% endblock %}
+
+{% block content %}
+<div class="section bg-background" id="preview">
+    <div class="container">
+        
+        <!-- Header Banner -->
+        <header class="mb-8">
+            <div class="flex items-center gap-3 mb-3">
+                <span class="badge badge-primary">Comprehensive Glass Design</span>
+                <span class="badge badge-soft">Liquid Glass System</span>
+            </div>
+            <h1 class="text-hero mb-3">Millennials Glassmorphism System</h1>
+            <p class="text-lead">
+                Living design system showcase demonstrating translucent glass surfaces, subtle white and light-blue gradients, 
+                thin glass-like borders, soft background blur, gentle shadows, and specular edge reflections across every UI component.
+            </p>
+            <hr class="divider">
+        </header>
+
+        <!-- 1. Colour System in Glass -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">1. Colour Palette &amp; Glass Surfaces</h2>
+            <p class="text-body mb-6">Established brand colors, high-contrast text shades, surfaces, and functional glass borders.</p>
+
+            <div class="grid-3 mb-6">
+                <!-- Primary Blue -->
+                <div class="card card-bordered card-hover">
+                    <div style="height: 80px; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: var(--glass-shadow-sm);"></div>
+                    <h4 class="text-card-heading">Primary Blue</h4>
+                    <p class="text-small font-semibold text-primary">#0284C7</p>
+                    <p class="text-tiny">Glass buttons, active states, key interactive elements</p>
+                </div>
+
+                <!-- Soft Sky Blue -->
+                <div class="card card-bordered card-hover">
+                    <div style="height: 80px; background: #BAE6FD; border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.85); box-shadow: var(--glass-shadow-sm);"></div>
+                    <h4 class="text-card-heading">Soft Sky Blue</h4>
+                    <p class="text-small font-semibold text-primary">#BAE6FD</p>
+                    <p class="text-tiny">Services and Testimonials section background tone</p>
+                </div>
+
+                <!-- Pastel Blue -->
+                <div class="card card-bordered card-hover">
+                    <div style="height: 80px; background: #7DD3FC; border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.85); box-shadow: var(--glass-shadow-sm);"></div>
+                    <h4 class="text-card-heading">Pastel Blue</h4>
+                    <p class="text-small font-semibold text-primary">#7DD3FC</p>
+                    <p class="text-tiny">Accents, highlights, and secondary glow tone</p>
+                </div>
+
+                <!-- Deep Navy -->
+                <div class="card card-bordered card-hover">
+                    <div style="height: 80px; background: linear-gradient(135deg, #0C2D57 0%, #082044 100%); border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: var(--glass-shadow-sm);"></div>
+                    <h4 class="text-card-heading">Deep Navy</h4>
+                    <p class="text-small font-semibold text-navy">#0C2D57</p>
+                    <p class="text-tiny">Headings, titles, authoritative text emphasis &amp; Footer</p>
+                </div>
+
+                <!-- Main Background -->
+                <div class="card card-bordered card-hover">
+                    <div style="height: 80px; background: #F0F9FF; backdrop-filter: blur(10px); border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: var(--glass-shadow-sm);"></div>
+                    <h4 class="text-card-heading">Main Baby Blue</h4>
+                    <p class="text-small font-semibold text-secondary">#F0F9FF</p>
+                    <p class="text-tiny">Clean, luminous baby-blue canvas &amp; Hero tone</p>
+                </div>
+
+                <!-- White Surface -->
+                <div class="card card-bordered card-hover">
+                    <div style="height: 80px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 100%); backdrop-filter: blur(14px); border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: var(--glass-shadow-sm);"></div>
+                    <h4 class="text-card-heading">Frosted Surface</h4>
+                    <p class="text-small font-semibold text-secondary">rgba(255,255,255,0.78)</p>
+                    <p class="text-tiny">Card containers, panels, floating modals</p>
+                </div>
+            </div>
+            <hr class="divider">
+        </section>
+
+        <!-- 2. Typography System in Glass Container -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">2. Typography System &amp; Readability</h2>
+            <p class="text-body mb-6">Manrope for expressive headings; DM Sans for readable, comfortable body copy on translucent surfaces.</p>
+
+            <div class="card mb-6">
+                <div class="mb-6">
+                    <p class="text-tiny text-muted mb-1">HERO HEADING (Manrope Extrabold — 64px clamp)</p>
+                    <h1 class="text-hero">Creating digital experiences that inspire.</h1>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-tiny text-muted mb-1">SECTION HEADING (Manrope Bold — 44px clamp)</p>
+                    <h2 class="text-section-heading">Thoughtful design, robust engineering.</h2>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-tiny text-muted mb-1">SUBSECTION HEADING (Manrope Bold — 30px clamp)</p>
+                    <h3 class="text-subsection-heading">Our methodology and creative values</h3>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-tiny text-muted mb-1">CARD HEADING (Manrope Semibold — 22px clamp)</p>
+                    <h4 class="text-card-heading">Strategic Portfolio Consulting</h4>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-tiny text-muted mb-1">LEAD PARAGRAPH (DM Sans — 18px)</p>
+                    <p class="text-lead">
+                        Millennials brings together creative vision, clean engineering, and purposeful execution 
+                        to build unforgettable digital solutions.
+                    </p>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-tiny text-muted mb-1">STANDARD BODY (DM Sans — 16px)</p>
+                    <p class="text-body">
+                        We believe that modern websites should be approachable, fast, and structured for longevity. 
+                        Every section is crafted with mindful spacing, clear typography, and subtle visual cues.
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-tiny text-muted mb-1">SMALL TEXT &amp; NAVIGATION (DM Sans &amp; Manrope — 14px–15px)</p>
+                    <p class="text-small mb-2">Metadata caption: Published by Millennials Editorial Team &bull; 2026</p>
+                    <p class="text-nav">NAVIGATION LINK: ABOUT &nbsp;&bull;&nbsp; SERVICES &nbsp;&bull;&nbsp; WORK &nbsp;&bull;&nbsp; CONTACT</p>
+                </div>
+            </div>
+            <hr class="divider">
+        </section>
+
+        <!-- 3. Glass Buttons & Interactive Elements -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">3. Glass Buttons &amp; Interactive Elements</h2>
+            <p class="text-body mb-6">Semi-transparent glass surfaces with thin borders, specular top reflections, and soft hover responses.</p>
+
+            <div class="card mb-6">
+                <h4 class="text-card-heading mb-4">Button Styles</h4>
+                <div class="flex flex-wrap items-center gap-4 mb-6">
+                    <a href="#preview" class="btn btn-primary">Primary Glass Button</a>
+                    <a href="#preview" class="btn btn-secondary">Secondary Glass Button</a>
+                    <a href="#preview" class="btn btn-outline">Outline Glass Button</a>
+                    <a href="#preview" class="btn btn-text">
+                        Explore Our Work <span class="btn-arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <h4 class="text-card-heading mb-4">Button Size &amp; Shape Variants</h4>
+                <div class="flex flex-wrap items-center gap-4 mb-6">
+                    <button type="button" class="btn btn-primary btn-sm">Small Glass</button>
+                    <button type="button" class="btn btn-primary">Standard Glass</button>
+                    <button type="button" class="btn btn-primary btn-lg">Large Glass</button>
+                    <button type="button" class="btn btn-primary btn-full">Pill Glass Button</button>
+                </div>
+
+                <h4 class="text-card-heading mb-4">Glass Badges &amp; Tooltips</h4>
+                <div class="flex flex-wrap items-center gap-4">
+                    <span class="badge badge-primary">Primary Glass Badge</span>
+                    <span class="badge badge-soft">Soft Blue Badge</span>
+                    <span class="badge badge-light">Light Blue Badge</span>
+                    
+                    <!-- Tooltip Demo -->
+                    <div class="glass-tooltip-wrap">
+                        <button type="button" class="btn btn-secondary btn-sm">Hover for Tooltip</button>
+                        <div class="glass-tooltip" role="tooltip">Interactive Glass Tooltip</div>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+        </section>
+
+        <!-- 4. Glass Cards & Content Containers -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">4. Glass Cards &amp; Content Containers</h2>
+            <p class="text-body mb-6">Natural visual hierarchy using varying opacities, blurs, and border highlights.</p>
+
+            <div class="grid-3 mb-6">
+                <!-- Standard Glass Card -->
+                <div class="card card-hover">
+                    <span class="badge badge-soft mb-3">Interactive Hover</span>
+                    <h4 class="text-card-heading mb-2">Standard Glass Card</h4>
+                    <p class="text-small mb-4">
+                        Translucent white glass surface with 14px blur, specular top reflection, and gentle lift on hover.
+                    </p>
+                    <a href="#preview" class="btn btn-outline btn-sm">Learn More</a>
+                </div>
+
+                <!-- Soft Blue Tint Card -->
+                <div class="card card-soft card-hover">
+                    <span class="badge badge-light mb-3">Accent Tint</span>
+                    <h4 class="text-card-heading mb-2">Soft Blue Glass Card</h4>
+                    <p class="text-small mb-4">
+                        Lightly tinted with soft blue (EAF3FC) for highlighting key features, callouts, or services.
+                    </p>
+                    <a href="#preview" class="btn btn-secondary btn-sm">View Details</a>
+                </div>
+
+                <!-- Bordered Glass Card -->
+                <div class="card card-bordered card-hover">
+                    <span class="badge badge-primary mb-3">Bordered Style</span>
+                    <h4 class="text-card-heading mb-2">Framed Glass Card</h4>
+                    <p class="text-small mb-4">
+                        Refined with a 1px border highlight and controlled transparency for secondary information.
+                    </p>
+                    <a href="#preview" class="btn btn-text">
+                        Read Story <span class="btn-arrow">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+            <hr class="divider">
+        </section>
+
+        <!-- 5. Glass Forms & Input Controls -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">5. Glass Forms &amp; Input Controls</h2>
+            <p class="text-body mb-6">Translucent input fields, elegant focus halos, custom glass dropdowns, checkboxes, radios, and search bar.</p>
+
+            <div class="grid-2 mb-6">
+                <!-- Text Inputs & Textarea -->
+                <div class="card">
+                    <h4 class="text-card-heading mb-4">Text Inputs &amp; Select</h4>
+                    
+                    <div class="form-group">
+                        <label for="demo-name" class="form-label">Full Name</label>
+                        <input type="text" id="demo-name" class="form-input" placeholder="e.g. Alex Morgan">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="demo-email" class="form-label">Email Address</label>
+                        <input type="email" id="demo-email" class="form-input" placeholder="you@company.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="demo-select" class="form-label">Project Type (Glass Select)</label>
+                        <select id="demo-select" class="form-select">
+                            <option value="">Select a service...</option>
+                            <option value="web">Web Development</option>
+                            <option value="design">UI/UX Design</option>
+                            <option value="brand">Brand Identity</option>
+                            <option value="digital">Digital Solutions</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="demo-textarea" class="form-label">Message (Glass Textarea)</label>
+                        <textarea id="demo-textarea" class="form-textarea" rows="3" placeholder="Tell us about your project..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Checkboxes, Radios & Search Bar -->
+                <div class="card">
+                    <h4 class="text-card-heading mb-4">Controls &amp; Search Bar</h4>
+
+                    <!-- Glass Search Bar -->
+                    <div class="form-group mb-5">
+                        <label class="form-label mb-2">Glass Search Bar</label>
+                        <div class="glass-search-box">
+                            <span class="glass-search-icon" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </span>
+                            <input type="search" class="glass-search-input" placeholder="Search case studies, services, articles...">
+                            <button type="button" class="btn btn-primary btn-sm" style="padding: 6px 14px;">Search</button>
+                        </div>
+                    </div>
+
+                    <!-- Glass Checkboxes -->
+                    <div class="form-group mb-5">
+                        <label class="form-label mb-2">Glass Checkboxes</label>
+                        <div class="glass-control-group">
+                            <label class="glass-checkbox-label">
+                                <input type="checkbox" class="glass-checkbox-input" checked>
+                                <span class="glass-checkbox-box">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </span>
+                                <span>Responsive Web Architecture</span>
+                            </label>
+                            <label class="glass-checkbox-label">
+                                <input type="checkbox" class="glass-checkbox-input">
+                                <span class="glass-checkbox-box">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </span>
+                                <span>End-to-End Design Systems</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Glass Radio Buttons -->
+                    <div class="form-group">
+                        <label class="form-label mb-2">Glass Radio Buttons</label>
+                        <div class="glass-control-group">
+                            <label class="glass-radio-label">
+                                <input type="radio" name="demo-radio" class="glass-radio-input" checked>
+                                <span class="glass-radio-circle"></span>
+                                <span>Full Project Consultation</span>
+                            </label>
+                            <label class="glass-radio-label">
+                                <input type="radio" name="demo-radio" class="glass-radio-input">
+                                <span class="glass-radio-circle"></span>
+                                <span>Ongoing Advisory Retainer</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+        </section>
+
+        <!-- 6. Glass Tabs & Navigation Indicators -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">6. Glass Tabs &amp; Navigation Indicators</h2>
+            <p class="text-body mb-6">Pill-shaped glass navigation bars with floating active states and smooth transitions.</p>
+
+            <div class="card">
+                <nav class="glass-tabs-nav" aria-label="Demo Tabs">
+                    <button type="button" class="glass-tab-btn active">Overview</button>
+                    <button type="button" class="glass-tab-btn">Strategy</button>
+                    <button type="button" class="glass-tab-btn">Engineering</button>
+                    <button type="button" class="glass-tab-btn">Deliverables</button>
+                </nav>
+
+                <div class="glass-tab-pane active">
+                    <h4 class="text-card-heading mb-2">Overview: High-Touch Craft</h4>
+                    <p class="text-body mb-4">
+                        The glass interface architecture brings clarity and tactile depth to every interaction. 
+                        Each container floats with individual refractive blur, while specular edge reflections provide clean definition.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <span class="badge badge-soft">Active Indicator</span>
+                        <span class="badge badge-light">iOS-Inspired Depth</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+        </section>
+
+        <!-- 7. Glass Tables & Rows -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">7. Glass Tables &amp; Rows</h2>
+            <p class="text-body mb-6">Frosted header containers, semi-transparent data rows, and interactive row hover illumination.</p>
+
+            <div class="glass-table-wrapper">
+                <table class="glass-table">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Milestone</th>
+                            <th>Methodology</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-semibold text-navy">Phase 01</td>
+                            <td>Discover &amp; Audit</td>
+                            <td>Stakeholder discovery &amp; user interviews</td>
+                            <td><span class="badge badge-primary">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-navy">Phase 02</td>
+                            <td>System Architecture</td>
+                            <td>Design tokens &amp; layout grid setup</td>
+                            <td><span class="badge badge-primary">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-navy">Phase 03</td>
+                            <td>Glassmorphism Implementation</td>
+                            <td>Liquid glass surfaces across all components</td>
+                            <td><span class="badge badge-soft">In Progress</span></td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-navy">Phase 04</td>
+                            <td>Production Quality Review</td>
+                            <td>Contrast checks &amp; accessibility audits</td>
+                            <td><span class="badge badge-light">Upcoming</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="divider">
+        </section>
+
+        <!-- 8. Glass Modals, Popups & Feedback Alerts -->
+        <section class="mb-10">
+            <h2 class="text-section-heading mb-2">8. Glass Modals, Popups &amp; Feedback Alerts</h2>
+            <p class="text-body mb-6">Floating glass modals with prominent edge bevels and frosted alert boxes.</p>
+
+            <div class="grid-2 mb-6">
+                <!-- Alerts Demo -->
+                <div class="card">
+                    <h4 class="text-card-heading mb-4">Glass Feedback Alerts</h4>
+                    
+                    <div class="alert alert-success">
+                        <span class="alert-icon" aria-hidden="true">&#10003;</span>
+                        <span class="alert-text"><strong>Success:</strong> Glass design system applied across all components successfully.</span>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <span class="alert-icon" aria-hidden="true">&#8505;</span>
+                        <span class="alert-text"><strong>Info:</strong> Translucent surfaces adjust dynamically to the underlying ambient atmosphere.</span>
+                    </div>
+
+                    <div class="alert alert-error">
+                        <span class="alert-icon" aria-hidden="true">&#9888;</span>
+                        <span class="alert-text"><strong>Warning:</strong> Ensure adequate text contrast is maintained over frosted surfaces.</span>
+                    </div>
+                </div>
+
+                <!-- Floating Modal / Popup Preview -->
+                <div class="card">
+                    <h4 class="text-card-heading mb-4">Floating Glass Modal Preview</h4>
+                    <div class="glass-popup">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="badge badge-soft">Glass Dialog</span>
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted);">ESC to close</span>
+                        </div>
+                        <h4 class="text-card-heading mb-2">Confirm Action</h4>
+                        <p class="text-small mb-4">
+                            This modal showcases the 28px blur backdrop with specular edge highlights and iOS-style floating depth.
+                        </p>
+                        <div class="flex items-center justify-end gap-3">
+                            <button type="button" class="btn btn-outline btn-sm">Cancel</button>
+                            <button type="button" class="btn btn-primary btn-sm">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+{% endblock %}

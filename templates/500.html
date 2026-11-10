@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Server Error (500) — Millennials{% endblock %}
+
+{% block content %}
+<section class="section bg-background" style="min-height: 70vh; display: flex; align-items: center;">
+    <div class="container" style="max-width: 680px; margin: 0 auto; padding-block: var(--space-8);">
+        <div class="card card-hover text-center" style="padding: clamp(36px, 5vw, 56px);">
+            <div class="badge" style="background-color: rgba(253, 242, 242, 0.85); color: #DC2626; border: 1px solid rgba(248, 205, 208, 0.90); margin-bottom: 20px;">
+                ERROR 500
+            </div>
+            <h1 style="font-family: var(--font-primary); font-size: clamp(2rem, 4vw, 2.75rem); color: var(--color-navy); margin-bottom: 16px; font-weight: var(--font-weight-bold);">
+                Something went wrong<span style="color: var(--color-primary);">.</span>
+            </h1>
+            <p style="font-family: var(--font-secondary); font-size: var(--font-size-lead); color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 32px;">
+                We experienced an unexpected server error. Our engineering team has been notified. Please try refreshing or return to the homepage.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <a href="{% url 'website:home' %}" class="btn btn-primary">
+                    Return to Homepage <span class="cta-arrow" aria-hidden="true">&nearr;</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,201 @@
+/**
+ * Millennials Portfolio Website - Design System
+ * File: static/css/typography.css
+ * Purpose: Heading styles, paragraph styles, font scales, and typography utility classes
+ */
+
+/* -----------------------------------------------------------------------------
+   1. Base Headings (Manrope)
+   ----------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-primary);
+    color: var(--color-navy);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+}
+
+h1 {
+    font-size: var(--font-size-hero);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-extrabold);
+}
+
+h2 {
+    font-size: var(--font-size-section);
+    font-weight: var(--font-weight-bold);
+}
+
+h3 {
+    font-size: var(--font-size-subsection);
+    font-weight: var(--font-weight-bold);
+}
+
+h4 {
+    font-size: var(--font-size-card);
+    font-weight: var(--font-weight-semibold);
+}
+
+h5 {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+h6 {
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+}
+
+/* -----------------------------------------------------------------------------
+   2. Paragraphs & Supporting Text (DM Sans)
+   ----------------------------------------------------------------------------- */
+p {
+    font-family: var(--font-secondary);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+}
+
+/* -----------------------------------------------------------------------------
+   3. Typography Scale Utility Classes
+   ----------------------------------------------------------------------------- */
+.text-hero {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-hero);
+    font-weight: var(--font-weight-extrabold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-navy);
+}
+
+.text-section-heading {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-section);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-navy);
+}
+
+.text-subsection-heading {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-subsection);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    color: var(--color-navy);
+}
+
+.text-card-heading {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-card);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+    color: var(--color-navy);
+}
+
+.text-lead {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-secondary);
+}
+
+.text-body {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text);
+}
+
+.text-small {
+    font-size: var(--font-size-small);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+}
+
+.text-tiny {
+    font-size: var(--font-size-tiny);
+    line-height: 1.4;
+    color: var(--color-text-muted);
+}
+
+.text-nav {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-nav);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--color-navy);
+}
+
+/* -----------------------------------------------------------------------------
+   4. Colour Utilities
+   ----------------------------------------------------------------------------- */
+.text-navy {
+    color: var(--color-navy) !important;
+}
+
+.text-primary {
+    color: var(--color-primary) !important;
+}
+
+.text-secondary {
+    color: var(--color-text-secondary) !important;
+}
+
+.text-muted {
+    color: var(--color-text-muted) !important;
+}
+
+.text-white {
+    color: var(--color-surface) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   5. Font Family & Weight Utilities
+   ----------------------------------------------------------------------------- */
+.font-primary {
+    font-family: var(--font-primary);
+}
+
+.font-secondary {
+    font-family: var(--font-secondary);
+}
+
+.font-regular {
+    font-weight: var(--font-weight-regular);
+}
+
+.font-medium {
+    font-weight: var(--font-weight-medium);
+}
+
+.font-semibold {
+    font-weight: var(--font-weight-semibold);
+}
+
+.font-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.font-extrabold {
+    font-weight: var(--font-weight-extrabold);
+}
+
+/* -----------------------------------------------------------------------------
+   6. Text Alignment Utilities
+   ----------------------------------------------------------------------------- */
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}

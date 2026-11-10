@@ -1,0 +1,12 @@
+# Trinials Portfolio Website - Dependencies
+# Python requirement: >=3.10
+# Framework: Django 6.1.2
+
+Django>=6.1.2,<6.2
+python-dotenv>=1.0.0
+
+# Production WSGI Server for Render (Linux / Docker deployment)
+gunicorn>=23.0.0
+
+# Production Static File Serving & Compression
+whitenoise>=6.8.0

@@ -1,0 +1,664 @@
+/**
+ * Millennials Portfolio Website - About Section
+ * File: static/css/about.css
+ * Purpose: Scoped styling for the About section with comprehensive Glassmorphic design
+ */
+
+/* -----------------------------------------------------------------------------
+   1. Section Container & Translucent Glass Canvas
+   ----------------------------------------------------------------------------- */
+.about-section {
+    position: relative;
+    width: 100%;
+    background-color: var(--section-bg-about, #DFE3D6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+    padding-block: var(--section-spacing);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.about-container {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   2. Main Two-Column Grid Layout (Desktop)
+   ----------------------------------------------------------------------------- */
+.about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    align-items: center;
+    gap: clamp(40px, 5.5vw, 76px);
+    margin-bottom: clamp(48px, 6vw, 72px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* -----------------------------------------------------------------------------
+   3. Left Column: Company Introduction Copy
+   ----------------------------------------------------------------------------- */
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* --- Eyebrow Pill Badge --- */
+.about-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--glass-bg-pill);
+    backdrop-filter: var(--glass-blur-backdrop-sm);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-sm);
+    border: var(--glass-border);
+    border-radius: var(--radius-full);
+    box-shadow: var(--glass-shadow-sm);
+    margin-bottom: var(--space-4);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.about-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(88, 100, 29, 0.22);
+    flex-shrink: 0;
+}
+
+.about-label {
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.08em;
+    color: var(--color-navy);
+    line-height: 1;
+}
+
+/* --- Main Section Heading --- */
+.about-heading {
+    font-family: var(--font-primary);
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-navy);
+    margin-bottom: var(--space-5);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.about-accent-dot {
+    color: var(--color-primary);
+}
+
+/* --- Text Paragraphs --- */
+.about-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    width: 100%;
+}
+
+.about-lead {
+    font-family: var(--font-secondary);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    max-width: 540px;
+    overflow-wrap: break-word;
+}
+
+.about-body {
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    max-width: 540px;
+    overflow-wrap: break-word;
+}
+
+/* --- Action Text Link --- */
+.about-action {
+    display: flex;
+    align-items: center;
+}
+
+.about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-nav);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.40);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: var(--glass-shadow-sm);
+    transition: color var(--transition-fast),
+                background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+.about-link .btn-arrow {
+    display: inline-block;
+    transition: transform var(--transition-normal);
+}
+
+.about-link:hover {
+    color: var(--color-primary-hover);
+    background-color: var(--glass-bg-pill-hover);
+    border-color: rgba(255, 255, 255, 0.90);
+    transform: translateY(-1px);
+}
+
+.about-link:hover .btn-arrow {
+    transform: translate(3px, -3px);
+}
+
+.about-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+/* -----------------------------------------------------------------------------
+   4. Right Column: Brand Visual Glass Composition
+   ----------------------------------------------------------------------------- */
+.about-visual {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --px: 0;
+    --py: 0;
+    --mx: 50%;
+    --my: 30%;
+    --lift: 1;
+}
+
+/* Ambient Diffused Glow */
+.about-ambient-blob {
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    max-width: 100%;
+    background: radial-gradient(circle, rgba(187, 207, 141, 0.75) 0%, rgba(123, 144, 75, 0.20) 70%);
+    filter: blur(40px);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Main Layered Canvas Card */
+.about-canvas {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1 / 1.05;
+    background: linear-gradient(135deg, rgba(232, 233, 228, 0.90) 0%, rgba(255, 255, 255, 0.65) 100%);
+    backdrop-filter: var(--glass-blur-backdrop-xl);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-xl);
+    border: var(--glass-border-light);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--glass-shadow-md);
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: perspective(900px)
+               rotateX(calc(var(--py) * -6deg))
+               rotateY(calc(var(--px) * 6deg))
+               scale(var(--lift));
+    transition: box-shadow 0.3s ease;
+    touch-action: pan-y;
+    will-change: transform;
+}
+
+.about-visual.is-active .about-canvas {
+    --lift: 1.02;
+    box-shadow: var(--glass-shadow-hover);
+}
+
+/* Primary Architectural Panel */
+.about-panel-primary {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(140deg, rgba(232, 233, 228, 0.92) 0%, rgba(212, 222, 192, 0.65) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-panel-sun {
+    position: absolute;
+    top: 24%;
+    left: 20%;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(212, 222, 192, 0.85) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 22px rgba(39, 59, 9, 0.20), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.90);
+    translate: calc(var(--px) * 10px) calc(var(--py) * 10px);
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.about-panel-sun:hover {
+    transform: scale(1.06);
+    box-shadow: 0 12px 28px rgba(39, 59, 9, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+}
+
+.about-panel-ring {
+    position: absolute;
+    top: 15%;
+    left: 12%;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 1px dashed rgba(88, 100, 29, 0.45);
+    translate: calc(var(--px) * -6px) calc(var(--py) * -6px);
+    animation: aboutRingTurn 45s linear infinite;
+}
+
+@keyframes aboutRingTurn {
+    to { rotate: 360deg; }
+}
+
+.about-panel-arch {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 2px solid rgba(88, 100, 29, 0.25);
+    background: rgba(255, 255, 255, 0.50);
+}
+
+/* Sheen Highlight Tracking Pointer */
+.about-sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0) 65%);
+    transition: opacity 0.35s ease;
+}
+
+.about-visual.is-active .about-sheen {
+    opacity: 1;
+}
+
+/* Translucent Glassmorphic Accent Panel */
+.about-panel-glass {
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    width: 200px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.65) 100%);
+    backdrop-filter: var(--glass-blur-backdrop-lg);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-lg);
+    border: var(--glass-border-light);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    box-shadow: var(--glass-shadow-sm);
+    z-index: 3;
+    translate: calc(var(--px) * 16px) calc(var(--py) * 12px);
+    animation: floatAboutGlass 6s ease-in-out infinite;
+}
+
+@keyframes floatAboutGlass {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.glass-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.glass-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-border);
+}
+
+.glass-dot-1 { background-color: var(--color-primary); }
+.glass-dot-2 { background-color: var(--color-border); }
+.glass-dot-3 { background-color: var(--color-border); }
+
+.glass-label {
+    display: block;
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-navy);
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.glass-line {
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--color-primary-light, #BBCF8D);
+    margin-bottom: 5px;
+}
+
+.glass-line-long { width: 100%; }
+.glass-line-short { width: 60%; margin-bottom: 0; }
+
+/* Floating Statement Card */
+.about-floating-card {
+    position: absolute;
+    bottom: 22px;
+    left: 14px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.68) 100%);
+    backdrop-filter: var(--glass-blur-backdrop-md);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-md);
+    border: var(--glass-border-light);
+    border-radius: var(--radius-md);
+    box-shadow: var(--glass-shadow-md);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 4;
+    translate: calc(var(--px) * 20px) calc(var(--py) * 16px);
+    animation: floatAboutCard 7s ease-in-out infinite 0.6s;
+}
+
+@keyframes floatAboutCard {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+.floating-spark-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(212, 222, 192, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.80);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.floating-text-stack {
+    display: flex;
+    flex-direction: column;
+}
+
+.floating-statement {
+    font-family: var(--font-primary);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-navy);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.floating-substatement {
+    font-family: var(--font-secondary);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* -----------------------------------------------------------------------------
+   5. Principles Row (Curiosity, Clarity, Care) - Glass Cards
+   ----------------------------------------------------------------------------- */
+.about-principles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.5vw, 28px);
+    padding-top: clamp(32px, 4.5vw, 56px);
+    border-top: 1px solid rgba(187, 207, 141, 0.45);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.principle-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 22px 20px;
+    background: var(--glass-bg-card);
+    backdrop-filter: var(--glass-blur-backdrop-md);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-md);
+    border: var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow-sm);
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: transform var(--transition-normal),
+                border-color var(--transition-normal),
+                box-shadow var(--transition-normal),
+                background var(--transition-normal);
+}
+
+.principle-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.92);
+    background: var(--glass-bg-card-hover);
+    box-shadow: var(--glass-shadow-hover);
+}
+
+.principle-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: rgba(212, 222, 192, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: var(--glass-shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.principle-number {
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.principle-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.principle-title {
+    font-family: var(--font-primary);
+    font-size: 1.0625rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-navy);
+    margin-bottom: 4px;
+    line-height: 1.25;
+}
+
+.principle-desc {
+    font-family: var(--font-secondary);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   6. Responsive Layout Adjustments
+   ----------------------------------------------------------------------------- */
+/* Tablet Breakpoint (<= 1024px) */
+@media (max-width: 1024px) {
+    .about-grid {
+        gap: var(--space-6);
+        margin-bottom: var(--space-7);
+    }
+
+    .about-canvas {
+        max-width: 380px;
+    }
+
+    .about-principles {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-3);
+    }
+
+    .principle-card {
+        padding: 18px 14px;
+    }
+}
+
+/* Mobile Breakpoint (<= 768px) */
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-7);
+        margin-bottom: var(--space-6);
+    }
+
+    .about-heading {
+        font-size: clamp(1.75rem, 5.5vw, 2.25rem);
+    }
+
+    .about-lead {
+        font-size: 1.0625rem;
+    }
+
+    .about-canvas {
+        max-width: min(320px, 100%);
+        padding: 18px;
+    }
+
+    .about-panel-glass {
+        top: 20px;
+        right: 20px;
+        width: 160px;
+        padding: 10px 12px;
+    }
+
+    .about-floating-card {
+        bottom: 14px;
+        left: 10px;
+        padding: 10px 14px;
+    }
+
+    .about-principles {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-3);
+        padding-top: var(--space-6);
+    }
+}
+
+/* Small Mobile Breakpoint (<= 480px) */
+@media (max-width: 480px) {
+    .about-heading {
+        font-size: clamp(1.625rem, 5vw, 1.875rem);
+    }
+
+    .about-canvas {
+        max-width: min(280px, 100%);
+        aspect-ratio: 1 / 1;
+        padding: 14px;
+    }
+
+    .about-panel-glass {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 130px;
+        padding: 6px 10px;
+    }
+
+    .glass-label {
+        font-size: 0.6875rem;
+    }
+
+    .about-floating-card {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        right: auto;
+        padding: 6px 10px;
+        gap: 8px;
+    }
+
+    .floating-spark-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .floating-statement {
+        font-size: 0.75rem;
+    }
+
+    .floating-substatement {
+        font-size: 0.6875rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .about-canvas,
+    .about-panel-sun,
+    .about-panel-ring,
+    .about-panel-glass,
+    .about-floating-card {
+        transform: none !important;
+        translate: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+}

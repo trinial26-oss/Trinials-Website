@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Terms and Conditions — Trinials{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=1.0">
+{% endblock %}
+
+{% block content %}
+<!-- Page Hero Banner -->
+<section class="page-hero-section" aria-labelledby="page-heading">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>Legal</span>
+        </nav>
+        <h1 id="page-heading" class="page-title">Terms &amp; Conditions</h1>
+        <p class="page-subtitle">
+            The guidelines, service standards, and mutual expectations governing our creative studio engagements, digital products, and website usage.
+        </p>
+        <div class="page-meta-badge">
+            <span>Last Updated: November 2026</span>
+        </div>
+    </div>
+</section>
+
+<!-- Page Content -->
+<section class="page-content-section">
+    <div class="page-article-container">
+        <article class="page-card">
+            <h2>1. Acceptance of Terms</h2>
+            <p>
+                By visiting or using the <strong>Trinials</strong> website (<strong>trinials.com</strong>), reviewing our portfolio work, or submitting project inquiries, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with these terms, please refrain from using our digital assets and services.
+            </p>
+
+            <h2>2. Studio Services &amp; Scope</h2>
+            <p>
+                Trinials is an independent creative studio specializing in:
+            </p>
+            <ul>
+                <li><strong>Strategic Design:</strong> User interface (UI) &amp; user experience (UX) research, design systems, and visual identity.</li>
+                <li><strong>Modern Web &amp; Digital Engineering:</strong> High-performance full-stack web applications, custom digital platforms, and software craftsmanship.</li>
+                <li><strong>Brand Architecture:</strong> Comprehensive typography systems, iconography, and multi-channel creative direction.</li>
+                <li><strong>Digital Consulting:</strong> Technical architecture reviews, performance optimization, and scalable roadmapping.</li>
+            </ul>
+            <p>
+                Specific deliverables, milestone schedules, revision cycles, and compensation structures for client projects are defined in mutually signed Statements of Work (SOW) or project proposals.
+            </p>
+
+            <h2>3. Intellectual Property Rights</h2>
+            <p>
+                All original visual designs, trademarks, logos, copy, source code frameworks, illustrations, and multimedia content featured on this website are the proprietary intellectual property of <strong>Trinials</strong> or its licensors, protected under applicable copyright and international intellectual property laws.
+            </p>
+            <p>
+                Client deliverables become the property of the client upon full payment and mutual sign-off in accordance with individual project contracts.
+            </p>
+
+            <h2>4. Inquiries &amp; Quotations</h2>
+            <p>
+                Submitting an inquiry through our contact form does not form a binding contract for services until an official proposal, scope agreement, or contract has been executed in writing by both parties.
+            </p>
+            <p>
+                All estimates, timelines, and budgets provided in preliminary discussions are indicative and based on the information initially supplied.
+            </p>
+
+            <h2>5. Client Responsibilities &amp; Collaboration</h2>
+            <p>
+                Successful project delivery requires timely communication and collaborative engagement. Clients are responsible for providing clear project briefs, requisite assets, access credentials, and feedback within agreed timeframes.
+            </p>
+
+            <h2>6. Limitation of Liability</h2>
+            <p>
+                While we strive to provide reliable and accurate information across our digital platforms, the website and its portfolio showcases are provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. Trinials shall not be held liable for any indirect, incidental, or consequential damages resulting from the use or inability to use this site.
+            </p>
+
+            <h2>7. Governing Law</h2>
+            <p>
+                These Terms and Conditions shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law principles. Any legal proceedings arising from or relating to these terms shall be subject to the exclusive jurisdiction of the competent courts in Kerala, India.
+            </p>
+
+            <h2>8. Contact Information</h2>
+            <p>
+                For questions regarding these Terms &amp; Conditions or to initiate a new project engagement, please reach out to our studio:
+            </p>
+
+            <div class="page-contact-card">
+                <h3>Trinials Studio</h3>
+                <p><strong>Email:</strong> <a href="mailto:{{ contact_email|default:'trinial26@gmail.com' }}">{{ contact_email|default:'trinial26@gmail.com' }}</a></p>
+                <p><strong>Primary Phone:</strong> <a href="tel:+918590821155">+91 85908 21155</a></p>
+                <p><strong>Secondary Phone:</strong> <a href="tel:+919400325570">+91 94003 25570</a></p>
+                <p style="margin: 0;"><strong>Office Hours:</strong> Monday &ndash; Saturday &bull; 9:00 AM &ndash; 7:00 PM</p>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}
+

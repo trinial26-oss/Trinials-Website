@@ -1,0 +1,335 @@
+/**
+ * Millennials Portfolio Website - Footer Component
+ * File: static/css/footer.css
+ * Purpose: Minimal, calm, and accessible site footer adhering to the
+ *          Glassmorphism design system.
+ */
+
+/* -----------------------------------------------------------------------------
+   1. Site Footer Base Glass Container
+   ----------------------------------------------------------------------------- */
+.site-footer {
+    width: 100%;
+    background-color: var(--section-bg-footer, #182806);
+    backdrop-filter: var(--glass-blur-backdrop-lg);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-lg);
+    border-top: 1px solid rgba(187, 207, 141, 0.30);
+    box-shadow: 0 -4px 24px rgba(0, 36, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    padding-top: var(--space-10);
+    padding-bottom: var(--space-8);
+    position: relative;
+    z-index: 10;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* -----------------------------------------------------------------------------
+   2. Main Area: Multi-Column Grid (Brand, Nav, Contact, Legal)
+   ----------------------------------------------------------------------------- */
+.footer-main {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1.3fr 1.1fr;
+    gap: var(--space-8);
+    align-items: start;
+    padding-bottom: var(--space-9);
+}
+
+/* Brand Column */
+.footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    padding: 2px 0;
+    border-radius: var(--radius-sm);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.footer-brand:hover {
+    opacity: 0.9;
+    transform: translateY(-0.5px);
+}
+
+.footer-brand:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+}
+
+.footer-brand-logo {
+    height: 38px;
+    width: auto;
+    max-height: 44px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: var(--space-3);
+    transition: transform var(--transition-fast);
+}
+
+.footer-tagline {
+    margin-top: 10px;
+    margin-bottom: 12px;
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-body);
+    color: var(--color-primary-light, #BBCF8D);
+}
+
+.footer-brand-desc {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-small);
+    line-height: 1.6;
+    color: #A3B580;
+    margin: 0;
+}
+
+/* Footer Section Column Styling */
+.footer-col,
+.footer-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+    align-items: flex-start;
+}
+
+.footer-col-title {
+    font-family: var(--font-primary);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary-light, #BBCF8D);
+    margin: 0 0 var(--space-4) 0;
+}
+
+.footer-links-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.footer-nav-link,
+.footer-link-item {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: #DFE3D6;
+    text-decoration: none;
+    padding: 4px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.footer-nav-link:hover,
+.footer-link-item:hover {
+    color: #FFFFFF;
+    transform: translateX(2px);
+}
+
+.footer-nav-link:focus-visible,
+.footer-link-item:focus-visible {
+    outline: 2px solid var(--color-primary-light, #BBCF8D);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+    color: #FFFFFF;
+}
+
+/* Contact Block */
+.footer-contact-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+.footer-contact-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.footer-contact-entry-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #7B904B;
+    font-weight: 700;
+}
+
+.footer-contact-entry-val {
+    font-size: 13.5px;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-fast);
+}
+
+.footer-contact-entry-val:hover {
+    color: var(--color-primary-light, #BBCF8D);
+    text-decoration: underline;
+}
+    outline: 2px solid var(--color-primary-light, #BBCF8D);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+    color: #FFFFFF;
+}
+
+/* -----------------------------------------------------------------------------
+   3. Bottom Bar: Thin Divider, Copyright & Glass Back to Top
+   ----------------------------------------------------------------------------- */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(187, 207, 141, 0.20);
+    gap: var(--space-4);
+}
+
+.footer-copyright {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-small);
+    color: var(--color-primary-light, #BBCF8D);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.footer-back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: #DFE3D6;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    background-color: rgba(255, 255, 255, 0.10);
+    backdrop-filter: var(--glass-blur-backdrop-sm);
+    -webkit-backdrop-filter: var(--glass-blur-backdrop-sm);
+    border: 1px solid rgba(187, 207, 141, 0.35);
+    box-shadow: 0 4px 16px rgba(0, 36, 0, 0.20);
+    transition: color var(--transition-fast), 
+                background-color var(--transition-fast), 
+                border-color var(--transition-fast),
+                box-shadow var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+.footer-back-to-top-arrow {
+    display: inline-block;
+    font-size: 1.05rem;
+    line-height: 1;
+    transition: transform var(--transition-fast);
+}
+
+.footer-back-to-top:hover {
+    color: #FFFFFF;
+    background-color: rgba(187, 207, 141, 0.25);
+    border-color: var(--color-primary-light, #BBCF8D);
+    box-shadow: 0 6px 20px rgba(0, 36, 0, 0.30);
+    transform: translateY(-2px);
+}
+
+.footer-back-to-top:hover .footer-back-to-top-arrow {
+    transform: translateY(-2px);
+}
+
+.footer-back-to-top:focus-visible {
+    outline: 2px solid var(--color-primary-light, #BBCF8D);
+    outline-offset: 2px;
+    color: #FFFFFF;
+}
+
+/* -----------------------------------------------------------------------------
+   4. Responsive Adjustments
+   ----------------------------------------------------------------------------- */
+/* Tablet Breakpoint (<= 1024px) */
+@media (max-width: 1024px) {
+    .site-footer {
+        padding-top: var(--space-8);
+        padding-bottom: var(--space-6);
+    }
+
+    .footer-main {
+        grid-template-columns: 1.5fr 1fr;
+        gap: var(--space-8) var(--space-6);
+        padding-bottom: var(--space-8);
+    }
+}
+
+/* Mobile Breakpoint (<= 768px) */
+@media (max-width: 768px) {
+    .site-footer {
+        padding-top: var(--space-8);
+        padding-bottom: var(--space-6);
+    }
+
+    .footer-main {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+        padding-bottom: var(--space-6);
+    }
+
+    .footer-brand-col {
+        max-width: 100%;
+    }
+
+    .footer-bottom {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: var(--space-4);
+        padding-top: var(--space-5);
+    }
+
+    .footer-back-to-top {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 8px 16px;
+    }
+}
+
+/* Small Mobile Breakpoint (<= 480px) */
+@media (max-width: 480px) {
+    .footer-nav-links {
+        gap: 8px 14px;
+    }
+
+    .footer-nav-link {
+        font-size: var(--font-size-small);
+    }
+
+    .footer-copyright {
+        font-size: var(--font-size-tiny);
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   5. Accessibility: Respect User Reduced Motion Preferences
+   ----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .footer-back-to-top:hover,
+    .footer-back-to-top:hover .footer-back-to-top-arrow {
+        transform: none;
+    }
+}

@@ -1,0 +1,97 @@
+/**
+ * Millennials Portfolio Website - Design System
+ * File: static/css/reset.css
+ * Purpose: Modern, clean CSS normalization and resets
+ */
+
+/* 1. Use a more-intuitive box-sizing model across all elements */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Prevent font size inflation and set default text rendering */
+html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    scroll-behavior: smooth;
+    background-color: var(--color-background);
+}
+
+/* 3. Base body setup with luminous glass-ready canvas */
+body {
+    min-height: 100vh;
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-body);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    background-image: radial-gradient(ellipse at 50% 0%, var(--section-bg-about) 0%, var(--color-background) 60%, var(--section-bg-services) 100%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 4. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* 5. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+/* 6. Avoid text overflow */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/* 7. Remove list styles on list elements with a role or plain list */
+ul,
+ol {
+    list-style: none;
+}
+
+/* 8. Links reset */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 9. Buttons reset */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* 10. Table reset */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Privacy Policy — Trinials{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages.css' %}?v=1.0">
+{% endblock %}
+
+{% block content %}
+<!-- Page Hero Banner -->
+<section class="page-hero-section" aria-labelledby="page-heading">
+    <div class="page-hero-container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'website:home' %}">Home</a>
+            <span aria-hidden="true">&bull;</span>
+            <span>Legal</span>
+        </nav>
+        <h1 id="page-heading" class="page-title">Privacy Policy</h1>
+        <p class="page-subtitle">
+            How Trinials collects, protects, and respects your personal information when you interact with our website and studio services.
+        </p>
+        <div class="page-meta-badge">
+            <span>Last Updated: November 2026</span>
+        </div>
+    </div>
+</section>
+
+<!-- Page Content -->
+<section class="page-content-section">
+    <div class="page-article-container">
+        <article class="page-card">
+            <h2>1. Introduction</h2>
+            <p>
+                At <strong>Trinials</strong> (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), we take your privacy seriously. This Privacy Policy describes how we collect, store, use, and protect the information provided through our portfolio website (<strong>trinials.com</strong>) and direct communications.
+            </p>
+            <p>
+                By accessing our website or submitting an inquiry through our contact forms, you acknowledge and agree to the practices described in this policy.
+            </p>
+
+            <h2>2. Information We Collect</h2>
+            <p>We only collect information that is voluntarily submitted by you or strictly necessary to respond to your project requests:</p>
+            <ul>
+                <li><strong>Contact Inquiries:</strong> Full name, email address, phone number, subject, and the message or project brief you submit through our contact form.</li>
+                <li><strong>Direct Communications:</strong> Any information you disclose when contacting our team directly via phone, WhatsApp, or email.</li>
+                <li><strong>Technical Diagnostics:</strong> Standard, non-identifying server logs (such as request timestamps and browser types) used strictly to diagnose technical faults, optimize site responsiveness, and prevent automated spam submissions.</li>
+            </ul>
+
+            <div class="page-callout">
+                <p>
+                    <strong>No Spam Guarantee:</strong> We do not sell, rent, monetize, or trade your contact information with any third-party marketing brokers. Your inquiries are strictly used for creative consultation and project delivery.
+                </p>
+            </div>
+
+            <h2>3. How We Use Your Information</h2>
+            <p>We use the collected information for the following legitimate business purposes:</p>
+            <ul>
+                <li>To evaluate, respond to, and communicate regarding your project inquiry or collaboration proposal.</li>
+                <li>To prepare project scopes, timelines, design proposals, and quotations.</li>
+                <li>To send an automated confirmation acknowledging receipt of your contact message.</li>
+                <li>To maintain accurate client correspondence records.</li>
+                <li>To protect our website infrastructure against automated spam, fraud, and unauthorized abuse.</li>
+            </ul>
+
+            <h2>4. Anti-Spam &amp; Honeypot Protection</h2>
+            <p>
+                Our inquiry forms incorporate invisible bot-detection mechanisms (honeypots) that reject malicious automated form submissions without collecting or storing tracking cookies on your device.
+            </p>
+
+            <h2>5. Data Retention &amp; Security</h2>
+            <p>
+                We employ standard industry security protocols to safeguard your submitted details from unauthorized access, modification, or exposure. Contact inquiries are stored in secure databases protected by access controls and encrypted transmission protocols (SSL/TLS).
+            </p>
+            <p>
+                Inquiry data is retained only for the duration required to evaluate your project or comply with legal record-keeping standards, after which it is securely deleted or anonymized upon request.
+            </p>
+
+            <h2>6. Your Rights</h2>
+            <p>
+                Regardless of your location, you have the right to request a copy of any personal details you have provided to us, request correction of any inaccurate data, or ask for the deletion of your contact records. To exercise these rights, please email us directly at the address below.
+            </p>
+
+            <h2>7. Contact Us Regarding Privacy</h2>
+            <p>
+                If you have questions, feedback, or data requests regarding this Privacy Policy, our team is directly available:
+            </p>
+
+            <div class="page-contact-card">
+                <h3>Trinials Studio</h3>
+                <p><strong>Email:</strong> <a href="mailto:{{ contact_email|default:'trinial26@gmail.com' }}">{{ contact_email|default:'trinial26@gmail.com' }}</a></p>
+                <p><strong>Primary Phone:</strong> <a href="tel:+918590821155">+91 85908 21155</a></p>
+                <p><strong>Secondary Phone:</strong> <a href="tel:+919400325570">+91 94003 25570</a></p>
+                <p style="margin: 0;"><strong>Studio Hours:</strong> Monday &ndash; Saturday &bull; 9:00 AM &ndash; 7:00 PM</p>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}
+
