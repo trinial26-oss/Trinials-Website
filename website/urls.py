@@ -13,6 +13,7 @@ urlpatterns = [
     path('contact/', views.contact_submit, name='contact'),
 
     # Technical SEO Endpoints
+    path('favicon.ico', views.favicon_view, name='favicon'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
 

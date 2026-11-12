@@ -25,3 +25,4 @@ class Command(BaseCommand):
         for e in enquiries:
             dispatch = e.get('email_dispatch', {})
             self.stdout.write(f" - [{e.get('created_at')}] {e.get('name')} <{e.get('email')}> | Team Dispatched: {dispatch.get('team_dispatched')}")
+

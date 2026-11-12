@@ -5,7 +5,7 @@ import threading
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse, Http404, JsonResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -234,6 +234,26 @@ Sitemap: {site_url}/sitemap.xml
 Host: {site_url}
 """
     return HttpResponse(content.strip() + "\n", content_type="text/plain; charset=utf-8")
+
+
+def favicon_view(request):
+    """
+    Serve the root favicon.ico with image/x-icon content-type and 1-year cache headers.
+    Ensures browsers, bookmarks, and search engine crawlers reliably display the icon in tabs.
+    """
+    ico_path = settings.BASE_DIR / 'static' / 'favicon.ico'
+    if ico_path.exists():
+        response = FileResponse(open(ico_path, 'rb'), content_type='image/x-icon')
+        response['Cache-Control'] = 'public, max-age=31536000'
+        return response
+
+    png_path = settings.BASE_DIR / 'static' / 'images' / 'favicon.png'
+    if png_path.exists():
+        response = FileResponse(open(png_path, 'rb'), content_type='image/png')
+        response['Cache-Control'] = 'public, max-age=31536000'
+        return response
+
+    return HttpResponse(status=404)
 
 
 def contact_submit(request):

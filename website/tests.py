@@ -1039,3 +1039,17 @@ class WebsiteTests(TestCase):
         self.assertEqual(config.get('EMAIL_HOST'), 'smtp.gmail.com')
         self.assertIn('trinial26@gmail.com', config.get('CONTACT_NOTIFICATION_EMAIL', ''))
 
+    def test_favicon_ico_endpoint(self):
+        """Verify that /favicon.ico returns HTTP 200 with image/x-icon content-type."""
+        response = self.client.get('/favicon.ico')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'image/x-icon')
+        self.assertIn('public', response.get('Cache-Control', ''))
+
+    def test_favicon_meta_tags_in_base_template(self):
+        """Verify that base template contains Google Search and browser compliant favicon links."""
+        response = self.client.get(reverse('website:home'))
+        self.assertContains(response, '<link rel="icon" type="image/x-icon" href="/favicon.ico">')
+        self.assertContains(response, '<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">')
+        self.assertContains(response, 'favicon-48x48.png')
+
