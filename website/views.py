@@ -515,6 +515,33 @@ def _send_contact_notification(contact_message, connection=None, email_config=No
 
     try:
         html_content = render_to_string('emails/team_notification.html', context)
+
+        # 1. Try modern HTTPS REST API first (bypasses Render cloud firewall port 465/587 blocks)
+        try:
+            from .email_service import send_email_via_https
+            https_ok, provider, err = send_email_via_https(
+                to_emails=recipients,
+                subject=subject,
+                html_content=html_content,
+                plain_content=plain_text,
+                from_email=from_email,
+                reply_to=contact_message.email,
+                config=cfg,
+            )
+            if https_ok:
+                logger.info(
+                    "Dispatched contact notification email via HTTPS (%s) for ContactMessage id=%s to %s",
+                    provider,
+                    getattr(contact_message, 'id', None),
+                    recipients
+                )
+                return True
+            elif provider != 'none':
+                logger.warning("HTTPS email provider '%s' failed: %s; falling back to standard backend", provider, err)
+        except Exception as https_err:
+            logger.warning("HTTPS dispatch attempt notice: %s; falling back to standard backend", https_err)
+
+        # 2. Fall back to standard Django backend (SMTP for localhost / locmem for tests)
         email = EmailMultiAlternatives(
             subject=subject,
             body=plain_text,
@@ -532,13 +559,20 @@ def _send_contact_notification(contact_message, connection=None, email_config=No
         )
         return True
     except Exception as e:
+        err_msg = str(e)
+        if '101' in err_msg or 'Network is unreachable' in err_msg or 'timed out' in err_msg.lower():
+            err_msg = (
+                f"{e} (Render Free Tier blocks outbound SMTP ports 25, 465, 587. "
+                f"To enable email from Render, configure BREVO_API_KEY, RESEND_API_KEY, "
+                f"or GMAIL_WEBHOOK_URL in MongoDB Atlas app_config, or upgrade Render to Starter)."
+            )
         logger.error(
             "Failed to send contact notification email for ContactMessage id=%s: %s",
             getattr(contact_message, 'id', None),
-            e,
+            err_msg,
             exc_info=False
         )
-        raise e
+        raise RuntimeError(err_msg) from e
 
 
 def _send_client_auto_response(contact_message, connection=None, email_config=None):
@@ -580,6 +614,32 @@ def _send_client_auto_response(contact_message, connection=None, email_config=No
 
     try:
         html_content = render_to_string('emails/client_auto_response.html', context)
+
+        # 1. Try modern HTTPS REST API first (bypasses Render cloud firewall port 465/587 blocks)
+        try:
+            from .email_service import send_email_via_https
+            https_ok, provider, err = send_email_via_https(
+                to_emails=[contact_message.email],
+                subject=subject,
+                html_content=html_content,
+                plain_content=plain_text,
+                from_email=from_email,
+                config=cfg,
+            )
+            if https_ok:
+                logger.info(
+                    "Dispatched client auto-response confirmation via HTTPS (%s) to %s for ContactMessage id=%s",
+                    provider,
+                    contact_message.email,
+                    getattr(contact_message, 'id', None)
+                )
+                return True
+            elif provider != 'none':
+                logger.warning("HTTPS email provider '%s' failed: %s; falling back to standard backend", provider, err)
+        except Exception as https_err:
+            logger.warning("HTTPS dispatch attempt notice: %s; falling back to standard backend", https_err)
+
+        # 2. Fall back to standard Django backend (SMTP for localhost / locmem for tests)
         email = EmailMultiAlternatives(
             subject=subject,
             body=plain_text,
@@ -596,10 +656,17 @@ def _send_client_auto_response(contact_message, connection=None, email_config=No
         )
         return True
     except Exception as e:
+        err_msg = str(e)
+        if '101' in err_msg or 'Network is unreachable' in err_msg or 'timed out' in err_msg.lower():
+            err_msg = (
+                f"{e} (Render Free Tier blocks outbound SMTP ports 25, 465, 587. "
+                f"To enable email from Render, configure BREVO_API_KEY, RESEND_API_KEY, "
+                f"or GMAIL_WEBHOOK_URL in MongoDB Atlas app_config, or upgrade Render to Starter)."
+            )
         logger.error(
             "Failed to send client auto-response for ContactMessage id=%s: %s",
             getattr(contact_message, 'id', None),
-            e,
+            err_msg,
             exc_info=False
         )
-        raise e
+        raise RuntimeError(err_msg) from e

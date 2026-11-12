@@ -1053,3 +1053,16 @@ class WebsiteTests(TestCase):
         self.assertContains(response, '<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">')
         self.assertContains(response, 'favicon-48x48.png')
 
+    def test_https_email_service_fallback_when_unconfigured(self):
+        """Verify that send_email_via_https cleanly returns False without crashing when no API key is provided."""
+        from website.email_service import send_email_via_https
+        success, provider, err = send_email_via_https(
+            to_emails=['test@example.com'],
+            subject='Test',
+            html_content='<p>Test</p>',
+            config={}
+        )
+        self.assertFalse(success)
+        self.assertEqual(provider, 'none')
+        self.assertIn('No HTTPS email provider configured', err)
+

@@ -79,6 +79,10 @@ def seed_email_config_to_mongo(override_config=None):
         'CONTACT_EMAIL': os.environ.get('CONTACT_EMAIL', 'trinial26@gmail.com'),
         'CONTACT_PHONE_NUMBER': os.environ.get('CONTACT_PHONE_NUMBER', '+91 85908 21155'),
         'CONTACT_PHONE_NUMBER_SECONDARY': os.environ.get('CONTACT_PHONE_NUMBER_SECONDARY', '+91 94003 25570'),
+        'BREVO_API_KEY': os.environ.get('BREVO_API_KEY', '').strip(),
+        'RESEND_API_KEY': os.environ.get('RESEND_API_KEY', '').strip(),
+        'GMAIL_WEBHOOK_URL': os.environ.get('GMAIL_WEBHOOK_URL', '').strip(),
+        'GMAIL_WEBHOOK_SECRET': os.environ.get('GMAIL_WEBHOOK_SECRET', '').strip(),
         'updated_at': datetime.now(timezone.utc)
     }
 
@@ -86,6 +90,12 @@ def seed_email_config_to_mongo(override_config=None):
         default_config.update(override_config)
 
     try:
+        # Preserve existing API keys if already populated in Mongo
+        existing = db.app_config.find_one({'_id': 'email_config'}) or {}
+        for key in ['BREVO_API_KEY', 'RESEND_API_KEY', 'GMAIL_WEBHOOK_URL', 'GMAIL_WEBHOOK_SECRET']:
+            if existing.get(key) and not default_config.get(key):
+                default_config[key] = existing[key]
+
         db.app_config.replace_one({'_id': 'email_config'}, default_config, upsert=True)
         logger.info("Successfully synced email_config into MongoDB Atlas app_config collection.")
         return True
