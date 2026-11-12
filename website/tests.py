@@ -1093,7 +1093,7 @@ class WebsiteTests(TestCase):
         """Verify that valid credentials log in and redirect to dashboard."""
         response = self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
-            'password': 'trinials2026!',
+            'password': 'Trinialjo@2026',
         })
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse('website:admin_dashboard'), response.url)
@@ -1104,7 +1104,7 @@ class WebsiteTests(TestCase):
         # Log in via login endpoint
         self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
-            'password': 'trinials2026!',
+            'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_dashboard'))
         self.assertEqual(response.status_code, 200)
@@ -1116,7 +1116,7 @@ class WebsiteTests(TestCase):
         """Verify that authenticated administrator can download enquiries as CSV."""
         self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
-            'password': 'trinials2026!',
+            'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_export_csv'))
         self.assertEqual(response.status_code, 200)
@@ -1127,7 +1127,7 @@ class WebsiteTests(TestCase):
         """Verify that logout clears session and redirects to login."""
         self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
-            'password': 'trinials2026!',
+            'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_logout'))
         self.assertEqual(response.status_code, 302)
@@ -1140,7 +1140,7 @@ class WebsiteTests(TestCase):
         """Verify that Sl. No. column, calendar date inputs, and SVG search icon are rendered in the dashboard."""
         self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
-            'password': 'trinials2026!',
+            'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_dashboard'))
         self.assertEqual(response.status_code, 200)
@@ -1170,7 +1170,7 @@ class WebsiteTests(TestCase):
         # Log in
         self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
-            'password': 'trinials2026!',
+            'password': 'Trinialjo@2026',
         })
 
         # Call bulk delete with today's date
@@ -1187,7 +1187,7 @@ class WebsiteTests(TestCase):
         """Verify that dashboard automatically defaults to showing the current date enquiries."""
         self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
-            'password': 'trinials2026!',
+            'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_dashboard'))
         self.assertEqual(response.status_code, 200)

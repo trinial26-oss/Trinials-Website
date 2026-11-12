@@ -411,12 +411,12 @@ def get_admin_credentials():
     import hashlib
     db = get_mongo_db()
     default_user = os.environ.get('ADMIN_USERNAME', 'admin').strip()
-    default_pass = os.environ.get('ADMIN_PASSWORD', 'trinials2026!').strip()
+    default_pass = os.environ.get('ADMIN_PASSWORD', 'Trinialjo@2026').strip()
 
     if db is not None:
         try:
             doc = db.app_config.find_one({'_id': 'admin_auth'})
-            if doc:
+            if doc and doc.get('password_hash'):
                 return {
                     'username': doc.get('username', default_user),
                     'password_hash': doc.get('password_hash'),
@@ -432,6 +432,37 @@ def get_admin_credentials():
         'password_hash': pwd_hash,
         'salt': salt,
     }
+
+
+def seed_admin_credentials_to_mongo(username=None, password=None):
+    """
+    Persist administrator login credentials directly in MongoDB Atlas collection 'app_config'.
+    """
+    import hashlib
+    db = get_mongo_db()
+    if db is None:
+        return False
+
+    uname = (username or os.environ.get('ADMIN_USERNAME') or 'admin').strip()
+    pwd = (password or os.environ.get('ADMIN_PASSWORD') or 'Trinialjo@2026').strip()
+    salt = 'trinials_auth_salt'
+    pwd_hash = hashlib.sha256((pwd + salt).encode('utf-8')).hexdigest()
+
+    auth_doc = {
+        '_id': 'admin_auth',
+        'username': uname,
+        'password_hash': pwd_hash,
+        'salt': salt,
+        'updated_at': datetime.now(timezone.utc)
+    }
+
+    try:
+        db.app_config.replace_one({'_id': 'admin_auth'}, auth_doc, upsert=True)
+        logger.info("Successfully updated admin_auth in MongoDB Atlas for user '%s'", uname)
+        return True
+    except Exception as e:
+        logger.error("Failed to update admin_auth in MongoDB Atlas: %s", e)
+        return False
 
 
 def verify_admin_credentials(username, password):
@@ -454,7 +485,7 @@ def verify_admin_credentials(username, password):
     submitted_hash = hashlib.sha256((password.strip() + salt).encode('utf-8')).hexdigest()
 
     # Match against stored hash or fallback password
-    env_pass = os.environ.get('ADMIN_PASSWORD', 'trinials2026!').strip()
+    env_pass = os.environ.get('ADMIN_PASSWORD', 'Trinialjo@2026').strip()
     env_hash = hashlib.sha256((env_pass + salt).encode('utf-8')).hexdigest()
 
     return submitted_hash == creds.get('password_hash') or submitted_hash == env_hash
