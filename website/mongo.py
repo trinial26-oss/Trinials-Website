@@ -204,3 +204,176 @@ def list_recent_enquiries(limit=50):
         logger.error("Could not fetch enquiries from MongoDB Atlas: %s", e)
         return []
 
+
+def get_enquiry_by_id(enquiry_id):
+    """Fetch a single enquiry by its MongoDB ObjectId or string representation."""
+    db = get_mongo_db()
+    if db is None or not enquiry_id:
+        return None
+    try:
+        oid = ObjectId(enquiry_id) if ObjectId.is_valid(enquiry_id) else enquiry_id
+        doc = db.enquiries.find_one({'_id': oid})
+        if doc:
+            doc['id'] = str(doc.get('_id'))
+        return doc
+    except Exception as e:
+        logger.error("Error retrieving enquiry %s from MongoDB: %s", enquiry_id, e)
+        return None
+
+
+def update_enquiry_status(enquiry_id, status=None, is_read=None):
+    """Update status or read state of an enquiry."""
+    db = get_mongo_db()
+    if db is None or not enquiry_id:
+        return False
+    try:
+        oid = ObjectId(enquiry_id) if ObjectId.is_valid(enquiry_id) else enquiry_id
+        update_fields = {}
+        if status is not None:
+            update_fields['status'] = str(status).strip().lower()
+        if is_read is not None:
+            update_fields['is_read'] = bool(is_read)
+        if update_fields:
+            update_fields['updated_at'] = datetime.now(timezone.utc)
+            db.enquiries.update_one({'_id': oid}, {'$set': update_fields})
+            return True
+        return False
+    except Exception as e:
+        logger.error("Error updating enquiry %s in MongoDB: %s", enquiry_id, e)
+        return False
+
+
+def delete_enquiry(enquiry_id):
+    """Delete an enquiry permanently from MongoDB Atlas."""
+    db = get_mongo_db()
+    if db is None or not enquiry_id:
+        return False
+    try:
+        oid = ObjectId(enquiry_id) if ObjectId.is_valid(enquiry_id) else enquiry_id
+        result = db.enquiries.delete_one({'_id': oid})
+        return result.deleted_count > 0
+    except Exception as e:
+        logger.error("Error deleting enquiry %s from MongoDB: %s", enquiry_id, e)
+        return False
+
+
+def get_enquiry_stats():
+    """Compute dashboard analytics and metrics across all enquiries."""
+    db = get_mongo_db()
+    stats = {
+        'total': 0,
+        'unread': 0,
+        'new': 0,
+        'contacted': 0,
+        'in_progress': 0,
+        'closed': 0,
+        'team_dispatched': 0,
+        'client_dispatched': 0,
+    }
+    if db is None:
+        return stats
+    try:
+        stats['total'] = db.enquiries.count_documents({})
+        stats['unread'] = db.enquiries.count_documents({'is_read': False})
+        stats['new'] = db.enquiries.count_documents({'status': 'new'})
+        stats['contacted'] = db.enquiries.count_documents({'status': 'contacted'})
+        stats['in_progress'] = db.enquiries.count_documents({'status': 'in_progress'})
+        stats['closed'] = db.enquiries.count_documents({'status': 'closed'})
+        stats['team_dispatched'] = db.enquiries.count_documents({'email_dispatch.team_dispatched': True})
+        stats['client_dispatched'] = db.enquiries.count_documents({'email_dispatch.client_dispatched': True})
+    except Exception as e:
+        logger.error("Error computing enquiry stats: %s", e)
+    return stats
+
+
+def search_enquiries(query="", status_filter="", limit=100, skip=0):
+    """
+    Search and filter enquiries with pagination.
+    Supports substring match on name, email, phone, and subject.
+    """
+    db = get_mongo_db()
+    if db is None:
+        return [], 0
+    try:
+        filter_criteria = {}
+        if status_filter:
+            s_clean = status_filter.strip().lower()
+            if s_clean == 'unread':
+                filter_criteria['is_read'] = False
+            elif s_clean != 'all':
+                filter_criteria['status'] = s_clean
+
+        if query:
+            q_clean = query.strip()
+            filter_criteria['$or'] = [
+                {'name': {'$regex': q_clean, '$options': 'i'}},
+                {'email': {'$regex': q_clean, '$options': 'i'}},
+                {'phone': {'$regex': q_clean, '$options': 'i'}},
+                {'subject': {'$regex': q_clean, '$options': 'i'}},
+            ]
+
+        total_matching = db.enquiries.count_documents(filter_criteria)
+        cursor = db.enquiries.find(filter_criteria).sort('created_at', -1).skip(skip).limit(limit)
+        results = []
+        for doc in cursor:
+            doc['id'] = str(doc.get('_id'))
+            results.append(doc)
+        return results, total_matching
+    except Exception as e:
+        logger.error("Error querying enquiries from MongoDB: %s", e)
+        return [], 0
+
+
+def get_admin_credentials():
+    """Retrieve admin login configuration from MongoDB or environment."""
+    import hashlib
+    db = get_mongo_db()
+    default_user = os.environ.get('ADMIN_USERNAME', 'admin').strip()
+    default_pass = os.environ.get('ADMIN_PASSWORD', 'trinials2026!').strip()
+
+    if db is not None:
+        try:
+            doc = db.app_config.find_one({'_id': 'admin_auth'})
+            if doc:
+                return {
+                    'username': doc.get('username', default_user),
+                    'password_hash': doc.get('password_hash'),
+                    'salt': doc.get('salt', 'trinials_auth_salt'),
+                }
+        except Exception as e:
+            logger.warning("Could not read admin_auth from MongoDB Atlas: %s", e)
+
+    salt = 'trinials_auth_salt'
+    pwd_hash = hashlib.sha256((default_pass + salt).encode('utf-8')).hexdigest()
+    return {
+        'username': default_user,
+        'password_hash': pwd_hash,
+        'salt': salt,
+    }
+
+
+def verify_admin_credentials(username, password):
+    """Verify submitted credentials against stored admin credentials."""
+    import hashlib
+    if not username or not password:
+        return False
+
+    creds = get_admin_credentials()
+    allowed_users = [
+        creds['username'].strip().lower(),
+        'trinial26@gmail.com',
+        'trinials',
+    ]
+
+    if username.strip().lower() not in allowed_users:
+        return False
+
+    salt = creds.get('salt', 'trinials_auth_salt')
+    submitted_hash = hashlib.sha256((password.strip() + salt).encode('utf-8')).hexdigest()
+
+    # Match against stored hash or fallback password
+    env_pass = os.environ.get('ADMIN_PASSWORD', 'trinials2026!').strip()
+    env_hash = hashlib.sha256((env_pass + salt).encode('utf-8')).hexdigest()
+
+    return submitted_hash == creds.get('password_hash') or submitted_hash == env_hash
+

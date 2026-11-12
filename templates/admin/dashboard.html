@@ -1,0 +1,1027 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquiry Management Console | Trinials Admin</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #001200;
+            --bg-header: #021a02;
+            --bg-card: #042204;
+            --bg-card-hover: #072e07;
+            --border-card: #143814;
+            --border-highlight: #285428;
+            --text-main: #FFFFFF;
+            --text-sub: #A5B69E;
+            --text-muted: #6B7C65;
+            --accent-green: #BBCF8D;
+            --accent-bright: #38ef7d;
+            --accent-glow: rgba(187, 207, 141, 0.15);
+            --badge-new-bg: rgba(56, 239, 125, 0.15);
+            --badge-new-color: #38ef7d;
+            --badge-contacted-bg: rgba(59, 130, 246, 0.15);
+            --badge-contacted-color: #60a5fa;
+            --badge-progress-bg: rgba(245, 158, 11, 0.15);
+            --badge-progress-color: #fbbf24;
+            --badge-closed-bg: rgba(156, 163, 175, 0.15);
+            --badge-closed-color: #9ca3af;
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.15);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header */
+        .top-navbar {
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border-card);
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+        }
+        .nav-brand img {
+            height: 34px;
+            width: auto;
+        }
+        .brand-pill {
+            background: var(--border-card);
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-highlight);
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .btn-nav {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-nav:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .btn-nav.logout {
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .btn-nav.logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Main Container */
+        .admin-main {
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 32px 24px 60px;
+        }
+
+        /* Banner Messages */
+        .flash-messages {
+            margin-bottom: 24px;
+        }
+        .flash-message {
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .flash-message.success {
+            background: rgba(56, 239, 125, 0.12);
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            color: #86efac;
+        }
+        .flash-message.error {
+            background: var(--danger-bg);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        /* Metrics Row */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            padding: 22px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .stat-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-2px);
+        }
+        .stat-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-family: 'Manrope', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: -0.5px;
+        }
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Toolbar */
+        .toolbar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .search-form {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 280px;
+        }
+        .search-input-wrap {
+            position: relative;
+            flex: 1;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 14px 10px 36px;
+            background: rgba(0, 15, 0, 0.6);
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #FFFFFF;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: var(--accent-green);
+        }
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .filter-select {
+            padding: 10px 14px;
+            background: rgba(0, 15, 0, 0.6);
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #FFFFFF;
+            outline: none;
+            cursor: pointer;
+        }
+        .filter-select option {
+            background: var(--bg-card);
+            color: #FFFFFF;
+        }
+        .btn-toolbar {
+            padding: 10px 16px;
+            background: rgba(187, 207, 141, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(187, 207, 141, 0.3);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-toolbar:hover {
+            background: var(--accent-green);
+            color: #002400;
+        }
+
+        /* Enquiries Table */
+        .table-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .enquiry-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+        .enquiry-table th {
+            background: rgba(0, 20, 0, 0.6);
+            padding: 14px 18px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-card);
+        }
+        .enquiry-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(20, 56, 20, 0.6);
+            vertical-align: middle;
+        }
+        .enquiry-table tr {
+            transition: background 0.15s;
+        }
+        .enquiry-table tr:hover {
+            background: var(--bg-card-hover);
+        }
+        .enquiry-table tr.unread-row {
+            background: rgba(187, 207, 141, 0.04);
+        }
+        .enquiry-table tr.unread-row td:first-child {
+            border-left: 3px solid var(--accent-green);
+        }
+
+        /* Table Badges & Cells */
+        .client-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .client-name {
+            font-weight: 600;
+            color: #FFFFFF;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .unread-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-bright);
+            display: inline-block;
+        }
+        .client-meta {
+            font-size: 12px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .client-meta a {
+            color: var(--text-sub);
+            text-decoration: none;
+        }
+        .client-meta a:hover {
+            color: var(--accent-green);
+            text-decoration: underline;
+        }
+        .subject-cell {
+            max-width: 280px;
+        }
+        .subject-title {
+            font-weight: 500;
+            color: #F4F7F2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .subject-snippet {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+        }
+        .status-badge.new { background: var(--badge-new-bg); color: var(--badge-new-color); }
+        .status-badge.contacted { background: var(--badge-contacted-bg); color: var(--badge-contacted-color); }
+        .status-badge.in_progress { background: var(--badge-progress-bg); color: var(--badge-progress-color); }
+        .status-badge.closed { background: var(--badge-closed-bg); color: var(--badge-closed-color); }
+
+        .dispatch-pills {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .dispatch-pill {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .dispatch-pill.success {
+            background: rgba(56, 239, 125, 0.1);
+            color: #38ef7d;
+        }
+        .dispatch-pill.failed {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+        .dispatch-pill.pending {
+            background: rgba(156, 163, 175, 0.1);
+            color: #9ca3af;
+        }
+
+        .actions-cell {
+            white-space: nowrap;
+            text-align: right;
+        }
+        .btn-inspect {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #FFFFFF;
+            border: 1px solid var(--border-card);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 6px;
+        }
+        .btn-inspect:hover {
+            background: var(--accent-green);
+            color: #002400;
+            border-color: var(--accent-green);
+        }
+        .btn-delete-row {
+            padding: 6px 10px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-delete-row:hover {
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+
+        /* Modal / Inspector Drawer */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: #021a02;
+            border: 1px solid var(--border-highlight);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(187, 207, 141, 0.1);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 680px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 32px;
+        }
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-card);
+            padding-bottom: 18px;
+        }
+        .modal-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+        .modal-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .btn-close-modal {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            color: var(--text-sub);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .btn-close-modal:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .detail-item {
+            background: rgba(0, 15, 0, 0.5);
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+        .detail-item.full-width {
+            grid-column: span 2;
+        }
+        .detail-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .detail-val {
+            font-size: 14px;
+            color: #FFFFFF;
+            word-break: break-word;
+        }
+        .message-content {
+            background: rgba(0, 15, 0, 0.6);
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #FFFFFF;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+
+        .quick-contact-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .btn-action-pill {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-action-pill.whatsapp {
+            background: rgba(37, 211, 102, 0.15);
+            color: #25d366;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+        }
+        .btn-action-pill.whatsapp:hover {
+            background: #25d366;
+            color: #000;
+        }
+        .btn-action-pill.call {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .btn-action-pill.call:hover {
+            background: #3b82f6;
+            color: #FFF;
+        }
+        .btn-action-pill.mail {
+            background: rgba(187, 207, 141, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(187, 207, 141, 0.3);
+        }
+        .btn-action-pill.mail:hover {
+            background: var(--accent-green);
+            color: #002400;
+        }
+
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px solid var(--border-card);
+            padding-top: 20px;
+            flex-wrap: wrap;
+        }
+        .status-changer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-changer select {
+            padding: 8px 12px;
+            background: rgba(0, 15, 0, 0.8);
+            border: 1px solid var(--border-highlight);
+            color: #FFFFFF;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .btn-danger-outline {
+            padding: 8px 14px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-danger-outline:hover {
+            background: #ef4444;
+            color: #FFFFFF;
+        }
+        .btn-resend {
+            padding: 8px 14px;
+            background: rgba(56, 239, 125, 0.15);
+            color: #86efac;
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-resend:hover {
+            background: #38ef7d;
+            color: #002400;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="top-navbar">
+        <div class="nav-brand">
+            <a href="{% url 'website:home' %}">
+                <img src="{% static 'images/logo-dark.png' %}" alt="Trinials">
+            </a>
+            <span class="brand-pill">Operations Console</span>
+        </div>
+        <div class="nav-actions">
+            <a href="{% url 'website:admin_export_csv' %}" class="btn-nav">
+                📥 Export CSV
+            </a>
+            <a href="{% url 'website:home' %}" target="_blank" class="btn-nav">
+                🌐 Live Site ↗
+            </a>
+            <a href="{% url 'website:admin_logout' %}" class="btn-nav logout">
+                Log Out
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="admin-main">
+
+        <!-- Flash Messages -->
+        {% if messages %}
+        <div class="flash-messages">
+            {% for msg in messages %}
+            <div class="flash-message {% if msg.tags %}{{ msg.tags }}{% else %}success{% endif %}">
+                <span>{{ msg }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Analytics Overview -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Inquiries</div>
+                <div class="stat-value">{{ stats.total }}</div>
+                <div class="stat-sub">Persisted in MongoDB Atlas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Unread Inquiries</div>
+                <div class="stat-value" style="color: var(--accent-bright);">{{ stats.unread }}</div>
+                <div class="stat-sub">Require team review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Team Dispatched</div>
+                <div class="stat-value" style="color: #60a5fa;">{{ stats.team_dispatched }}</div>
+                <div class="stat-sub">Delivered to Trinials inboxes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Client Dispatched</div>
+                <div class="stat-value" style="color: #fbbf24;">{{ stats.client_dispatched }}</div>
+                <div class="stat-sub">Confirmations sent to leads</div>
+            </div>
+        </section>
+
+        <!-- Search & Filter Toolbar -->
+        <section class="toolbar-card">
+            <form method="GET" action="{% url 'website:admin_dashboard' %}" class="search-form">
+                <div class="search-input-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" name="q" value="{{ query }}" class="search-input" placeholder="Search by name, email, phone, or subject...">
+                </div>
+                <select name="status" class="filter-select" onchange="this.form.submit()">
+                    <option value="all" {% if current_status == 'all' %}selected{% endif %}>All Inquiries</option>
+                    <option value="unread" {% if current_status == 'unread' %}selected{% endif %}>Unread Only</option>
+                    <option value="new" {% if current_status == 'new' %}selected{% endif %}>New</option>
+                    <option value="contacted" {% if current_status == 'contacted' %}selected{% endif %}>Contacted</option>
+                    <option value="in_progress" {% if current_status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="closed" {% if current_status == 'closed' %}selected{% endif %}>Closed</option>
+                </select>
+                <button type="submit" class="btn-toolbar">Filter</button>
+                {% if query or current_status != 'all' %}
+                <a href="{% url 'website:admin_dashboard' %}" class="btn-nav">Reset</a>
+                {% endif %}
+            </form>
+            <div>
+                <span style="font-size: 13px; color: var(--text-muted);">
+                    Showing <strong>{{ enquiries|length }}</strong> of <strong>{{ total_matching }}</strong> inquiries
+                </span>
+            </div>
+        </section>
+
+        <!-- Enquiry Data Table -->
+        <section class="table-wrap">
+            <table class="enquiry-table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Client Details</th>
+                        <th>Subject & Message</th>
+                        <th>Status</th>
+                        <th>Dispatch Audit</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in enquiries %}
+                    <tr class="{% if not item.is_read %}unread-row{% endif %}">
+                        <td style="white-space: nowrap; font-size: 13px; color: var(--text-sub);">
+                            {{ item.created_at|date:"d M Y" }}<br>
+                            <span style="color: var(--text-muted); font-size: 11px;">{{ item.created_at|date:"H:i A" }} UTC</span>
+                        </td>
+                        <td>
+                            <div class="client-info">
+                                <div class="client-name">
+                                    {% if not item.is_read %}<span class="unread-dot" title="Unread"></span>{% endif %}
+                                    {{ item.name }}
+                                </div>
+                                <div class="client-meta">
+                                    <a href="mailto:{{ item.email }}">{{ item.email }}</a>
+                                    {% if item.phone %}
+                                    <span>•</span>
+                                    <a href="tel:{{ item.phone }}">{{ item.phone }}</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="subject-cell">
+                            <div class="subject-title">{{ item.subject }}</div>
+                            <div class="subject-snippet">{{ item.message|truncatechars:70 }}</div>
+                        </td>
+                        <td>
+                            <span class="status-badge {{ item.status }}">{{ item.status }}</span>
+                        </td>
+                        <td>
+                            <div class="dispatch-pills">
+                                <span class="dispatch-pill {% if item.email_dispatch.team_dispatched %}success{% elif item.email_dispatch.errors %}failed{% else %}pending{% endif %}">
+                                    Team: {% if item.email_dispatch.team_dispatched %}✓ Sent{% elif item.email_dispatch.errors %}✕ Failed{% else %}Pending{% endif %}
+                                </span>
+                                <span class="dispatch-pill {% if item.email_dispatch.client_dispatched %}success{% elif item.email_dispatch.errors %}failed{% else %}pending{% endif %}">
+                                    Client: {% if item.email_dispatch.client_dispatched %}✓ Sent{% elif item.email_dispatch.errors %}✕ Failed{% else %}Pending{% endif %}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="actions-cell">
+                            <button class="btn-inspect" onclick="openInspector('{{ item.id }}')">
+                                Details ↗
+                            </button>
+                            <form method="POST" action="{% url 'website:admin_enquiry_action' item.id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this enquiry permanently?');">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="delete">
+                                <button type="submit" class="btn-delete-row" title="Delete">🗑</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-icon">📭</div>
+                                <h3 style="color: #FFFFFF; font-size: 16px; margin-bottom: 6px;">No enquiries found</h3>
+                                <p style="font-size: 13px;">No inquiries match the current search or status filter.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <!-- Inspection Modal Drawer -->
+    <div class="modal-overlay" id="inspectorModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title" id="modalClientName">Client Details</h2>
+                    <p class="modal-subtitle" id="modalSubmittedTime">Submitted time</p>
+                </div>
+                <button class="btn-close-modal" onclick="closeInspector()">✕</button>
+            </div>
+
+            <!-- Quick Action Links -->
+            <div class="quick-contact-actions">
+                <a href="#" id="modalWhatsAppBtn" target="_blank" class="btn-action-pill whatsapp">
+                    💬 WhatsApp Chat
+                </a>
+                <a href="#" id="modalCallBtn" class="btn-action-pill call">
+                    📞 Call Phone
+                </a>
+                <a href="#" id="modalEmailBtn" class="btn-action-pill mail">
+                    ✉ Send Email
+                </a>
+            </div>
+
+            <!-- Details Key-Values -->
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Email Address</div>
+                    <div class="detail-val" id="modalEmail">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Phone Number</div>
+                    <div class="detail-val" id="modalPhone">-</div>
+                </div>
+                <div class="detail-item full-width">
+                    <div class="detail-label">Subject</div>
+                    <div class="detail-val" id="modalSubject" style="font-weight: 600;">-</div>
+                </div>
+            </div>
+
+            <div class="detail-label" style="margin-bottom: 6px;">Full Message:</div>
+            <div class="message-content" id="modalMessage">-</div>
+
+            <!-- Technical & Email Audit Grid -->
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Team Notification</div>
+                    <div class="detail-val" id="modalTeamDispatch">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Client Auto-Response</div>
+                    <div class="detail-val" id="modalClientDispatch">-</div>
+                </div>
+                <div class="detail-item full-width" id="modalErrorsWrap" style="display: none;">
+                    <div class="detail-label" style="color: #f87171;">Email Error Diagnostics:</div>
+                    <div class="detail-val" id="modalErrors" style="font-size: 12px; color: #fca5a5; font-family: monospace;">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Client IP Address</div>
+                    <div class="detail-val" id="modalIp" style="font-family: monospace; font-size: 12px;">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">MongoDB Document ID</div>
+                    <div class="detail-val" id="modalMongoId" style="font-family: monospace; font-size: 12px;">-</div>
+                </div>
+                <div class="detail-item full-width">
+                    <div class="detail-label">Browser / User Agent</div>
+                    <div class="detail-val" id="modalUserAgent" style="font-size: 12px; color: var(--text-muted);">-</div>
+                </div>
+            </div>
+
+            <!-- Actions Footer -->
+            <div class="modal-footer">
+                <form method="POST" id="modalStatusForm" action="" class="status-changer">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update_status">
+                    <label for="statusSelect" style="font-size: 13px; color: var(--text-sub);">Status:</label>
+                    <select name="new_status" id="statusSelect" onchange="this.form.submit()">
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </form>
+
+                <div style="display: flex; gap: 8px;">
+                    <form method="POST" id="modalResendForm" action="" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="resend_email">
+                        <button type="submit" class="btn-resend">⚡ Re-send Email</button>
+                    </form>
+
+                    <form method="POST" id="modalDeleteForm" action="" style="display: inline;" onsubmit="return confirm('Delete this enquiry permanently?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" class="btn-danger-outline">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Client JS -->
+    <script>
+        const enquiriesData = {
+            {% for item in enquiries %}
+            "{{ item.id }}": {
+                "id": "{{ item.id }}",
+                "name": "{{ item.name|escapejs }}",
+                "email": "{{ item.email|escapejs }}",
+                "phone": "{{ item.phone|default:''|escapejs }}",
+                "subject": "{{ item.subject|escapejs }}",
+                "message": "{{ item.message|escapejs }}",
+                "status": "{{ item.status|default:'new' }}",
+                "is_read": {{ item.is_read|yesno:"true,false" }},
+                "ip_address": "{{ item.ip_address|default:'-'|escapejs }}",
+                "user_agent": "{{ item.user_agent|default:'-'|escapejs }}",
+                "created_at": "{{ item.created_at|date:'d M Y, H:i A UTC' }}",
+                "team_dispatched": {{ item.email_dispatch.team_dispatched|yesno:"true,false" }},
+                "client_dispatched": {{ item.email_dispatch.client_dispatched|yesno:"true,false" }},
+                "errors": {{ item.email_dispatch.errors|default:"[]"|safe }}
+            },
+            {% endfor %}
+        };
+
+        function openInspector(enquiryId) {
+            const data = enquiriesData[enquiryId];
+            if (!data) return;
+
+            document.getElementById('modalClientName').textContent = data.name;
+            document.getElementById('modalSubmittedTime').textContent = "Submitted: " + data.created_at;
+            document.getElementById('modalEmail').textContent = data.email;
+            document.getElementById('modalPhone').textContent = data.phone || "Not provided";
+            document.getElementById('modalSubject').textContent = data.subject;
+            document.getElementById('modalMessage').textContent = data.message;
+            document.getElementById('modalIp').textContent = data.ip_address;
+            document.getElementById('modalMongoId').textContent = data.id;
+            document.getElementById('modalUserAgent').textContent = data.user_agent;
+
+            // WhatsApp link
+            const phoneDigits = (data.phone || '').replace(/[^0-9]/g, '');
+            const waBtn = document.getElementById('modalWhatsAppBtn');
+            if (phoneDigits.length >= 10) {
+                const waNumber = phoneDigits.length === 10 ? '91' + phoneDigits : phoneDigits;
+                waBtn.href = `https://wa.me/${waNumber}?text=Hi%20${encodeURIComponent(data.name)}%2C%20thank%20you%20for%20contacting%20Trinials%20regarding%20%22${encodeURIComponent(data.subject)}%22.`;
+                waBtn.style.display = 'inline-flex';
+            } else {
+                waBtn.style.display = 'none';
+            }
+
+            // Call & Email links
+            document.getElementById('modalCallBtn').href = data.phone ? `tel:${data.phone}` : '#';
+            document.getElementById('modalCallBtn').style.display = data.phone ? 'inline-flex' : 'none';
+            document.getElementById('modalEmailBtn').href = `mailto:${data.email}?subject=Re:%20${encodeURIComponent(data.subject)}`;
+
+            // Dispatch status
+            document.getElementById('modalTeamDispatch').innerHTML = data.team_dispatched ? '<span style="color: #38ef7d;">✓ Dispatched</span>' : '<span style="color: #f87171;">✕ Not sent</span>';
+            document.getElementById('modalClientDispatch').innerHTML = data.client_dispatched ? '<span style="color: #38ef7d;">✓ Dispatched</span>' : '<span style="color: #f87171;">✕ Not sent</span>';
+
+            // Errors
+            const errorsWrap = document.getElementById('modalErrorsWrap');
+            if (data.errors && data.errors.length > 0) {
+                errorsWrap.style.display = 'block';
+                document.getElementById('modalErrors').textContent = data.errors.join('\n');
+            } else {
+                errorsWrap.style.display = 'none';
+            }
+
+            // Forms action endpoints
+            const actionBaseUrl = "{% url 'website:admin_enquiry_action' 'ENQUIRY_ID_PLACEHOLDER' %}".replace('ENQUIRY_ID_PLACEHOLDER', data.id);
+            document.getElementById('modalStatusForm').action = actionBaseUrl;
+            document.getElementById('modalResendForm').action = actionBaseUrl;
+            document.getElementById('modalDeleteForm').action = actionBaseUrl;
+            document.getElementById('statusSelect').value = data.status;
+
+            document.getElementById('inspectorModal').classList.add('active');
+
+            // Mark as read in background if unread
+            if (!data.is_read) {
+                fetch(actionBaseUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'action=mark_read'
+                }).catch(err => console.log('Mark read notice:', err));
+            }
+        }
+
+        function closeInspector() {
+            document.getElementById('inspectorModal').classList.remove('active');
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeInspector();
+        });
+
+        // Close when clicking outside box
+        document.getElementById('inspectorModal').addEventListener('click', function(e) {
+            if (e.target === this) closeInspector();
+        });
+    </script>
+</body>
+</html>

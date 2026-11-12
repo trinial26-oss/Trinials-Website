@@ -1066,3 +1066,73 @@ class WebsiteTests(TestCase):
         self.assertEqual(provider, 'none')
         self.assertIn('No HTTPS email provider configured', err)
 
+    def test_admin_portal_login_redirect_when_unauthenticated(self):
+        """Verify that unauthenticated access to /admin-panel/ redirects to login."""
+        response = self.client.get(reverse('website:admin_dashboard'))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse('website:admin_login'), response.url)
+
+    def test_admin_portal_login_page_renders(self):
+        """Verify that /admin-panel/login/ renders correctly with HTTP 200."""
+        response = self.client.get(reverse('website:admin_login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Enquiry Admin Portal')
+        self.assertContains(response, 'Sign In')
+
+    def test_admin_portal_login_invalid_credentials(self):
+        """Verify that incorrect credentials show error and reject login."""
+        response = self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'incorrect_password_123',
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Invalid username or password')
+        self.assertFalse(self.client.session.get('trinials_admin_logged_in', False))
+
+    def test_admin_portal_login_valid_credentials(self):
+        """Verify that valid credentials log in and redirect to dashboard."""
+        response = self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'trinials2026!',
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse('website:admin_dashboard'), response.url)
+        self.assertTrue(self.client.session.get('trinials_admin_logged_in'))
+
+    def test_admin_portal_dashboard_authenticated(self):
+        """Verify that authenticated administrator can view the dashboard and enquiry list."""
+        # Log in via login endpoint
+        self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'trinials2026!',
+        })
+        response = self.client.get(reverse('website:admin_dashboard'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Operations Console')
+        self.assertContains(response, 'Total Inquiries')
+        self.assertContains(response, 'Export CSV')
+
+    def test_admin_portal_export_csv(self):
+        """Verify that authenticated administrator can download enquiries as CSV."""
+        self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'trinials2026!',
+        })
+        response = self.client.get(reverse('website:admin_export_csv'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'text/csv; charset=utf-8')
+        self.assertIn('attachment; filename="trinials_enquiries_', response['Content-Disposition'])
+
+    def test_admin_portal_logout(self):
+        """Verify that logout clears session and redirects to login."""
+        self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'trinials2026!',
+        })
+        response = self.client.get(reverse('website:admin_logout'))
+        self.assertEqual(response.status_code, 302)
+        # Dashboard should now redirect to login
+        dash_res = self.client.get(reverse('website:admin_dashboard'))
+        self.assertEqual(dash_res.status_code, 302)
+        self.assertIn(reverse('website:admin_login'), dash_res.url)
+

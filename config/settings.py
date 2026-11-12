@@ -228,6 +228,10 @@ CONTACT_PHONE_NUMBER_SECONDARY = os.environ.get('CONTACT_PHONE_NUMBER_SECONDARY'
 CONTACT_WHATSAPP_URL = os.environ.get('CONTACT_WHATSAPP_URL', 'https://wa.me/918590821155')
 
 
+# Session Configuration (Database-less signed cookies for resilient cloud deployment)
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_AGE = 86400 * 7  # 7 days
+
 # -----------------------------------------------------------------------------
 # Production Security & HTTPS Settings
 # -----------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 from datetime import datetime, timezone, date
+import functools
 import logging
 import sys
 import threading
@@ -670,3 +671,180 @@ def _send_client_auto_response(contact_message, connection=None, email_config=No
             exc_info=False
         )
         raise RuntimeError(err_msg) from e
+
+
+# =============================================================================
+# Operations Console & Enquiry Admin Portal (Connected to MongoDB Atlas)
+# =============================================================================
+
+def admin_required(view_func):
+    """Decorator ensuring that only authenticated administrators access the portal."""
+    @functools.wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.session.get('trinials_admin_logged_in'):
+            login_url = reverse('website:admin_login')
+            next_url = request.get_full_path()
+            return redirect(f"{login_url}?next={next_url}")
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+
+def admin_login(request):
+    """
+    Authenticate administrator credentials and establish secure session.
+    Accepts admin username or trinial26@gmail.com with configured password.
+    """
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('website:admin_dashboard')
+
+    if request.session.get('trinials_admin_logged_in'):
+        return redirect(next_url)
+
+    error = None
+    if request.method == 'POST':
+        from .mongo import verify_admin_credentials
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+
+        if verify_admin_credentials(username, password):
+            request.session['trinials_admin_logged_in'] = True
+            request.session['trinials_admin_user'] = username
+            messages.success(request, f"Welcome back, {username}! Signed in successfully.")
+            return redirect(next_url)
+        else:
+            error = "Invalid username or password. Please verify credentials."
+
+    return render(request, 'admin/login.html', {
+        'error': error,
+        'next_url': next_url,
+    })
+
+
+def admin_logout(request):
+    """Terminate administrator session and return to login page."""
+    request.session.flush()
+    messages.success(request, "You have been logged out safely.")
+    return redirect('website:admin_login')
+
+
+@admin_required
+def admin_dashboard(request):
+    """
+    Operations dashboard displaying live enquiry metrics, search/filtering,
+    and granular enquiry audit records directly from MongoDB Atlas.
+    """
+    from .mongo import get_enquiry_stats, search_enquiries
+
+    query = request.GET.get('q', '').strip()
+    status_filter = request.GET.get('status', 'all').strip().lower()
+
+    stats = get_enquiry_stats()
+    enquiries, total_matching = search_enquiries(query=query, status_filter=status_filter, limit=100)
+
+    return render(request, 'admin/dashboard.html', {
+        'stats': stats,
+        'enquiries': enquiries,
+        'total_matching': total_matching,
+        'query': query,
+        'current_status': status_filter,
+    })
+
+
+@admin_required
+def admin_enquiry_action(request, enquiry_id):
+    """
+    Handle lifecycle actions on individual enquiries:
+    - update status (new, contacted, in_progress, closed)
+    - mark as read / unread
+    - delete enquiry
+    - re-trigger email notification
+    """
+    if request.method != 'POST':
+        return redirect('website:admin_dashboard')
+
+    from .mongo import get_enquiry_by_id, update_enquiry_status, delete_enquiry
+
+    action = request.POST.get('action', '').strip().lower()
+
+    if action == 'mark_read':
+        update_enquiry_status(enquiry_id, is_read=True)
+        return JsonResponse({'success': True, 'action': 'mark_read'})
+
+    elif action == 'update_status':
+        new_status = request.POST.get('new_status', '').strip().lower()
+        if new_status in ('new', 'contacted', 'in_progress', 'closed'):
+            update_enquiry_status(enquiry_id, status=new_status, is_read=True)
+            messages.success(request, f"Enquiry status updated to '{new_status}'.")
+
+    elif action == 'delete':
+        if delete_enquiry(enquiry_id):
+            messages.success(request, "Enquiry deleted permanently.")
+        else:
+            messages.error(request, "Could not delete enquiry.")
+
+    elif action == 'resend_email':
+        doc = get_enquiry_by_id(enquiry_id)
+        if doc:
+            class InqContainer:
+                def __init__(self, d):
+                    self.id = d.get('id')
+                    self.name = d.get('name')
+                    self.email = d.get('email')
+                    self.phone = d.get('phone')
+                    self.subject = d.get('subject')
+                    self.message = d.get('message')
+                    self.created_at = d.get('created_at')
+
+            _dispatch_inquiry_emails(InqContainer(doc), mongo_id=enquiry_id)
+            messages.success(request, f"Re-dispatched notification emails for {doc.get('name')}.")
+        else:
+            messages.error(request, "Enquiry not found.")
+
+    return redirect('website:admin_dashboard')
+
+
+@admin_required
+def admin_export_csv(request):
+    """Export all enquiries from MongoDB Atlas to a downloadable CSV file."""
+    import csv
+    from .mongo import search_enquiries
+
+    enquiries, _ = search_enquiries(limit=1000)
+
+    response = HttpResponse(content_type='text/csv; charset=utf-8')
+    response['Content-Disposition'] = f'attachment; filename="trinials_enquiries_{datetime.now():%Y%m%d_%H%M%S}.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+        'MongoDB ID',
+        'Date Submitted (UTC)',
+        'Client Name',
+        'Email',
+        'Phone',
+        'Subject',
+        'Status',
+        'Is Read',
+        'Team Email Sent',
+        'Client Email Sent',
+        'IP Address',
+        'Message'
+    ])
+
+    for e in enquiries:
+        dispatch = e.get('email_dispatch', {})
+        writer.writerow([
+            e.get('id'),
+            f"{e.get('created_at'):%Y-%m-%d %H:%M:%S}" if e.get('created_at') else '',
+            e.get('name', ''),
+            e.get('email', ''),
+            e.get('phone', ''),
+            e.get('subject', ''),
+            e.get('status', 'new'),
+            'Yes' if e.get('is_read') else 'No',
+            'Yes' if dispatch.get('team_dispatched') else 'No',
+            'Yes' if dispatch.get('client_dispatched') else 'No',
+            e.get('ip_address', ''),
+            e.get('message', ''),
+        ])
+
+    return response
+

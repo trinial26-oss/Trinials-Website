@@ -162,3 +162,4 @@ def send_email_via_https(to_emails, subject, html_content, plain_content="", fro
             return False, 'google_apps_script', err_msg
 
     return False, 'none', 'No HTTPS email provider configured (checked BREVO_API_KEY, RESEND_API_KEY, GMAIL_WEBHOOK_URL)'
+

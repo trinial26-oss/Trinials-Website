@@ -34,4 +34,12 @@ urlpatterns = [
     path('insights/ecommerce-website-development-guide/', views.insight_ecommerce_guide, name='insight_ecommerce_guide'),
     path('insights/how-to-choose-web-development-company-kerala/', views.insight_choose_company, name='insight_choose_company'),
     path('insights/<slug:slug>/', views.insight_detail, name='insight_detail'),
+
+    # Operations & Enquiry Admin Portal (Connected to MongoDB Atlas)
+    path('admin-panel/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin-panel/login/', views.admin_login, name='admin_login'),
+    path('admin-panel/logout/', views.admin_logout, name='admin_logout'),
+    path('admin-panel/enquiry/<str:enquiry_id>/', views.admin_enquiry_action, name='admin_enquiry_action'),
+    path('admin-panel/export/', views.admin_export_csv, name='admin_export_csv'),
+    path('portal/', views.admin_dashboard, name='portal_alias'),
 ]
