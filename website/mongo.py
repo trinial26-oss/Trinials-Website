@@ -9,7 +9,7 @@ logger = logging.getLogger('website.mongo')
 
 # Default MongoDB Atlas connection URI
 DEFAULT_MONGO_URI = (
-    "mongodb+srv://kuriankurian405_db_user:KpqwSMq9uHFXDAMA@cluster0.0yqlygw.mongodb.net/trinials_db?appName=Cluster0"
+    "mongodb+srv://trinial26_db_user:STTJWsGMEB1tn1vL@cluster0.unsmrqc.mongodb.net/trinials_db?retryWrites=true&w=majority&appName=Cluster0"
 )
 
 _client_cache = None
@@ -193,3 +193,4 @@ def list_recent_enquiries(limit=50):
     except Exception as e:
         logger.error("Could not fetch enquiries from MongoDB Atlas: %s", e)
         return []
+

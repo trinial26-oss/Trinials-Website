@@ -126,7 +126,7 @@ ASGI_APPLICATION = 'config.asgi.application'
 # Database Configuration (Environment-driven with local SQLite fallback)
 MONGO_URI = os.environ.get(
     'MONGO_URI',
-    'mongodb+srv://kuriankurian405_db_user:KpqwSMq9uHFXDAMA@cluster0.0yqlygw.mongodb.net/trinials_db?appName=Cluster0'
+    'mongodb+srv://trinial26_db_user:STTJWsGMEB1tn1vL@cluster0.unsmrqc.mongodb.net/trinials_db?retryWrites=true&w=majority&appName=Cluster0'
 )
 
 DB_ENGINE = os.environ.get('DB_ENGINE', '')
