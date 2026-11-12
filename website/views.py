@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone, date
 import logging
 import sys
 import threading
@@ -169,7 +169,7 @@ def sitemap_xml(request):
     pages, service landing pages, insight guides, and legal sections.
     """
     site_url = getattr(settings, 'SITE_URL', 'https://trinial.in').rstrip('/')
-    today = datetime.date.today().isoformat()
+    today = date.today().isoformat()
 
     urls = [
         # Primary Pages
@@ -255,17 +255,56 @@ def contact_submit(request):
 
     form = ContactForm(request.POST)
     if form.is_valid():
-        contact_message = form.save()
+        name = form.cleaned_data.get('name', '').strip()
+        email = form.cleaned_data.get('email', '').strip()
+        phone = form.cleaned_data.get('phone', '').strip()
+        subject = form.cleaned_data.get('subject', '').strip()
+        message = form.cleaned_data.get('message', '').strip()
 
-        # Dispatch emails (asynchronously in production/dev, synchronously in test runs)
-        _dispatch_inquiry_emails(contact_message)
+        # 1. Primary Cloud Persistence: Save directly to MongoDB Atlas
+        mongo_id = None
+        try:
+            from .mongo import save_enquiry_to_mongo
+            mongo_id = save_enquiry_to_mongo({
+                'name': name,
+                'email': email,
+                'phone': phone,
+                'subject': subject,
+                'message': message,
+                'ip_address': request.META.get('REMOTE_ADDR'),
+                'user_agent': request.META.get('HTTP_USER_AGENT', '')[:250],
+            })
+        except Exception as mongo_err:
+            logger.warning("MongoDB Atlas save notice: %s", mongo_err)
+
+        # 2. Local Fallback Persistence: ContactMessage (fail-safe if SQLite is absent/read-only)
+        contact_message = None
+        try:
+            contact_message = form.save()
+        except Exception as db_err:
+            logger.warning("Local DB save notice (MongoDB Atlas primary active): %s", db_err)
+
+        if contact_message is None:
+            class LightweightInquiry:
+                def __init__(self, mid, n, e, p, s, m):
+                    self.id = mid or 1
+                    self.name = n
+                    self.email = e
+                    self.phone = p
+                    self.subject = s
+                    self.message = m
+                    self.created_at = datetime.now(timezone.utc)
+            contact_message = LightweightInquiry(mongo_id, name, email, phone, subject, message)
+
+        # 3. Dispatch emails (asynchronously in production/dev, synchronously in test runs)
+        _dispatch_inquiry_emails(contact_message, mongo_id=mongo_id)
 
         if is_ajax:
             return JsonResponse({
                 'success': True,
                 'message': "Thanks for reaching out! Your message has been received, and we'll be in touch soon.",
                 'inquiry': {
-                    'id': contact_message.id,
+                    'id': getattr(contact_message, 'id', mongo_id),
                     'name': contact_message.name,
                     'email': contact_message.email,
                     'phone': contact_message.phone or '',
@@ -299,34 +338,92 @@ def contact_submit(request):
         })
 
 
-def _dispatch_inquiry_emails(contact_message):
+def _dispatch_inquiry_emails(contact_message, mongo_id=None):
     """
     Dispatch team notification and client confirmation emails.
     In testing environments with in-memory mail backend, executes synchronously
     so test assertions on mail.outbox succeed immediately.
     In live production / web requests, executes in a background daemon thread
     for ultra-fast, zero-blocking HTTP responses (< 50ms).
+    Loads credentials and notification list dynamically from MongoDB Atlas (with settings fallback).
     Reuses a single persistent SMTP connection to eliminate duplicate SSL/handshake latency.
+    Logs dispatch status directly back to MongoDB Atlas.
     """
+    is_testing = (
+        getattr(settings, 'TESTING', False) or
+        'test' in sys.argv or
+        str(getattr(settings, 'EMAIL_BACKEND', '')).endswith('locmem.EmailBackend')
+    )
+
     def _worker():
+        from .mongo import get_email_config_from_mongo, log_email_dispatch_status_to_mongo
+        from django.core.mail import get_connection
+
+        mongo_cfg = {}
+        if not is_testing:
+            try:
+                mongo_cfg = get_email_config_from_mongo() or {}
+            except Exception as e:
+                logger.warning("Could not read email_config from MongoDB: %s", e)
+
+        backend = getattr(settings, 'EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
         connection = None
-        try:
-            from django.core.mail import get_connection
-            connection = get_connection()
-            connection.open()
-        except Exception as conn_err:
-            logger.warning("Could not pre-open mail connection: %s", conn_err)
-            connection = None
+
+        # If not using locmem test backend, open optimized connection using MongoDB credentials
+        if not str(backend).endswith('locmem.EmailBackend'):
+            host = mongo_cfg.get('EMAIL_HOST') or getattr(settings, 'EMAIL_HOST', 'smtp.gmail.com')
+            port = int(mongo_cfg.get('EMAIL_PORT') or getattr(settings, 'EMAIL_PORT', 465))
+            username = mongo_cfg.get('EMAIL_HOST_USER') or getattr(settings, 'EMAIL_HOST_USER', '')
+            password = mongo_cfg.get('EMAIL_HOST_PASSWORD') or getattr(settings, 'EMAIL_HOST_PASSWORD', '')
+            use_ssl = bool(mongo_cfg.get('EMAIL_USE_SSL', True)) if 'EMAIL_USE_SSL' in mongo_cfg else getattr(settings, 'EMAIL_USE_SSL', True)
+            use_tls = bool(mongo_cfg.get('EMAIL_USE_TLS', False)) if 'EMAIL_USE_TLS' in mongo_cfg else getattr(settings, 'EMAIL_USE_TLS', False)
+
+            try:
+                connection = get_connection(
+                    backend=backend,
+                    host=host,
+                    port=port,
+                    username=username,
+                    password=password,
+                    use_ssl=use_ssl,
+                    use_tls=use_tls,
+                    timeout=10,
+                )
+                connection.open()
+            except Exception as conn_err:
+                logger.warning("Could not pre-open mail connection: %s", conn_err)
+                connection = None
+
+        team_ok = False
+        client_ok = False
+        errors = []
 
         try:
-            _send_contact_notification(contact_message, connection=connection)
-            _send_client_auto_response(contact_message, connection=connection)
-        finally:
-            if connection:
-                try:
-                    connection.close()
-                except Exception:
-                    pass
+            team_ok = _send_contact_notification(contact_message, connection=connection, email_config=mongo_cfg)
+        except Exception as te:
+            errors.append(f"Team notification error: {te}")
+
+        try:
+            client_ok = _send_client_auto_response(contact_message, connection=connection, email_config=mongo_cfg)
+        except Exception as ce:
+            errors.append(f"Client auto-response error: {ce}")
+
+        if connection:
+            try:
+                connection.close()
+            except Exception:
+                pass
+
+        if mongo_id:
+            try:
+                log_email_dispatch_status_to_mongo(
+                    mongo_id,
+                    team_dispatched=team_ok,
+                    client_dispatched=client_ok,
+                    errors=errors
+                )
+            except Exception as le:
+                logger.warning("Could not log dispatch status to MongoDB Atlas: %s", le)
 
     is_testing = (
         getattr(settings, 'TESTING', False) or
@@ -341,16 +438,23 @@ def _dispatch_inquiry_emails(contact_message):
         thread.start()
 
 
-def _send_contact_notification(contact_message, connection=None):
+def _send_contact_notification(contact_message, connection=None, email_config=None):
     """
     Dispatch an attractive HTML email notification to the company email(s) if configured.
     Supports single recipient or comma-separated list of recipients.
     Includes client name, email, phone number, subject, timestamp, and message.
     Fail-safe: handles any exceptions gracefully without disrupting user feedback or database record.
     """
-    recipient_setting = getattr(settings, 'CONTACT_NOTIFICATION_EMAIL', '')
+    cfg = email_config or {}
+    if not cfg or str(getattr(settings, 'EMAIL_BACKEND', '')).endswith('locmem.EmailBackend'):
+        recipient_setting = getattr(settings, 'CONTACT_NOTIFICATION_EMAIL', '')
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'Trinials <dummy11248@gmail.com>'
+    else:
+        recipient_setting = cfg.get('CONTACT_NOTIFICATION_EMAIL') or getattr(settings, 'CONTACT_NOTIFICATION_EMAIL', '')
+        from_email = cfg.get('DEFAULT_FROM_EMAIL') or getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'Trinials <dummy11248@gmail.com>'
+
     if not recipient_setting:
-        return
+        return False
 
     if isinstance(recipient_setting, (list, tuple)):
         recipients = [str(r).strip(' "\' \t\r\n') for r in recipient_setting if str(r).strip(' "\' \t\r\n')]
@@ -358,7 +462,7 @@ def _send_contact_notification(contact_message, connection=None):
         recipients = [r.strip(' "\' \t\r\n') for r in str(recipient_setting).split(',') if r.strip(' "\' \t\r\n')]
 
     if not recipients:
-        return
+        return False
 
     submitted_time = (
         f"{contact_message.created_at:%Y-%m-%d %H:%M:%S UTC}"
@@ -389,8 +493,6 @@ def _send_contact_notification(contact_message, connection=None):
         'submitted_time': submitted_time,
     }
 
-    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'Trinials <dummy11248@gmail.com>'
-
     try:
         html_content = render_to_string('emails/team_notification.html', context)
         email = EmailMultiAlternatives(
@@ -405,26 +507,34 @@ def _send_contact_notification(contact_message, connection=None):
         email.send(fail_silently=False)
         logger.info(
             "Dispatched contact notification email for ContactMessage id=%s to %s",
-            contact_message.id,
+            getattr(contact_message, 'id', None),
             recipients
         )
+        return True
     except Exception as e:
         logger.error(
             "Failed to send contact notification email for ContactMessage id=%s: %s",
-            contact_message.id,
+            getattr(contact_message, 'id', None),
             e,
             exc_info=False
         )
+        raise e
 
 
-def _send_client_auto_response(contact_message, connection=None):
+def _send_client_auto_response(contact_message, connection=None, email_config=None):
     """
     Send an attractive branded confirmation email back to the client.
     Notice: Does NOT include a copy of the message, as requested by the client.
     Fail-safe: handles any exceptions gracefully without disrupting user feedback.
     """
     if not contact_message.email:
-        return
+        return False
+
+    cfg = email_config or {}
+    contact_email = cfg.get('CONTACT_EMAIL') or getattr(settings, 'CONTACT_EMAIL', 'trinial26@gmail.com')
+    phone = cfg.get('CONTACT_PHONE_NUMBER') or getattr(settings, 'CONTACT_PHONE_NUMBER', '+91 85908 21155')
+    phone_sec = cfg.get('CONTACT_PHONE_NUMBER_SECONDARY') or getattr(settings, 'CONTACT_PHONE_NUMBER_SECONDARY', '+91 94003 25570')
+    from_email = cfg.get('DEFAULT_FROM_EMAIL') or getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'Trinials <dummy11248@gmail.com>'
 
     subject = f"Thank you for contacting Trinials — We've received your inquiry"
 
@@ -436,19 +546,17 @@ def _send_client_auto_response(contact_message, connection=None):
         f"If you have any urgent questions, feel free to reply directly to this email.\n\n"
         f"Warm regards,\n"
         f"The Trinials Team\n"
-        f"trinial26@gmail.com\n"
-        f"+91 85908 21155 | +91 94003 25570\n"
+        f"{contact_email}\n"
+        f"{phone} | {phone_sec}\n"
     )
 
     context = {
         'name': contact_message.name,
         'subject': contact_message.subject,
-        'contact_email': getattr(settings, 'CONTACT_EMAIL', 'trinial26@gmail.com'),
-        'phone_number': getattr(settings, 'CONTACT_PHONE_NUMBER', '+91 85908 21155'),
-        'phone_number_secondary': getattr(settings, 'CONTACT_PHONE_NUMBER_SECONDARY', '+91 94003 25570'),
+        'contact_email': contact_email,
+        'phone_number': phone,
+        'phone_number_secondary': phone_sec,
     }
-
-    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', None) or 'Trinials <dummy11248@gmail.com>'
 
     try:
         html_content = render_to_string('emails/client_auto_response.html', context)
@@ -464,12 +572,14 @@ def _send_client_auto_response(contact_message, connection=None):
         logger.info(
             "Dispatched client auto-response confirmation to %s for ContactMessage id=%s",
             contact_message.email,
-            contact_message.id
+            getattr(contact_message, 'id', None)
         )
+        return True
     except Exception as e:
         logger.error(
             "Failed to send client auto-response for ContactMessage id=%s: %s",
-            contact_message.id,
+            getattr(contact_message, 'id', None),
             e,
             exc_info=False
         )
+        raise e

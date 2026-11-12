@@ -11,3 +11,6 @@ python manage.py collectstatic --no-input
 # Run database migrations
 python manage.py migrate
 
+# Seed and verify MongoDB Atlas cloud database
+python manage.py seed_mongo
+

@@ -124,6 +124,11 @@ ASGI_APPLICATION = 'config.asgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 # Database Configuration (Environment-driven with local SQLite fallback)
+MONGO_URI = os.environ.get(
+    'MONGO_URI',
+    'mongodb+srv://kuriankurian405_db_user:KpqwSMq9uHFXDAMA@cluster0.0yqlygw.mongodb.net/trinials_db?appName=Cluster0'
+)
+
 DB_ENGINE = os.environ.get('DB_ENGINE', '')
 if DB_ENGINE:
     DATABASES = {

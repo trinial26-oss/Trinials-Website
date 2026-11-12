@@ -1001,3 +1001,41 @@ class WebsiteTests(TestCase):
         self.assertContains(response, reverse('website:home'), status_code=404)
         self.assertContains(response, reverse('website:services_index'), status_code=404)
 
+    def test_mongodb_atlas_save_and_retrieve_enquiry(self):
+        """Verify that enquiries are persisted to MongoDB Atlas and can be retrieved."""
+        from website.mongo import save_enquiry_to_mongo, get_mongo_db
+        db = get_mongo_db()
+        if db is None:
+            self.skipTest("MongoDB Atlas not reachable")
+
+        payload = {
+            'name': 'Unit Test User',
+            'email': 'unittest@trinials.in',
+            'phone': '+91 99999 00000',
+            'subject': 'Atlas Automated Test',
+            'message': 'Testing MongoDB Atlas persistence layer.',
+            'ip_address': '127.0.0.1',
+        }
+        enquiry_id = save_enquiry_to_mongo(payload)
+        self.assertIsNotNone(enquiry_id)
+
+        # Retrieve from collection
+        doc = db.enquiries.find_one({'email': 'unittest@trinials.in'})
+        self.assertIsNotNone(doc)
+        self.assertEqual(doc['name'], 'Unit Test User')
+        self.assertEqual(doc['subject'], 'Atlas Automated Test')
+
+        # Clean up unit test doc
+        db.enquiries.delete_one({'_id': doc['_id']})
+
+    def test_mongodb_atlas_email_config_read(self):
+        """Verify that email credentials and settings can be retrieved from MongoDB Atlas."""
+        from website.mongo import get_email_config_from_mongo
+        config = get_email_config_from_mongo()
+        if config is None:
+            self.skipTest("MongoDB Atlas not reachable")
+
+        self.assertEqual(config.get('_id'), 'email_config')
+        self.assertEqual(config.get('EMAIL_HOST'), 'smtp.gmail.com')
+        self.assertIn('trinial26@gmail.com', config.get('CONTACT_NOTIFICATION_EMAIL', ''))
+
