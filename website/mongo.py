@@ -121,6 +121,31 @@ def get_email_config_from_mongo():
     return None
 
 
+def get_enquiries_collection(db=None):
+    """
+    Get the MongoDB collection used for enquiries.
+    Routes to 'test_enquiries' during unit test execution to isolate tests
+    from production enquiry data.
+    """
+    if db is None:
+        db = get_mongo_db()
+    if db is None:
+        return None
+
+    import sys
+    is_testing = 'test' in sys.argv
+    if not is_testing:
+        try:
+            from django.conf import settings
+            is_testing = getattr(settings, 'TESTING', False)
+        except Exception:
+            pass
+
+    if is_testing:
+        return db.test_enquiries
+    return db.enquiries
+
+
 def save_enquiry_to_mongo(enquiry_data):
     """
     Insert a contact enquiry into the MongoDB Atlas 'enquiries' collection.
@@ -128,6 +153,10 @@ def save_enquiry_to_mongo(enquiry_data):
     """
     db = get_mongo_db()
     if db is None:
+        return None
+
+    coll = get_enquiries_collection(db)
+    if coll is None:
         return None
 
     doc = {
@@ -150,7 +179,7 @@ def save_enquiry_to_mongo(enquiry_data):
     }
 
     try:
-        result = db.enquiries.insert_one(doc)
+        result = coll.insert_one(doc)
         mongo_id = str(result.inserted_id)
         logger.info("Saved enquiry to MongoDB Atlas (id=%s) for %s", mongo_id, doc['email'])
         return mongo_id
@@ -170,6 +199,10 @@ def log_email_dispatch_status_to_mongo(mongo_id, team_dispatched=False, client_d
     if db is None:
         return False
 
+    coll = get_enquiries_collection(db)
+    if coll is None:
+        return False
+
     update_payload = {
         'email_dispatch.team_dispatched': bool(team_dispatched),
         'email_dispatch.client_dispatched': bool(client_dispatched),
@@ -181,7 +214,7 @@ def log_email_dispatch_status_to_mongo(mongo_id, team_dispatched=False, client_d
 
     try:
         oid = ObjectId(mongo_id) if ObjectId.is_valid(mongo_id) else mongo_id
-        db.enquiries.update_one({'_id': oid}, {'$set': update_payload})
+        coll.update_one({'_id': oid}, {'$set': update_payload})
         return True
     except Exception as e:
         logger.warning("Could not update email dispatch status in MongoDB Atlas for %s: %s", mongo_id, e)
@@ -193,8 +226,13 @@ def list_recent_enquiries(limit=50):
     db = get_mongo_db()
     if db is None:
         return []
+
+    coll = get_enquiries_collection(db)
+    if coll is None:
+        return []
+
     try:
-        cursor = db.enquiries.find().sort('created_at', -1).limit(limit)
+        cursor = coll.find().sort('created_at', -1).limit(limit)
         results = []
         for doc in cursor:
             doc['id'] = str(doc.get('_id'))
@@ -210,9 +248,14 @@ def get_enquiry_by_id(enquiry_id):
     db = get_mongo_db()
     if db is None or not enquiry_id:
         return None
+
+    coll = get_enquiries_collection(db)
+    if coll is None:
+        return None
+
     try:
         oid = ObjectId(enquiry_id) if ObjectId.is_valid(enquiry_id) else enquiry_id
-        doc = db.enquiries.find_one({'_id': oid})
+        doc = coll.find_one({'_id': oid})
         if doc:
             doc['id'] = str(doc.get('_id'))
         return doc
@@ -226,6 +269,11 @@ def update_enquiry_status(enquiry_id, status=None, is_read=None):
     db = get_mongo_db()
     if db is None or not enquiry_id:
         return False
+
+    coll = get_enquiries_collection(db)
+    if coll is None:
+        return False
+
     try:
         oid = ObjectId(enquiry_id) if ObjectId.is_valid(enquiry_id) else enquiry_id
         update_fields = {}
@@ -235,7 +283,7 @@ def update_enquiry_status(enquiry_id, status=None, is_read=None):
             update_fields['is_read'] = bool(is_read)
         if update_fields:
             update_fields['updated_at'] = datetime.now(timezone.utc)
-            db.enquiries.update_one({'_id': oid}, {'$set': update_fields})
+            coll.update_one({'_id': oid}, {'$set': update_fields})
             return True
         return False
     except Exception as e:
@@ -248,9 +296,14 @@ def delete_enquiry(enquiry_id):
     db = get_mongo_db()
     if db is None or not enquiry_id:
         return False
+
+    coll = get_enquiries_collection(db)
+    if coll is None:
+        return False
+
     try:
         oid = ObjectId(enquiry_id) if ObjectId.is_valid(enquiry_id) else enquiry_id
-        result = db.enquiries.delete_one({'_id': oid})
+        result = coll.delete_one({'_id': oid})
         return result.deleted_count > 0
     except Exception as e:
         logger.error("Error deleting enquiry %s from MongoDB: %s", enquiry_id, e)
@@ -273,20 +326,25 @@ def get_enquiry_stats():
     }
     if db is None:
         return stats
+
+    coll = get_enquiries_collection(db)
+    if coll is None:
+        return stats
+
     try:
         now = datetime.now(timezone.utc)
         today_start = datetime(now.year, now.month, now.day, 0, 0, 0, tzinfo=timezone.utc)
         today_end = datetime(now.year, now.month, now.day, 23, 59, 59, 999999, tzinfo=timezone.utc)
 
-        stats['total'] = db.enquiries.count_documents({})
-        stats['today'] = db.enquiries.count_documents({'created_at': {'$gte': today_start, '$lte': today_end}})
-        stats['unread'] = db.enquiries.count_documents({'is_read': False})
-        stats['new'] = db.enquiries.count_documents({'status': 'new'})
-        stats['contacted'] = db.enquiries.count_documents({'status': 'contacted'})
-        stats['in_progress'] = db.enquiries.count_documents({'status': 'in_progress'})
-        stats['closed'] = db.enquiries.count_documents({'status': 'closed'})
-        stats['team_dispatched'] = db.enquiries.count_documents({'email_dispatch.team_dispatched': True})
-        stats['client_dispatched'] = db.enquiries.count_documents({'email_dispatch.client_dispatched': True})
+        stats['total'] = coll.count_documents({})
+        stats['today'] = coll.count_documents({'created_at': {'$gte': today_start, '$lte': today_end}})
+        stats['unread'] = coll.count_documents({'is_read': False})
+        stats['new'] = coll.count_documents({'status': 'new'})
+        stats['contacted'] = coll.count_documents({'status': 'contacted'})
+        stats['in_progress'] = coll.count_documents({'status': 'in_progress'})
+        stats['closed'] = coll.count_documents({'status': 'closed'})
+        stats['team_dispatched'] = coll.count_documents({'email_dispatch.team_dispatched': True})
+        stats['client_dispatched'] = coll.count_documents({'email_dispatch.client_dispatched': True})
     except Exception as e:
         logger.error("Error computing enquiry stats: %s", e)
     return stats
@@ -341,8 +399,12 @@ def search_enquiries(query="", status_filter="", date_from=None, date_to=None, l
         if date_query:
             filter_criteria['created_at'] = date_query
 
-        total_matching = db.enquiries.count_documents(filter_criteria)
-        cursor = db.enquiries.find(filter_criteria).sort('created_at', -1).skip(skip).limit(limit)
+        coll = get_enquiries_collection(db)
+        if coll is None:
+            return [], 0
+
+        total_matching = coll.count_documents(filter_criteria)
+        cursor = coll.find(filter_criteria).sort('created_at', -1).skip(skip).limit(limit)
         results = []
         for doc in cursor:
             doc['id'] = str(doc.get('_id'))
@@ -360,6 +422,10 @@ def delete_enquiries_by_filter(date_from=None, date_to=None, status_filter=None)
     """
     db = get_mongo_db()
     if db is None:
+        return 0
+
+    coll = get_enquiries_collection(db)
+    if coll is None:
         return 0
 
     query = {}
@@ -398,7 +464,7 @@ def delete_enquiries_by_filter(date_from=None, date_to=None, status_filter=None)
         return 0
 
     try:
-        result = db.enquiries.delete_many(query)
+        result = coll.delete_many(query)
         logger.info("Bulk deleted %d enquiries matching query: %s", result.deleted_count, query)
         return result.deleted_count
     except Exception as e:

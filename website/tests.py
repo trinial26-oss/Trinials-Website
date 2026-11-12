@@ -5,6 +5,17 @@ from django.contrib.staticfiles import finders
 
 
 class WebsiteTests(TestCase):
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        try:
+            from website.mongo import get_mongo_db
+            db = get_mongo_db()
+            if db is not None:
+                db.test_enquiries.drop()
+        except Exception:
+            pass
+
     def setUp(self):
         self.client = Client()
 
@@ -1003,7 +1014,7 @@ class WebsiteTests(TestCase):
 
     def test_mongodb_atlas_save_and_retrieve_enquiry(self):
         """Verify that enquiries are persisted to MongoDB Atlas and can be retrieved."""
-        from website.mongo import save_enquiry_to_mongo, get_mongo_db
+        from website.mongo import save_enquiry_to_mongo, get_mongo_db, get_enquiries_collection
         db = get_mongo_db()
         if db is None:
             self.skipTest("MongoDB Atlas not reachable")
@@ -1019,14 +1030,15 @@ class WebsiteTests(TestCase):
         enquiry_id = save_enquiry_to_mongo(payload)
         self.assertIsNotNone(enquiry_id)
 
-        # Retrieve from collection
-        doc = db.enquiries.find_one({'email': 'unittest@trinials.in'})
+        # Retrieve from test collection
+        coll = get_enquiries_collection(db)
+        doc = coll.find_one({'email': 'unittest@trinials.in'})
         self.assertIsNotNone(doc)
         self.assertEqual(doc['name'], 'Unit Test User')
         self.assertEqual(doc['subject'], 'Atlas Automated Test')
 
         # Clean up unit test doc
-        db.enquiries.delete_one({'_id': doc['_id']})
+        coll.delete_one({'_id': doc['_id']})
 
     def test_mongodb_atlas_email_config_read(self):
         """Verify that email credentials and settings can be retrieved from MongoDB Atlas."""
