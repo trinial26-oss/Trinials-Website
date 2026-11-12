@@ -1183,3 +1183,17 @@ class WebsiteTests(TestCase):
         self.assertEqual(res.status_code, 302)
         self.assertIn(reverse('website:admin_dashboard'), res.url)
 
+    def test_admin_dashboard_defaults_to_current_date(self):
+        """Verify that dashboard automatically defaults to showing the current date enquiries."""
+        self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'trinials2026!',
+        })
+        response = self.client.get(reverse('website:admin_dashboard'))
+        self.assertEqual(response.status_code, 200)
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        self.assertEqual(response.context['date_from'], today_str)
+        self.assertEqual(response.context['date_to'], today_str)
+        self.assertTrue(response.context['is_today_view'])
+        self.assertContains(response, "Showing Current Date Enquiries")
+

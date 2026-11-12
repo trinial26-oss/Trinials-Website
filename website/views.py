@@ -731,13 +731,23 @@ def admin_dashboard(request):
     """
     Operations dashboard displaying live enquiry metrics, search/filtering,
     calendar date range filtering, and granular enquiry audit records directly from MongoDB Atlas.
+    Automatically defaults to showing current date enquiries on initial load.
     """
     from .mongo import get_enquiry_stats, search_enquiries
 
+    today_str = datetime.now().strftime('%Y-%m-%d')
+    all_time = request.GET.get('all_time', '').strip() == '1'
+
     query = request.GET.get('q', '').strip()
     status_filter = request.GET.get('status', 'all').strip().lower()
-    date_from = request.GET.get('date_from', '').strip()
-    date_to = request.GET.get('date_to', '').strip()
+
+    # Automatically default to current date if neither date_from, date_to, nor all_time is specified
+    if 'date_from' in request.GET or 'date_to' in request.GET or all_time:
+        date_from = request.GET.get('date_from', '').strip()
+        date_to = request.GET.get('date_to', '').strip()
+    else:
+        date_from = today_str
+        date_to = today_str
 
     stats = get_enquiry_stats()
     enquiries, total_matching = search_enquiries(
@@ -748,6 +758,8 @@ def admin_dashboard(request):
         limit=200
     )
 
+    is_today_view = bool(date_from == today_str and date_to == today_str and not all_time)
+
     return render(request, 'admin/dashboard.html', {
         'stats': stats,
         'enquiries': enquiries,
@@ -756,6 +768,9 @@ def admin_dashboard(request):
         'current_status': status_filter,
         'date_from': date_from,
         'date_to': date_to,
+        'today_str': today_str,
+        'is_today_view': is_today_view,
+        'all_time': all_time,
     })
 
 

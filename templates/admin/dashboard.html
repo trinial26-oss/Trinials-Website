@@ -392,6 +392,52 @@
             border-color: var(--danger-red);
         }
 
+        /* Active View Banner (Today vs All Time) */
+        .active-view-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .active-view-banner.custom {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            color: #1E40AF;
+        }
+        .live-dot-pulse {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #16A34A;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
+            animation: livePulse 2s infinite;
+            margin-right: 8px;
+        }
+        @keyframes livePulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 7px rgba(22, 163, 74, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+        }
+        .btn-switch-view {
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: underline;
+            color: inherit;
+            cursor: pointer;
+        }
+        .btn-switch-view:hover {
+            opacity: 0.8;
+        }
+
         /* Toolbar Sub-bar */
         .toolbar-info-bar {
             display: flex;
@@ -869,6 +915,13 @@
             <span class="brand-pill">Operations Console</span>
         </div>
         <div class="nav-actions">
+            <span class="brand-pill" style="background: #DCFCE7; color: #166534; border-color: #BBF7D0; display: inline-flex; align-items: center; gap: 6px;" title="Automatically polls and updates enquiries">
+                <span class="live-dot-pulse" style="margin: 0; width: 7px; height: 7px;"></span>
+                Live Sync Active
+            </span>
+            <button onclick="window.location.reload()" class="btn-nav" title="Refresh Inquiries Now">
+                ↻ Refresh
+            </button>
             <a href="{% url 'website:admin_export_csv' %}" class="btn-nav export">
                 📥 Export CSV
             </a>
@@ -897,14 +950,19 @@
 
         <!-- Analytics Overview Cards -->
         <section class="stats-grid">
+            <div class="stat-card" style="border-color: #86EFAC;">
+                <div class="stat-label" style="color: #16A34A;">📅 Today's Inquiries</div>
+                <div class="stat-value" style="color: #16A34A;">{{ stats.today }}</div>
+                <div class="stat-sub">Received today ({{ today_str }})</div>
+            </div>
             <div class="stat-card">
                 <div class="stat-label">Total Inquiries</div>
                 <div class="stat-value">{{ stats.total }}</div>
-                <div class="stat-sub">Persisted in MongoDB Atlas</div>
+                <div class="stat-sub">All-time in MongoDB Atlas</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Unread Inquiries</div>
-                <div class="stat-value" style="color: #16A34A;">{{ stats.unread }}</div>
+                <div class="stat-value" style="color: #D97706;">{{ stats.unread }}</div>
                 <div class="stat-sub">Require team review</div>
             </div>
             <div class="stat-card">
@@ -912,12 +970,31 @@
                 <div class="stat-value" style="color: #2563EB;">{{ stats.team_dispatched }}</div>
                 <div class="stat-sub">Delivered to Trinials inboxes</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Client Dispatched</div>
-                <div class="stat-value" style="color: #D97706;">{{ stats.client_dispatched }}</div>
-                <div class="stat-sub">Confirmations sent to leads</div>
-            </div>
         </section>
+
+        <!-- Active Mode Banner: Current Date vs All Time -->
+        <div style="margin-bottom: 20px;">
+            {% if is_today_view %}
+            <div class="active-view-banner">
+                <div style="display: flex; align-items: center;">
+                    <span class="live-dot-pulse"></span>
+                    <span><strong>Showing Current Date Enquiries ({{ today_str }})</strong> — Defaulting automatically to today's incoming leads.</span>
+                </div>
+                <div>
+                    <a href="?all_time=1" class="btn-switch-view">View All-Time Inquiries ({{ stats.total }}) →</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="active-view-banner custom">
+                <div style="display: flex; align-items: center;">
+                    <span>📅 Showing: <strong>{% if date_from or date_to %}{{ date_from|default:"Beginning" }} to {{ date_to|default:"Today" }}{% else %}All Time Inquiries{% endif %}</strong> ({{ enquiries|length }} found)</span>
+                </div>
+                <div>
+                    <a href="{% url 'website:admin_dashboard' %}" class="btn-switch-view" style="color: #16A34A;">← Back to Current Date ({{ stats.today }})</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
 
         <!-- Search, Calendar & Toolbar Card -->
         <section class="toolbar-card">
@@ -1375,6 +1452,17 @@
         document.getElementById('bulkDeleteModal').addEventListener('click', function(e) {
             if (e.target === this) closeBulkDeleteModal();
         });
+
+        // Automatically poll and reload current date enquiries every 30 seconds when idle
+        setInterval(() => {
+            const modalActive = document.querySelector('.modal-overlay.active');
+            const searchInput = document.getElementById('clientSearchInput');
+            const searchFocused = (document.activeElement === searchInput);
+            const isTyping = searchInput && searchInput.value.trim().length > 0;
+            if (!modalActive && !searchFocused && !isTyping) {
+                window.location.reload();
+            }
+        }, 30000);
     </script>
 </body>
 </html>

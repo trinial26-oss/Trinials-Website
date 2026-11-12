@@ -262,6 +262,7 @@ def get_enquiry_stats():
     db = get_mongo_db()
     stats = {
         'total': 0,
+        'today': 0,
         'unread': 0,
         'new': 0,
         'contacted': 0,
@@ -273,7 +274,12 @@ def get_enquiry_stats():
     if db is None:
         return stats
     try:
+        now = datetime.now(timezone.utc)
+        today_start = datetime(now.year, now.month, now.day, 0, 0, 0, tzinfo=timezone.utc)
+        today_end = datetime(now.year, now.month, now.day, 23, 59, 59, 999999, tzinfo=timezone.utc)
+
         stats['total'] = db.enquiries.count_documents({})
+        stats['today'] = db.enquiries.count_documents({'created_at': {'$gte': today_start, '$lte': today_end}})
         stats['unread'] = db.enquiries.count_documents({'is_read': False})
         stats['new'] = db.enquiries.count_documents({'status': 'new'})
         stats['contacted'] = db.enquiries.count_documents({'status': 'contacted'})
