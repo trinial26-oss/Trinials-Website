@@ -410,7 +410,7 @@ def get_admin_credentials():
     """Retrieve admin login configuration from MongoDB or environment."""
     import hashlib
     db = get_mongo_db()
-    default_user = os.environ.get('ADMIN_USERNAME', 'admin').strip()
+    default_user = os.environ.get('ADMIN_USERNAME', 'trinial26@gmail.com').strip()
     default_pass = os.environ.get('ADMIN_PASSWORD', 'Trinialjo@2026').strip()
 
     if db is not None:
@@ -443,7 +443,7 @@ def seed_admin_credentials_to_mongo(username=None, password=None):
     if db is None:
         return False
 
-    uname = (username or os.environ.get('ADMIN_USERNAME') or 'admin').strip()
+    uname = (username or os.environ.get('ADMIN_USERNAME') or 'trinial26@gmail.com').strip().lower()
     pwd = (password or os.environ.get('ADMIN_PASSWORD') or 'Trinialjo@2026').strip()
     salt = 'trinials_auth_salt'
     pwd_hash = hashlib.sha256((pwd + salt).encode('utf-8')).hexdigest()
@@ -466,21 +466,20 @@ def seed_admin_credentials_to_mongo(username=None, password=None):
 
 
 def verify_admin_credentials(username, password):
-    """Verify submitted credentials against stored admin credentials."""
+    """
+    Verify submitted credentials against stored admin credentials.
+    Strictly permits only trinial26@gmail.com as the administrator login identity.
+    """
     import hashlib
     if not username or not password:
         return False
 
-    creds = get_admin_credentials()
-    allowed_users = [
-        creds['username'].strip().lower(),
-        'trinial26@gmail.com',
-        'trinials',
-    ]
-
-    if username.strip().lower() not in allowed_users:
+    # Strictly permit ONLY trinial26@gmail.com
+    submitted_user = str(username).strip().lower()
+    if submitted_user != 'trinial26@gmail.com':
         return False
 
+    creds = get_admin_credentials()
     salt = creds.get('salt', 'trinials_auth_salt')
     submitted_hash = hashlib.sha256((password.strip() + salt).encode('utf-8')).hexdigest()
 

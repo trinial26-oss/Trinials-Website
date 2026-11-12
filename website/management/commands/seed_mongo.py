@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
         success_admin = seed_admin_credentials_to_mongo()
         if success_admin:
-            self.stdout.write(self.style.SUCCESS("Successfully synced admin_auth (password: Trinialjo@2026) into collection 'app_config'."))
+            self.stdout.write(self.style.SUCCESS("Successfully synced admin_auth (username: trinial26@gmail.com, password: Trinialjo@2026) into collection 'app_config'."))
         else:
             self.stderr.write(self.style.ERROR("Failed to sync admin_auth to MongoDB Atlas."))
 

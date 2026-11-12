@@ -1080,9 +1080,19 @@ class WebsiteTests(TestCase):
         self.assertContains(response, 'Sign In')
 
     def test_admin_portal_login_invalid_credentials(self):
-        """Verify that incorrect credentials show error and reject login."""
+        """Verify that incorrect credentials or disallowed usernames show error and reject login."""
+        # Non-allowed username 'admin' should be rejected
         response = self.client.post(reverse('website:admin_login'), {
             'username': 'admin',
+            'password': 'Trinialjo@2026',
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Invalid username or password')
+        self.assertFalse(self.client.session.get('trinials_admin_logged_in', False))
+
+        # Incorrect password for trinial26@gmail.com should be rejected
+        response = self.client.post(reverse('website:admin_login'), {
+            'username': 'trinial26@gmail.com',
             'password': 'incorrect_password_123',
         })
         self.assertEqual(response.status_code, 200)
@@ -1090,9 +1100,9 @@ class WebsiteTests(TestCase):
         self.assertFalse(self.client.session.get('trinials_admin_logged_in', False))
 
     def test_admin_portal_login_valid_credentials(self):
-        """Verify that valid credentials log in and redirect to dashboard."""
+        """Verify that valid credentials (trinial26@gmail.com) log in and redirect to dashboard."""
         response = self.client.post(reverse('website:admin_login'), {
-            'username': 'admin',
+            'username': 'trinial26@gmail.com',
             'password': 'Trinialjo@2026',
         })
         self.assertEqual(response.status_code, 302)
@@ -1103,7 +1113,7 @@ class WebsiteTests(TestCase):
         """Verify that authenticated administrator can view the dashboard and enquiry list."""
         # Log in via login endpoint
         self.client.post(reverse('website:admin_login'), {
-            'username': 'admin',
+            'username': 'trinial26@gmail.com',
             'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_dashboard'))
@@ -1115,7 +1125,7 @@ class WebsiteTests(TestCase):
     def test_admin_portal_export_csv(self):
         """Verify that authenticated administrator can download enquiries as CSV."""
         self.client.post(reverse('website:admin_login'), {
-            'username': 'admin',
+            'username': 'trinial26@gmail.com',
             'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_export_csv'))
@@ -1126,7 +1136,7 @@ class WebsiteTests(TestCase):
     def test_admin_portal_logout(self):
         """Verify that logout clears session and redirects to login."""
         self.client.post(reverse('website:admin_login'), {
-            'username': 'admin',
+            'username': 'trinial26@gmail.com',
             'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_logout'))
@@ -1139,7 +1149,7 @@ class WebsiteTests(TestCase):
     def test_admin_dashboard_serial_number_and_calendar_filters(self):
         """Verify that Sl. No. column, calendar date inputs, and SVG search icon are rendered in the dashboard."""
         self.client.post(reverse('website:admin_login'), {
-            'username': 'admin',
+            'username': 'trinial26@gmail.com',
             'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_dashboard'))
@@ -1169,7 +1179,7 @@ class WebsiteTests(TestCase):
 
         # Log in
         self.client.post(reverse('website:admin_login'), {
-            'username': 'admin',
+            'username': 'trinial26@gmail.com',
             'password': 'Trinialjo@2026',
         })
 
@@ -1186,7 +1196,7 @@ class WebsiteTests(TestCase):
     def test_admin_dashboard_defaults_to_current_date(self):
         """Verify that dashboard automatically defaults to showing the current date enquiries."""
         self.client.post(reverse('website:admin_login'), {
-            'username': 'admin',
+            'username': 'trinial26@gmail.com',
             'password': 'Trinialjo@2026',
         })
         response = self.client.get(reverse('website:admin_dashboard'))
