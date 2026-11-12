@@ -4,58 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enquiry Management Console | Trinials Admin</title>
+    <title>Operations Console | Trinials Admin</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #001200;
-            --bg-header: #021a02;
-            --bg-card: #042204;
-            --bg-card-hover: #072e07;
-            --border-card: #143814;
-            --border-highlight: #285428;
-            --text-main: #FFFFFF;
-            --text-sub: #A5B69E;
-            --text-muted: #6B7C65;
-            --accent-green: #BBCF8D;
-            --accent-bright: #38ef7d;
-            --accent-glow: rgba(187, 207, 141, 0.15);
-            --badge-new-bg: rgba(56, 239, 125, 0.15);
-            --badge-new-color: #38ef7d;
-            --badge-contacted-bg: rgba(59, 130, 246, 0.15);
-            --badge-contacted-color: #60a5fa;
-            --badge-progress-bg: rgba(245, 158, 11, 0.15);
-            --badge-progress-color: #fbbf24;
-            --badge-closed-bg: rgba(156, 163, 175, 0.15);
-            --badge-closed-color: #9ca3af;
-            --danger: #ef4444;
-            --danger-bg: rgba(239, 68, 68, 0.15);
+            /* Trinials Public Website Palette (Warm Alabaster + Deep Forest Olive) */
+            --bg-canvas: #E8E9E4;
+            --bg-surface: #F5F6F2;
+            --bg-card: #FFFFFF;
+            --bg-card-hover: #F8FAF6;
+            --border-card: #D4DEC0;
+            --border-light: #E5ECE0;
+            --border-focus: #58641D;
+
+            /* Brand Typography Colors */
+            --text-title: #002400;
+            --text-heading: #182806;
+            --text-body: #273B09;
+            --text-sub: #4E6038;
+            --text-muted: #728460;
+
+            /* Forest Green Accents */
+            --primary-dark: #002400;
+            --primary-olive: #273B09;
+            --primary-moss: #58641D;
+            --accent-sage: #BBCF8D;
+            --accent-glow: rgba(187, 207, 141, 0.4);
+
+            /* Badges & Status */
+            --badge-new-bg: #DCFCE7;
+            --badge-new-text: #166534;
+            --badge-contacted-bg: #DBEAFE;
+            --badge-contacted-text: #1E40AF;
+            --badge-progress-bg: #FEF3C7;
+            --badge-progress-text: #92400E;
+            --badge-closed-bg: #F3F4F6;
+            --badge-closed-text: #4B5563;
+
+            /* Functional Danger Colors */
+            --danger-red: #DC2626;
+            --danger-bg: #FEF2F2;
+            --danger-border: #FECACA;
+            --danger-hover: #B91C1C;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
+            background-color: var(--bg-canvas);
+            color: var(--text-body);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.5;
         }
 
-        /* Top Header */
+        /* Top Header Navbar */
         .top-navbar {
-            background: var(--bg-header);
+            background: #FFFFFF;
             border-bottom: 1px solid var(--border-card);
-            padding: 16px 28px;
+            padding: 14px 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 50;
+            box-shadow: 0 2px 10px rgba(0, 36, 0, 0.03);
         }
         .nav-brand {
             display: flex;
@@ -64,57 +83,66 @@
             text-decoration: none;
         }
         .nav-brand img {
-            height: 34px;
+            height: 38px;
             width: auto;
+            display: block;
         }
         .brand-pill {
-            background: var(--border-card);
-            color: var(--accent-green);
+            background: #F0F4EC;
+            color: var(--primary-olive);
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             padding: 4px 10px;
             border-radius: 20px;
-            border: 1px solid var(--border-highlight);
+            border: 1px solid var(--border-card);
         }
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
         .btn-nav {
             color: var(--text-sub);
             text-decoration: none;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
             padding: 8px 14px;
             border-radius: 8px;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-card);
         }
         .btn-nav:hover {
-            color: #FFFFFF;
-            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-title);
+            background: #F5F6F2;
+            border-color: var(--primary-moss);
+        }
+        .btn-nav.export {
+            background: #F0F4EC;
+            color: var(--primary-olive);
         }
         .btn-nav.logout {
-            color: #f87171;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--danger-red);
+            background: var(--danger-bg);
+            border-color: var(--danger-border);
         }
         .btn-nav.logout:hover {
-            background: rgba(239, 68, 68, 0.2);
+            background: #FEE2E2;
+            color: var(--danger-hover);
         }
 
-        /* Main Container */
+        /* Main Workspace Container */
         .admin-main {
             flex: 1;
-            max-width: 1400px;
+            max-width: 1440px;
             width: 100%;
             margin: 0 auto;
-            padding: 32px 24px 60px;
+            padding: 28px 32px 60px;
         }
 
         /* Banner Messages */
@@ -125,147 +153,281 @@
             padding: 14px 18px;
             border-radius: 10px;
             font-size: 14px;
+            font-weight: 500;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
         .flash-message.success {
-            background: rgba(56, 239, 125, 0.12);
-            border: 1px solid rgba(56, 239, 125, 0.3);
-            color: #86efac;
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
         }
         .flash-message.error {
             background: var(--danger-bg);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
+            border: 1px solid var(--danger-border);
+            color: var(--danger-red);
+        }
+        .flash-message.info {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            color: #1E40AF;
         }
 
-        /* Metrics Row */
+        /* Metrics Row (4 Clean White Cards) */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 18px;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
-            border-radius: 14px;
-            padding: 22px;
-            transition: transform 0.2s, border-color 0.2s;
+            border-radius: 16px;
+            padding: 22px 24px;
+            box-shadow: 0 4px 20px rgba(0, 36, 0, 0.04);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
         .stat-card:hover {
-            border-color: var(--border-highlight);
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 36, 0, 0.08);
+            border-color: var(--accent-sage);
         }
         .stat-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-sub);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
         }
         .stat-value {
             font-family: 'Manrope', sans-serif;
             font-size: 32px;
             font-weight: 800;
-            color: #FFFFFF;
+            color: var(--text-title);
             letter-spacing: -0.5px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
         }
         .stat-sub {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--text-sub);
             margin-top: 4px;
         }
 
-        /* Toolbar */
+        /* Toolbar Card (Search, Calendar Filters, Status & Bulk Delete) */
         .toolbar-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
-            border-radius: 14px;
-            padding: 18px 22px;
+            border-radius: 16px;
+            padding: 20px 24px;
             margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 36, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .toolbar-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 16px;
             flex-wrap: wrap;
         }
-        .search-form {
+        .filter-form {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex: 1;
-            min-width: 280px;
+            flex-wrap: wrap;
+            width: 100%;
         }
-        .search-input-wrap {
+
+        /* Modern Search Input with Crisp SVG Icon */
+        .search-container {
             position: relative;
-            flex: 1;
+            flex: 1 1 320px;
+            min-width: 260px;
+        }
+        .search-icon-svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            stroke: var(--primary-moss);
+            pointer-events: none;
         }
         .search-input {
             width: 100%;
-            padding: 10px 14px 10px 36px;
-            background: rgba(0, 15, 0, 0.6);
+            padding: 11px 16px 11px 42px;
+            background: #F8FAF6;
             border: 1px solid var(--border-card);
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 14px;
-            color: #FFFFFF;
+            color: var(--text-title);
             outline: none;
+            transition: all 0.2s ease;
         }
         .search-input:focus {
-            border-color: var(--accent-green);
+            background: #FFFFFF;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(88, 100, 29, 0.12);
         }
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-        .filter-select {
-            padding: 10px 14px;
-            background: rgba(0, 15, 0, 0.6);
+
+        /* Calendar Date Range Inputs */
+        .calendar-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F8FAF6;
             border: 1px solid var(--border-card);
-            border-radius: 8px;
-            font-size: 14px;
-            color: #FFFFFF;
+            border-radius: 10px;
+            padding: 4px 10px;
+        }
+        .calendar-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .date-input {
+            padding: 7px 10px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-card);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            color: var(--text-title);
             outline: none;
             cursor: pointer;
         }
-        .filter-select option {
-            background: var(--bg-card);
-            color: #FFFFFF;
+        .date-input:focus {
+            border-color: var(--border-focus);
         }
-        .btn-toolbar {
-            padding: 10px 16px;
-            background: rgba(187, 207, 141, 0.15);
-            color: var(--accent-green);
-            border: 1px solid rgba(187, 207, 141, 0.3);
-            border-radius: 8px;
+        .calendar-separator {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Status Select Filter */
+        .status-select {
+            padding: 10px 14px;
+            background: #F8FAF6;
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-title);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .status-select:focus {
+            border-color: var(--border-focus);
+        }
+
+        /* Buttons */
+        .btn-filter {
+            padding: 10px 18px;
+            background: var(--primary-olive);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
-            text-decoration: none;
             cursor: pointer;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
-        .btn-toolbar:hover {
-            background: var(--accent-green);
-            color: #002400;
+        .btn-filter:hover {
+            background: var(--primary-dark);
+        }
+        .btn-reset {
+            padding: 10px 14px;
+            background: #FFFFFF;
+            color: var(--text-sub);
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-reset:hover {
+            background: #F5F6F2;
+            color: var(--text-title);
         }
 
-        /* Enquiries Table */
+        /* Global Bulk Delete Button */
+        .btn-bulk-delete {
+            padding: 10px 16px;
+            background: var(--danger-bg);
+            color: var(--danger-red);
+            border: 1px solid var(--danger-border);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+        .btn-bulk-delete:hover {
+            background: var(--danger-red);
+            color: #FFFFFF;
+            border-color: var(--danger-red);
+        }
+
+        /* Toolbar Sub-bar */
+        .toolbar-info-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-light);
+            padding-top: 12px;
+        }
+        .quick-presets {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-preset {
+            background: none;
+            border: none;
+            color: var(--primary-moss);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 2px 4px;
+        }
+        .btn-preset:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Enquiries Table Card */
         .table-wrap {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 36, 0, 0.04);
         }
         .enquiry-table {
             width: 100%;
@@ -274,42 +436,54 @@
             font-size: 14px;
         }
         .enquiry-table th {
-            background: rgba(0, 20, 0, 0.6);
+            background: #F8FAF6;
             padding: 14px 18px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.6px;
             color: var(--text-muted);
             border-bottom: 1px solid var(--border-card);
+            white-space: nowrap;
         }
         .enquiry-table td {
             padding: 16px 18px;
-            border-bottom: 1px solid rgba(20, 56, 20, 0.6);
+            border-bottom: 1px solid var(--border-light);
             vertical-align: middle;
+            color: var(--text-body);
         }
         .enquiry-table tr {
-            transition: background 0.15s;
+            transition: background 0.15s ease;
         }
         .enquiry-table tr:hover {
             background: var(--bg-card-hover);
         }
         .enquiry-table tr.unread-row {
-            background: rgba(187, 207, 141, 0.04);
+            background: rgba(187, 207, 141, 0.08);
         }
         .enquiry-table tr.unread-row td:first-child {
-            border-left: 3px solid var(--accent-green);
+            border-left: 4px solid var(--primary-moss);
         }
 
-        /* Table Badges & Cells */
+        /* Serial Number Column */
+        .col-sl-no {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            width: 60px;
+            text-align: center;
+        }
+
+        /* Table Content Elements */
         .client-info {
             display: flex;
             flex-direction: column;
             gap: 3px;
         }
         .client-name {
-            font-weight: 600;
-            color: #FFFFFF;
+            font-weight: 700;
+            color: var(--text-title);
             font-size: 14px;
             display: flex;
             align-items: center;
@@ -319,30 +493,31 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--accent-bright);
+            background: #16A34A;
             display: inline-block;
+            box-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
         }
         .client-meta {
             font-size: 12px;
             color: var(--text-sub);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .client-meta a {
             color: var(--text-sub);
             text-decoration: none;
         }
         .client-meta a:hover {
-            color: var(--accent-green);
+            color: var(--primary-olive);
             text-decoration: underline;
         }
         .subject-cell {
-            max-width: 280px;
+            max-width: 260px;
         }
         .subject-title {
-            font-weight: 500;
-            color: #F4F7F2;
+            font-weight: 600;
+            color: var(--text-title);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -361,14 +536,14 @@
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: capitalize;
             letter-spacing: 0.3px;
         }
-        .status-badge.new { background: var(--badge-new-bg); color: var(--badge-new-color); }
-        .status-badge.contacted { background: var(--badge-contacted-bg); color: var(--badge-contacted-color); }
-        .status-badge.in_progress { background: var(--badge-progress-bg); color: var(--badge-progress-color); }
-        .status-badge.closed { background: var(--badge-closed-bg); color: var(--badge-closed-color); }
+        .status-badge.new { background: var(--badge-new-bg); color: var(--badge-new-text); }
+        .status-badge.contacted { background: var(--badge-contacted-bg); color: var(--badge-contacted-text); }
+        .status-badge.in_progress { background: var(--badge-progress-bg); color: var(--badge-progress-text); }
+        .status-badge.closed { background: var(--badge-closed-bg); color: var(--badge-closed-text); }
 
         .dispatch-pills {
             display: flex;
@@ -383,18 +558,20 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            width: fit-content;
+            font-weight: 500;
         }
         .dispatch-pill.success {
-            background: rgba(56, 239, 125, 0.1);
-            color: #38ef7d;
+            background: #DCFCE7;
+            color: #166534;
         }
         .dispatch-pill.failed {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
+            background: var(--danger-bg);
+            color: var(--danger-red);
         }
         .dispatch-pill.pending {
-            background: rgba(156, 163, 175, 0.1);
-            color: #9ca3af;
+            background: #F3F4F6;
+            color: #4B5563;
         }
 
         .actions-cell {
@@ -402,36 +579,36 @@
             text-align: right;
         }
         .btn-inspect {
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #FFFFFF;
+            padding: 7px 14px;
+            background: #FFFFFF;
+            color: var(--primary-olive);
             border: 1px solid var(--border-card);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             margin-right: 6px;
         }
         .btn-inspect:hover {
-            background: var(--accent-green);
-            color: #002400;
-            border-color: var(--accent-green);
+            background: var(--primary-olive);
+            color: #FFFFFF;
+            border-color: var(--primary-olive);
         }
         .btn-delete-row {
-            padding: 6px 10px;
+            padding: 7px 10px;
             background: transparent;
             color: var(--text-muted);
             border: 1px solid transparent;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
         }
         .btn-delete-row:hover {
-            color: #f87171;
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.2);
+            color: var(--danger-red);
+            background: var(--danger-bg);
+            border-color: var(--danger-border);
         }
 
         .empty-state {
@@ -442,32 +619,27 @@
         .empty-icon {
             font-size: 40px;
             margin-bottom: 12px;
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
-        /* Modal / Inspector Drawer */
+        /* Inspector Modal */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 36, 0, 0.5);
+            backdrop-filter: blur(6px);
             z-index: 100;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
         .modal-box {
-            background: #021a02;
-            border: 1px solid var(--border-highlight);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(187, 207, 141, 0.1);
-            border-radius: 18px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-card);
+            box-shadow: 0 20px 50px rgba(0, 36, 0, 0.15);
+            border-radius: 20px;
             width: 100%;
             max-width: 680px;
             max-height: 90vh;
@@ -480,14 +652,14 @@
             align-items: flex-start;
             justify-content: space-between;
             margin-bottom: 24px;
-            border-bottom: 1px solid var(--border-card);
+            border-bottom: 1px solid var(--border-light);
             padding-bottom: 18px;
         }
         .modal-title {
             font-family: 'Manrope', sans-serif;
             font-size: 20px;
-            font-weight: 700;
-            color: #FFFFFF;
+            font-weight: 800;
+            color: var(--text-title);
         }
         .modal-subtitle {
             font-size: 13px;
@@ -495,9 +667,9 @@
             margin-top: 4px;
         }
         .btn-close-modal {
-            background: rgba(255, 255, 255, 0.05);
+            background: #F8FAF6;
             border: 1px solid var(--border-card);
-            color: var(--text-sub);
+            color: var(--text-muted);
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -509,48 +681,8 @@
             transition: all 0.2s;
         }
         .btn-close-modal:hover {
-            color: #FFFFFF;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .detail-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .detail-item {
-            background: rgba(0, 15, 0, 0.5);
-            border: 1px solid var(--border-card);
-            border-radius: 10px;
-            padding: 12px 14px;
-        }
-        .detail-item.full-width {
-            grid-column: span 2;
-        }
-        .detail-label {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-        .detail-val {
-            font-size: 14px;
-            color: #FFFFFF;
-            word-break: break-word;
-        }
-        .message-content {
-            background: rgba(0, 15, 0, 0.6);
-            border: 1px solid var(--border-card);
-            border-radius: 10px;
-            padding: 16px;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #FFFFFF;
-            white-space: pre-wrap;
-            margin-bottom: 20px;
+            color: var(--text-title);
+            background: #E8E9E4;
         }
 
         .quick-contact-actions {
@@ -571,31 +703,69 @@
             transition: all 0.2s;
         }
         .btn-action-pill.whatsapp {
-            background: rgba(37, 211, 102, 0.15);
-            color: #25d366;
-            border: 1px solid rgba(37, 211, 102, 0.3);
+            background: #DCFCE7;
+            color: #15803D;
+            border: 1px solid #BBF7D0;
         }
         .btn-action-pill.whatsapp:hover {
-            background: #25d366;
-            color: #000;
+            background: #22C55E;
+            color: #FFFFFF;
         }
         .btn-action-pill.call {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: #DBEAFE;
+            color: #1D4ED8;
+            border: 1px solid #BFDBFE;
         }
         .btn-action-pill.call:hover {
-            background: #3b82f6;
-            color: #FFF;
+            background: #2563EB;
+            color: #FFFFFF;
         }
         .btn-action-pill.mail {
-            background: rgba(187, 207, 141, 0.15);
-            color: var(--accent-green);
-            border: 1px solid rgba(187, 207, 141, 0.3);
+            background: #F0F4EC;
+            color: var(--primary-olive);
+            border: 1px solid var(--border-card);
         }
         .btn-action-pill.mail:hover {
-            background: var(--accent-green);
-            color: #002400;
+            background: var(--primary-olive);
+            color: #FFFFFF;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .detail-item {
+            background: #F8FAF6;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+        .detail-item.full-width { grid-column: span 2; }
+        .detail-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .detail-val {
+            font-size: 14px;
+            color: var(--text-title);
+            word-break: break-word;
+        }
+        .message-content {
+            background: #F8FAF6;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-title);
+            white-space: pre-wrap;
+            margin-bottom: 20px;
         }
 
         .modal-footer {
@@ -603,7 +773,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            border-top: 1px solid var(--border-card);
+            border-top: 1px solid var(--border-light);
             padding-top: 20px;
             flex-wrap: wrap;
         }
@@ -614,31 +784,18 @@
         }
         .status-changer select {
             padding: 8px 12px;
-            background: rgba(0, 15, 0, 0.8);
-            border: 1px solid var(--border-highlight);
-            color: #FFFFFF;
+            background: #FFFFFF;
+            border: 1px solid var(--border-card);
+            color: var(--text-title);
             border-radius: 6px;
             font-size: 13px;
-        }
-        .btn-danger-outline {
-            padding: 8px 14px;
-            background: rgba(239, 68, 68, 0.1);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 6px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-danger-outline:hover {
-            background: #ef4444;
-            color: #FFFFFF;
+            font-weight: 500;
         }
         .btn-resend {
             padding: 8px 14px;
-            background: rgba(56, 239, 125, 0.15);
-            color: #86efac;
-            border: 1px solid rgba(56, 239, 125, 0.3);
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
@@ -646,14 +803,64 @@
             transition: all 0.2s;
         }
         .btn-resend:hover {
-            background: #38ef7d;
-            color: #002400;
+            background: #10B981;
+            color: #FFFFFF;
+        }
+
+        /* Bulk Delete Modal Specifics */
+        .bulk-modal-box {
+            max-width: 520px;
+        }
+        .warning-card {
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-border);
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 13px;
+            color: var(--danger-red);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .modal-form-group {
+            margin-bottom: 16px;
+        }
+        .modal-form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-title);
+            margin-bottom: 6px;
+        }
+        .modal-form-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: #F8FAF6;
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-title);
+            outline: none;
+        }
+        .btn-danger-confirm {
+            width: 100%;
+            padding: 12px;
+            background: var(--danger-red);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-danger-confirm:hover {
+            background: var(--danger-hover);
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
+    <!-- Top White & Green Navigation Bar -->
     <header class="top-navbar">
         <div class="nav-brand">
             <a href="{% url 'website:home' %}">
@@ -662,7 +869,7 @@
             <span class="brand-pill">Operations Console</span>
         </div>
         <div class="nav-actions">
-            <a href="{% url 'website:admin_export_csv' %}" class="btn-nav">
+            <a href="{% url 'website:admin_export_csv' %}" class="btn-nav export">
                 📥 Export CSV
             </a>
             <a href="{% url 'website:home' %}" target="_blank" class="btn-nav">
@@ -688,7 +895,7 @@
         </div>
         {% endif %}
 
-        <!-- Analytics Overview -->
+        <!-- Analytics Overview Cards -->
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Inquiries</div>
@@ -697,29 +904,43 @@
             </div>
             <div class="stat-card">
                 <div class="stat-label">Unread Inquiries</div>
-                <div class="stat-value" style="color: var(--accent-bright);">{{ stats.unread }}</div>
+                <div class="stat-value" style="color: #16A34A;">{{ stats.unread }}</div>
                 <div class="stat-sub">Require team review</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Team Dispatched</div>
-                <div class="stat-value" style="color: #60a5fa;">{{ stats.team_dispatched }}</div>
+                <div class="stat-value" style="color: #2563EB;">{{ stats.team_dispatched }}</div>
                 <div class="stat-sub">Delivered to Trinials inboxes</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Client Dispatched</div>
-                <div class="stat-value" style="color: #fbbf24;">{{ stats.client_dispatched }}</div>
+                <div class="stat-value" style="color: #D97706;">{{ stats.client_dispatched }}</div>
                 <div class="stat-sub">Confirmations sent to leads</div>
             </div>
         </section>
 
-        <!-- Search & Filter Toolbar -->
+        <!-- Search, Calendar & Toolbar Card -->
         <section class="toolbar-card">
-            <form method="GET" action="{% url 'website:admin_dashboard' %}" class="search-form">
-                <div class="search-input-wrap">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" name="q" value="{{ query }}" class="search-input" placeholder="Search by name, email, phone, or subject...">
+            <form method="GET" action="{% url 'website:admin_dashboard' %}" class="filter-form" id="searchFilterForm">
+                <!-- Replaced Modern Search Input with Crisp SVG Icon -->
+                <div class="search-container">
+                    <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" name="q" id="clientSearchInput" value="{{ query }}" class="search-input" placeholder="Search by name, email, phone, or subject...">
                 </div>
-                <select name="status" class="filter-select" onchange="this.form.submit()">
+
+                <!-- Calendar Date Range Filter -->
+                <div class="calendar-group">
+                    <span class="calendar-label">📅 Dates:</span>
+                    <input type="date" name="date_from" id="dateFromInput" value="{{ date_from }}" class="date-input" title="From Date">
+                    <span class="calendar-separator">to</span>
+                    <input type="date" name="date_to" id="dateToInput" value="{{ date_to }}" class="date-input" title="To Date">
+                </div>
+
+                <!-- Status Filter -->
+                <select name="status" class="status-select" onchange="this.form.submit()">
                     <option value="all" {% if current_status == 'all' %}selected{% endif %}>All Inquiries</option>
                     <option value="unread" {% if current_status == 'unread' %}selected{% endif %}>Unread Only</option>
                     <option value="new" {% if current_status == 'new' %}selected{% endif %}>New</option>
@@ -727,23 +948,42 @@
                     <option value="in_progress" {% if current_status == 'in_progress' %}selected{% endif %}>In Progress</option>
                     <option value="closed" {% if current_status == 'closed' %}selected{% endif %}>Closed</option>
                 </select>
-                <button type="submit" class="btn-toolbar">Filter</button>
-                {% if query or current_status != 'all' %}
-                <a href="{% url 'website:admin_dashboard' %}" class="btn-nav">Reset</a>
+
+                <button type="submit" class="btn-filter">Filter Inquiries</button>
+
+                {% if query or current_status != 'all' or date_from or date_to %}
+                <a href="{% url 'website:admin_dashboard' %}" class="btn-reset">Reset</a>
                 {% endif %}
+
+                <!-- Global Bulk Delete by Date Button -->
+                <button type="button" class="btn-bulk-delete" onclick="openBulkDeleteModal()">
+                    🗑 Delete by Date
+                </button>
             </form>
-            <div>
-                <span style="font-size: 13px; color: var(--text-muted);">
-                    Showing <strong>{{ enquiries|length }}</strong> of <strong>{{ total_matching }}</strong> inquiries
-                </span>
+
+            <div class="toolbar-info-bar">
+                <div class="quick-presets">
+                    <span>Quick Date Presets:</span>
+                    <button type="button" class="btn-preset" onclick="setPreset('today')">Today</button>
+                    <span>•</span>
+                    <button type="button" class="btn-preset" onclick="setPreset('7days')">Last 7 Days</button>
+                    <span>•</span>
+                    <button type="button" class="btn-preset" onclick="setPreset('30days')">Last 30 Days</button>
+                    <span>•</span>
+                    <button type="button" class="btn-preset" onclick="setPreset('clear')">Clear Dates</button>
+                </div>
+                <div>
+                    Showing <strong>{{ enquiries|length }}</strong> of <strong>{{ total_matching }}</strong> matching inquiries
+                </div>
             </div>
         </section>
 
-        <!-- Enquiry Data Table -->
+        <!-- Enquiry Data Table with Serial Number Column -->
         <section class="table-wrap">
-            <table class="enquiry-table">
+            <table class="enquiry-table" id="enquiryDataTable">
                 <thead>
                     <tr>
+                        <th class="col-sl-no">Sl. No.</th>
                         <th>Date & Time</th>
                         <th>Client Details</th>
                         <th>Subject & Message</th>
@@ -754,7 +994,11 @@
                 </thead>
                 <tbody>
                     {% for item in enquiries %}
-                    <tr class="{% if not item.is_read %}unread-row{% endif %}">
+                    <tr class="enquiry-row {% if not item.is_read %}unread-row{% endif %}" data-search="{{ item.name }} {{ item.email }} {{ item.phone }} {{ item.subject }} {{ item.message }}">
+                        <!-- Serial Number Column -->
+                        <td class="col-sl-no">
+                            {{ forloop.counter }}
+                        </td>
                         <td style="white-space: nowrap; font-size: 13px; color: var(--text-sub);">
                             {{ item.created_at|date:"d M Y" }}<br>
                             <span style="color: var(--text-muted); font-size: 11px;">{{ item.created_at|date:"H:i A" }} UTC</span>
@@ -762,7 +1006,7 @@
                         <td>
                             <div class="client-info">
                                 <div class="client-name">
-                                    {% if not item.is_read %}<span class="unread-dot" title="Unread"></span>{% endif %}
+                                    {% if not item.is_read %}<span class="unread-dot" title="Unread Lead"></span>{% endif %}
                                     {{ item.name }}
                                 </div>
                                 <div class="client-meta">
@@ -795,20 +1039,20 @@
                             <button class="btn-inspect" onclick="openInspector('{{ item.id }}')">
                                 Details ↗
                             </button>
-                            <form method="POST" action="{% url 'website:admin_enquiry_action' item.id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this enquiry permanently?');">
+                            <form method="POST" action="{% url 'website:admin_enquiry_action' item.id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to permanently delete this enquiry?');">
                                 {% csrf_token %}
                                 <input type="hidden" name="action" value="delete">
-                                <button type="submit" class="btn-delete-row" title="Delete">🗑</button>
+                                <button type="submit" class="btn-delete-row" title="Delete record">🗑</button>
                             </form>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="empty-state">
                                 <div class="empty-icon">📭</div>
-                                <h3 style="color: #FFFFFF; font-size: 16px; margin-bottom: 6px;">No enquiries found</h3>
-                                <p style="font-size: 13px;">No inquiries match the current search or status filter.</p>
+                                <h3 style="color: var(--text-title); font-size: 16px; margin-bottom: 6px;">No enquiries found</h3>
+                                <p style="font-size: 13px;">No inquiries matched the current calendar dates or search criteria.</p>
                             </div>
                         </td>
                     </tr>
@@ -855,7 +1099,7 @@
                 </div>
                 <div class="detail-item full-width">
                     <div class="detail-label">Subject</div>
-                    <div class="detail-val" id="modalSubject" style="font-weight: 600;">-</div>
+                    <div class="detail-val" id="modalSubject" style="font-weight: 700;">-</div>
                 </div>
             </div>
 
@@ -873,8 +1117,8 @@
                     <div class="detail-val" id="modalClientDispatch">-</div>
                 </div>
                 <div class="detail-item full-width" id="modalErrorsWrap" style="display: none;">
-                    <div class="detail-label" style="color: #f87171;">Email Error Diagnostics:</div>
-                    <div class="detail-val" id="modalErrors" style="font-size: 12px; color: #fca5a5; font-family: monospace;">-</div>
+                    <div class="detail-label" style="color: var(--danger-red);">Email Error Diagnostics:</div>
+                    <div class="detail-val" id="modalErrors" style="font-size: 12px; color: var(--danger-red); font-family: monospace;">-</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Client IP Address</div>
@@ -895,7 +1139,7 @@
                 <form method="POST" id="modalStatusForm" action="" class="status-changer">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="update_status">
-                    <label for="statusSelect" style="font-size: 13px; color: var(--text-sub);">Status:</label>
+                    <label for="statusSelect" style="font-size: 13px; font-weight: 600; color: var(--text-sub);">Status:</label>
                     <select name="new_status" id="statusSelect" onchange="this.form.submit()">
                         <option value="new">New</option>
                         <option value="contacted">Contacted</option>
@@ -911,17 +1155,61 @@
                         <button type="submit" class="btn-resend">⚡ Re-send Email</button>
                     </form>
 
-                    <form method="POST" id="modalDeleteForm" action="" style="display: inline;" onsubmit="return confirm('Delete this enquiry permanently?');">
+                    <form method="POST" id="modalDeleteForm" action="" style="display: inline;" onsubmit="return confirm('Permanently delete this enquiry?');">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="delete">
-                        <button type="submit" class="btn-danger-outline">Delete</button>
+                        <button type="submit" class="btn-delete-row" style="color: var(--danger-red); border-color: var(--danger-border); background: var(--danger-bg);">Delete</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Interactive Client JS -->
+    <!-- Global Bulk Delete Modal (Date Range Filtration) -->
+    <div class="modal-overlay" id="bulkDeleteModal">
+        <div class="modal-box bulk-modal-box">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title" style="color: var(--danger-red);">🗑 Bulk Delete by Date Range</h2>
+                    <p class="modal-subtitle">Permanently delete inquiry records matching your date criteria from MongoDB Atlas</p>
+                </div>
+                <button class="btn-close-modal" onclick="closeBulkDeleteModal()">✕</button>
+            </div>
+
+            <div class="warning-card">
+                <strong>⚠️ Warning:</strong> This operation permanently removes records from your MongoDB Atlas database. This action cannot be reversed.
+            </div>
+
+            <form method="POST" action="{% url 'website:admin_bulk_delete' %}" onsubmit="return confirm('Are you sure you want to delete all inquiries matching this date range?');">
+                {% csrf_token %}
+                <div class="modal-form-group">
+                    <label class="modal-form-label" for="bulkDateFrom">From Date (Optional):</label>
+                    <input type="date" name="date_from" id="bulkDateFrom" class="modal-form-input">
+                </div>
+
+                <div class="modal-form-group">
+                    <label class="modal-form-label" for="bulkDateTo">To Date (Optional):</label>
+                    <input type="date" name="date_to" id="bulkDateTo" class="modal-form-input">
+                </div>
+
+                <div class="modal-form-group">
+                    <label class="modal-form-label" for="bulkStatus">Status Filter:</label>
+                    <select name="status" id="bulkStatus" class="modal-form-input">
+                        <option value="all">All Statuses (Delete Everything in Date Range)</option>
+                        <option value="closed">Closed Only</option>
+                        <option value="contacted">Contacted Only</option>
+                        <option value="unread">Unread Only</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-danger-confirm">
+                    Permanently Delete Matching Inquiries →
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Client-Side Interactive Logic -->
     <script>
         const enquiriesData = {
             {% for item in enquiries %}
@@ -944,6 +1232,51 @@
             {% endfor %}
         };
 
+        // Real-time client-side table search filtering
+        const searchInput = document.getElementById('clientSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase().trim();
+                const rows = document.querySelectorAll('.enquiry-row');
+                rows.forEach(row => {
+                    const rowSearchText = (row.getAttribute('data-search') || '').toLowerCase();
+                    if (!term || rowSearchText.includes(term)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Quick Date Presets Helper
+        function setPreset(preset) {
+            const dateFromInput = document.getElementById('dateFromInput');
+            const dateToInput = document.getElementById('dateToInput');
+            const now = new Date();
+            const formatYMD = (d) => d.toISOString().split('T')[0];
+
+            if (preset === 'today') {
+                dateFromInput.value = formatYMD(now);
+                dateToInput.value = formatYMD(now);
+            } else if (preset === '7days') {
+                const past7 = new Date();
+                past7.setDate(now.getDate() - 7);
+                dateFromInput.value = formatYMD(past7);
+                dateToInput.value = formatYMD(now);
+            } else if (preset === '30days') {
+                const past30 = new Date();
+                past30.setDate(now.getDate() - 30);
+                dateFromInput.value = formatYMD(past30);
+                dateToInput.value = formatYMD(now);
+            } else if (preset === 'clear') {
+                dateFromInput.value = '';
+                dateToInput.value = '';
+            }
+            document.getElementById('searchFilterForm').submit();
+        }
+
+        // Inspection Modal Functions
         function openInspector(enquiryId) {
             const data = enquiriesData[enquiryId];
             if (!data) return;
@@ -958,7 +1291,7 @@
             document.getElementById('modalMongoId').textContent = data.id;
             document.getElementById('modalUserAgent').textContent = data.user_agent;
 
-            // WhatsApp link
+            // WhatsApp button
             const phoneDigits = (data.phone || '').replace(/[^0-9]/g, '');
             const waBtn = document.getElementById('modalWhatsAppBtn');
             if (phoneDigits.length >= 10) {
@@ -974,11 +1307,11 @@
             document.getElementById('modalCallBtn').style.display = data.phone ? 'inline-flex' : 'none';
             document.getElementById('modalEmailBtn').href = `mailto:${data.email}?subject=Re:%20${encodeURIComponent(data.subject)}`;
 
-            // Dispatch status
-            document.getElementById('modalTeamDispatch').innerHTML = data.team_dispatched ? '<span style="color: #38ef7d;">✓ Dispatched</span>' : '<span style="color: #f87171;">✕ Not sent</span>';
-            document.getElementById('modalClientDispatch').innerHTML = data.client_dispatched ? '<span style="color: #38ef7d;">✓ Dispatched</span>' : '<span style="color: #f87171;">✕ Not sent</span>';
+            // Dispatch status indicators
+            document.getElementById('modalTeamDispatch').innerHTML = data.team_dispatched ? '<span style="color: #16A34A; font-weight: 700;">✓ Dispatched</span>' : '<span style="color: var(--danger-red); font-weight: 700;">✕ Not sent</span>';
+            document.getElementById('modalClientDispatch').innerHTML = data.client_dispatched ? '<span style="color: #16A34A; font-weight: 700;">✓ Dispatched</span>' : '<span style="color: var(--danger-red); font-weight: 700;">✕ Not sent</span>';
 
-            // Errors
+            // Error display
             const errorsWrap = document.getElementById('modalErrorsWrap');
             if (data.errors && data.errors.length > 0) {
                 errorsWrap.style.display = 'block';
@@ -987,7 +1320,7 @@
                 errorsWrap.style.display = 'none';
             }
 
-            // Forms action endpoints
+            // Endpoints
             const actionBaseUrl = "{% url 'website:admin_enquiry_action' 'ENQUIRY_ID_PLACEHOLDER' %}".replace('ENQUIRY_ID_PLACEHOLDER', data.id);
             document.getElementById('modalStatusForm').action = actionBaseUrl;
             document.getElementById('modalResendForm').action = actionBaseUrl;
@@ -996,7 +1329,7 @@
 
             document.getElementById('inspectorModal').classList.add('active');
 
-            // Mark as read in background if unread
+            // Mark read asynchronously if unread
             if (!data.is_read) {
                 fetch(actionBaseUrl, {
                     method: 'POST',
@@ -1013,14 +1346,34 @@
             document.getElementById('inspectorModal').classList.remove('active');
         }
 
-        // Close on escape key
+        // Bulk Delete Modal Functions
+        function openBulkDeleteModal() {
+            // Pre-fill with currently selected filters if present
+            const currentFrom = document.getElementById('dateFromInput').value;
+            const currentTo = document.getElementById('dateToInput').value;
+            if (currentFrom) document.getElementById('bulkDateFrom').value = currentFrom;
+            if (currentTo) document.getElementById('bulkDateTo').value = currentTo;
+            document.getElementById('bulkDeleteModal').classList.add('active');
+        }
+
+        function closeBulkDeleteModal() {
+            document.getElementById('bulkDeleteModal').classList.remove('active');
+        }
+
+        // Global Esc & backdrop click to close modals
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeInspector();
+            if (e.key === 'Escape') {
+                closeInspector();
+                closeBulkDeleteModal();
+            }
         });
 
-        // Close when clicking outside box
         document.getElementById('inspectorModal').addEventListener('click', function(e) {
             if (e.target === this) closeInspector();
+        });
+
+        document.getElementById('bulkDeleteModal').addEventListener('click', function(e) {
+            if (e.target === this) closeBulkDeleteModal();
         });
     </script>
 </body>

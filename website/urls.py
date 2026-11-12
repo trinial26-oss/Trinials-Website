@@ -40,6 +40,7 @@ urlpatterns = [
     path('admin-panel/login/', views.admin_login, name='admin_login'),
     path('admin-panel/logout/', views.admin_logout, name='admin_logout'),
     path('admin-panel/enquiry/<str:enquiry_id>/', views.admin_enquiry_action, name='admin_enquiry_action'),
+    path('admin-panel/bulk-delete/', views.admin_bulk_delete, name='admin_bulk_delete'),
     path('admin-panel/export/', views.admin_export_csv, name='admin_export_csv'),
     path('portal/', views.admin_dashboard, name='portal_alias'),
 ]

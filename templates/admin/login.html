@@ -4,48 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal Login | Trinials</title>
+    <title>Admin Portal Sign In | Trinials</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #001700;
-            --bg-card: #042104;
-            --border-card: #153815;
-            --text-light: #F4F7F2;
-            --text-muted: #9EAB95;
+            --bg-canvas: #E8E9E4;
+            --bg-card: #FFFFFF;
+            --border-card: #D4DEC0;
+            --border-focus: #58641D;
+            --text-title: #002400;
+            --text-body: #273B09;
+            --text-muted: #58641D;
+            --primary-green: #273B09;
+            --primary-hover: #002400;
             --accent-green: #BBCF8D;
-            --accent-bright: #38ef7d;
-            --accent-glow: rgba(187, 207, 141, 0.2);
-            --danger: #ef4444;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --danger-border: #fecaca;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(circle at 50% 20%, #0d300d 0%, var(--bg-dark) 100%);
+            background: linear-gradient(135deg, #F5F6F2 0%, #E8E9E4 50%, #DFE3D6 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 24px;
-            color: var(--text-light);
+            color: var(--text-body);
         }
         .login-card {
-            background: rgba(4, 33, 4, 0.85);
-            backdrop-filter: blur(16px);
+            background: var(--bg-card);
             border: 1px solid var(--border-card);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 40px rgba(187, 207, 141, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 36, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
             border-radius: 20px;
             width: 100%;
             max-width: 420px;
-            padding: 40px 32px;
+            padding: 44px 36px;
             text-align: center;
         }
         .logo-wrap {
@@ -59,58 +58,61 @@
         .portal-title {
             font-family: 'Manrope', sans-serif;
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: -0.5px;
             margin-bottom: 8px;
-            color: #FFFFFF;
+            color: var(--text-title);
         }
         .portal-sub {
             font-size: 14px;
             color: var(--text-muted);
             margin-bottom: 28px;
+            line-height: 1.5;
         }
         .alert {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-border);
+            color: var(--danger);
             padding: 12px 14px;
             border-radius: 10px;
             font-size: 13px;
+            font-weight: 500;
             margin-bottom: 20px;
             text-align: left;
         }
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             text-align: left;
         }
         .form-label {
             display: block;
             font-size: 13px;
-            font-weight: 500;
-            color: var(--text-muted);
+            font-weight: 600;
+            color: var(--text-title);
             margin-bottom: 8px;
         }
         .form-input {
             width: 100%;
             padding: 13px 16px;
-            background: rgba(0, 15, 0, 0.6);
+            background: #F8FAF6;
             border: 1px solid var(--border-card);
             border-radius: 10px;
             font-size: 14px;
-            color: #FFFFFF;
+            color: var(--text-title);
             outline: none;
             transition: all 0.2s ease;
         }
         .form-input:focus {
-            border-color: var(--accent-green);
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            background: #FFFFFF;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(88, 100, 29, 0.15);
         }
         .btn-submit {
             width: 100%;
             padding: 14px;
             margin-top: 10px;
-            background: var(--accent-green);
-            color: #002400;
+            background: var(--primary-green);
+            color: #FFFFFF;
             font-family: 'Manrope', sans-serif;
             font-size: 15px;
             font-weight: 700;
@@ -118,11 +120,12 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(39, 59, 9, 0.25);
         }
         .btn-submit:hover {
-            background: #cbdca3;
+            background: var(--primary-hover);
             transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(187, 207, 141, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 36, 0, 0.3);
         }
         .btn-submit:active {
             transform: translateY(0);
@@ -131,12 +134,14 @@
             display: inline-block;
             margin-top: 24px;
             font-size: 13px;
+            font-weight: 500;
             color: var(--text-muted);
             text-decoration: none;
             transition: color 0.2s;
         }
         .back-home:hover {
-            color: var(--accent-green);
+            color: var(--text-title);
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -145,8 +150,8 @@
         <div class="logo-wrap">
             <img src="{% static 'images/logo-dark.png' %}" alt="Trinials">
         </div>
-        <h1 class="portal-title">Enquiry Admin Portal</h1>
-        <p class="portal-sub">Sign in to manage client inquiries & email dispatches</p>
+        <h1 class="portal-title">Operations Console</h1>
+        <p class="portal-sub">Sign in to manage client inquiries, analytics & email dispatches</p>
 
         {% if error %}
         <div class="alert">
@@ -165,10 +170,10 @@
                 <label class="form-label" for="password">Password</label>
                 <input class="form-input" type="password" id="password" name="password" placeholder="••••••••••••" required autocomplete="current-password">
             </div>
-            <button type="submit" class="btn-submit">Sign In to Dashboard →</button>
+            <button type="submit" class="btn-submit">Sign In to Console →</button>
         </form>
 
-        <a href="/" class="back-home">← Back to Trinials Website</a>
+        <a href="/" class="back-home">← Return to Trinials Website</a>
     </div>
 </body>
 </html>

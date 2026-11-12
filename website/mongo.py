@@ -286,9 +286,9 @@ def get_enquiry_stats():
     return stats
 
 
-def search_enquiries(query="", status_filter="", limit=100, skip=0):
+def search_enquiries(query="", status_filter="", date_from=None, date_to=None, limit=100, skip=0):
     """
-    Search and filter enquiries with pagination.
+    Search and filter enquiries with pagination, calendar date range, and substring query.
     Supports substring match on name, email, phone, and subject.
     """
     db = get_mongo_db()
@@ -312,6 +312,29 @@ def search_enquiries(query="", status_filter="", limit=100, skip=0):
                 {'subject': {'$regex': q_clean, '$options': 'i'}},
             ]
 
+        # Calendar date range filter
+        date_query = {}
+        if date_from:
+            try:
+                from_str = str(date_from).strip()[:10]
+                dt_from = datetime.strptime(from_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                date_query['$gte'] = dt_from
+            except Exception as d_err:
+                logger.warning("Could not parse date_from '%s': %s", date_from, d_err)
+
+        if date_to:
+            try:
+                to_str = str(date_to).strip()[:10]
+                dt_to = datetime.strptime(to_str, "%Y-%m-%d").replace(
+                    hour=23, minute=59, second=59, microsecond=999999, tzinfo=timezone.utc
+                )
+                date_query['$lte'] = dt_to
+            except Exception as d_err:
+                logger.warning("Could not parse date_to '%s': %s", date_to, d_err)
+
+        if date_query:
+            filter_criteria['created_at'] = date_query
+
         total_matching = db.enquiries.count_documents(filter_criteria)
         cursor = db.enquiries.find(filter_criteria).sort('created_at', -1).skip(skip).limit(limit)
         results = []
@@ -322,6 +345,59 @@ def search_enquiries(query="", status_filter="", limit=100, skip=0):
     except Exception as e:
         logger.error("Error querying enquiries from MongoDB: %s", e)
         return [], 0
+
+
+def delete_enquiries_by_filter(date_from=None, date_to=None, status_filter=None):
+    """
+    Bulk delete enquiries matching a date range and optional status filter.
+    Returns integer count of deleted documents.
+    """
+    db = get_mongo_db()
+    if db is None:
+        return 0
+
+    query = {}
+    date_query = {}
+
+    if date_from:
+        try:
+            from_str = str(date_from).strip()[:10]
+            dt_from = datetime.strptime(from_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+            date_query['$gte'] = dt_from
+        except Exception:
+            pass
+
+    if date_to:
+        try:
+            to_str = str(date_to).strip()[:10]
+            dt_to = datetime.strptime(to_str, "%Y-%m-%d").replace(
+                hour=23, minute=59, second=59, microsecond=999999, tzinfo=timezone.utc
+            )
+            date_query['$lte'] = dt_to
+        except Exception:
+            pass
+
+    if date_query:
+        query['created_at'] = date_query
+
+    if status_filter and status_filter.strip().lower() not in ('all', ''):
+        s_clean = status_filter.strip().lower()
+        if s_clean == 'unread':
+            query['is_read'] = False
+        else:
+            query['status'] = s_clean
+
+    if not query:
+        # Require at least one date or status criterion to prevent unintentional full wipe
+        return 0
+
+    try:
+        result = db.enquiries.delete_many(query)
+        logger.info("Bulk deleted %d enquiries matching query: %s", result.deleted_count, query)
+        return result.deleted_count
+    except Exception as e:
+        logger.error("Error performing bulk deletion in MongoDB Atlas: %s", e)
+        return 0
 
 
 def get_admin_credentials():

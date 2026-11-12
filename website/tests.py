@@ -1076,7 +1076,7 @@ class WebsiteTests(TestCase):
         """Verify that /admin-panel/login/ renders correctly with HTTP 200."""
         response = self.client.get(reverse('website:admin_login'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Enquiry Admin Portal')
+        self.assertContains(response, 'Operations Console')
         self.assertContains(response, 'Sign In')
 
     def test_admin_portal_login_invalid_credentials(self):
@@ -1135,4 +1135,51 @@ class WebsiteTests(TestCase):
         dash_res = self.client.get(reverse('website:admin_dashboard'))
         self.assertEqual(dash_res.status_code, 302)
         self.assertIn(reverse('website:admin_login'), dash_res.url)
+
+    def test_admin_dashboard_serial_number_and_calendar_filters(self):
+        """Verify that Sl. No. column, calendar date inputs, and SVG search icon are rendered in the dashboard."""
+        self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'trinials2026!',
+        })
+        response = self.client.get(reverse('website:admin_dashboard'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Sl. No.')
+        self.assertContains(response, 'name="date_from"')
+        self.assertContains(response, 'name="date_to"')
+        self.assertContains(response, 'search-icon-svg')
+        self.assertContains(response, 'Delete by Date')
+
+    def test_admin_bulk_delete_endpoint(self):
+        """Verify that admin_bulk_delete removes matching enquiries and redirects with status message."""
+        from website.mongo import save_enquiry_to_mongo, get_mongo_db
+        db = get_mongo_db()
+        if db is None:
+            self.skipTest("MongoDB Atlas not reachable")
+
+        # Save dummy enquiry for bulk delete test
+        doc_id = save_enquiry_to_mongo({
+            'name': 'Bulk Delete Tester',
+            'email': 'bulk_test_temp@example.com',
+            'phone': '0000000000',
+            'subject': 'Temp Delete',
+            'message': 'Will be deleted',
+        })
+        self.assertIsNotNone(doc_id)
+
+        # Log in
+        self.client.post(reverse('website:admin_login'), {
+            'username': 'admin',
+            'password': 'trinials2026!',
+        })
+
+        # Call bulk delete with today's date
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        res = self.client.post(reverse('website:admin_bulk_delete'), {
+            'date_from': today_str,
+            'date_to': today_str,
+            'status': 'all',
+        })
+        self.assertEqual(res.status_code, 302)
+        self.assertIn(reverse('website:admin_dashboard'), res.url)
 

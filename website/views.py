@@ -730,15 +730,23 @@ def admin_logout(request):
 def admin_dashboard(request):
     """
     Operations dashboard displaying live enquiry metrics, search/filtering,
-    and granular enquiry audit records directly from MongoDB Atlas.
+    calendar date range filtering, and granular enquiry audit records directly from MongoDB Atlas.
     """
     from .mongo import get_enquiry_stats, search_enquiries
 
     query = request.GET.get('q', '').strip()
     status_filter = request.GET.get('status', 'all').strip().lower()
+    date_from = request.GET.get('date_from', '').strip()
+    date_to = request.GET.get('date_to', '').strip()
 
     stats = get_enquiry_stats()
-    enquiries, total_matching = search_enquiries(query=query, status_filter=status_filter, limit=100)
+    enquiries, total_matching = search_enquiries(
+        query=query,
+        status_filter=status_filter,
+        date_from=date_from or None,
+        date_to=date_to or None,
+        limit=200
+    )
 
     return render(request, 'admin/dashboard.html', {
         'stats': stats,
@@ -746,7 +754,42 @@ def admin_dashboard(request):
         'total_matching': total_matching,
         'query': query,
         'current_status': status_filter,
+        'date_from': date_from,
+        'date_to': date_to,
     })
+
+
+@admin_required
+def admin_bulk_delete(request):
+    """
+    Bulk delete enquiries matching a date range and optional status filter.
+    Enforces administrator confirmation.
+    """
+    if request.method != 'POST':
+        return redirect('website:admin_dashboard')
+
+    from .mongo import delete_enquiries_by_filter
+
+    date_from = request.POST.get('date_from', '').strip()
+    date_to = request.POST.get('date_to', '').strip()
+    status_filter = request.POST.get('status', 'all').strip().lower()
+
+    if not date_from and not date_to and status_filter in ('all', ''):
+        messages.error(request, "Please specify at least a start date, end date, or status filter to perform bulk deletion.")
+        return redirect('website:admin_dashboard')
+
+    deleted_count = delete_enquiries_by_filter(
+        date_from=date_from or None,
+        date_to=date_to or None,
+        status_filter=status_filter
+    )
+
+    if deleted_count > 0:
+        messages.success(request, f"Successfully deleted {deleted_count} enquiry record(s) matching your criteria.")
+    else:
+        messages.info(request, "No enquiry records matched your criteria for deletion.")
+
+    return redirect('website:admin_dashboard')
 
 
 @admin_required
